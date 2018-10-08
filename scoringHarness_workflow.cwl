@@ -6,6 +6,7 @@
 #   adminUploadSynId: ID of a folder accessible only to the submission queue administrator
 #   submitterUploadSynId: ID of a folder accessible to the submitter
 #   workflowSynapseId:  ID of the Synapse entity containing a reference to the workflow file(s)
+#   synapseConfig: ~/.synapseConfig file that has your Synapse credentials
 #
 cwlVersion: v1.0
 class: Workflow
@@ -50,6 +51,20 @@ steps:
       - id: status
       - id: invalidReasons
   
+  validationEmail:
+    run: validationEmail.cwl
+    in:
+      - id: submissionId
+        source: "#submissionId"
+      - id: synapseConfig
+        source: "#synapseConfig"
+      - id: status
+        source: "#validation/status"
+      - id: invalidReasons
+        source: "#validation/invalidReasons"
+
+    out: []
+
   annotateValidationWithOutput:
     run: annotateSubmission.cwl
     in:
@@ -73,6 +88,17 @@ steps:
     out:
       - id: results
       
+  scoreEmail:
+    run: scoreEmail.cwl
+    in:
+      - id: submissionId
+        source: "#submissionId"
+      - id: synapseConfig
+        source: "#synapseConfig"
+      - id: results
+        source: "#scoring/results"
+    out: []
+
   annotateSubmissionWithOutput:
     run: annotateSubmission.cwl
     in:
