@@ -13,7 +13,7 @@ arguments:
     prefix: -p
   - valueFrom: $(inputs.dockerDigest)
     prefix: -d
-  - valueFrom: /tmp/
+  - valueFrom: /Users/ThomasY/sandbox
     prefix: -i
   - valueFrom: $(runtime.outdir)
     prefix: -o
