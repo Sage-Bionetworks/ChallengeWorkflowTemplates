@@ -104,4 +104,4 @@ outputs:
   predictions:
     type: File
     outputBinding:
-      glob: listOfFiles.csv
+      glob: $(runtime.outdir)/listOfFiles.csv
