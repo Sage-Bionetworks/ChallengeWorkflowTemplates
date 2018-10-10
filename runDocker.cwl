@@ -19,7 +19,7 @@ arguments:
     prefix: -i
   #- valueFrom: $(runtime.outdir)
   #  prefix: -o
-  - valueFrom: /test
+  - valueFrom: /tmp
     prefix: -o
 requirements:
   - class: InitialWorkDirRequirement
