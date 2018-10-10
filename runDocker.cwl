@@ -18,16 +18,20 @@ arguments:
   #Docker run has access to the local file system, so this path is the input directory locally
   - valueFrom: /Users/ThomasY/Documents/
     prefix: -i
-  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(2).join("/"))
+ # - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(2).join("/"))
 
+  #  prefix: -o
+  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(-1)[0])
     prefix: -o
 
+
+#/Users/ThomasY/sandbox/temp/297f782e-5087-4f33-937f-a8cc20a39d57/tmp/tmpPKPyAL/5/3/out_tmpdirqAe90Q/listOfFiles.csv
 
 requirements:
   - class: InitialWorkDirRequirement
     listing:
-      - entryname: listOfFiles.csv
-        entry: |
+      #- entryname: listOfFiles.csv
+      #  entry: |
       - entryname: .docker/config.json
         entry: |
           {"auths": {"$(inputs.dockerRegistry)": {"auth": "$(inputs.dockerAuth)"}}}
@@ -36,6 +40,7 @@ requirements:
           import docker
           import argparse
           import os
+          #import shutil
           parser = argparse.ArgumentParser()
           parser.add_argument("-s", "--submissionId", required=True, help="Submission Id")
           parser.add_argument("-p", "--dockerRepository", required=True, help="Docker Repository")
@@ -98,7 +103,8 @@ requirements:
             print(os.listdir(OUTPUT_DIR))
             curDir = os.getcwd()
             print(os.listdir(curDir))
-            os.rename(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
+            #shutil.copy
+            #os.system(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
 
 inputs:
