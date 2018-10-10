@@ -15,7 +15,7 @@ arguments:
     prefix: -d
 #  - valueFrom: $(inputs.inputDir)
 #    prefix: -i
-  - valueFrom: /Users/thomasyu/sandbox
+  - valueFrom: /home/ubuntu/SynapseWorkflowHook
     prefix: -i
   - valueFrom: $(runtime.outdir)
     prefix: -o
@@ -88,7 +88,7 @@ requirements:
             except:
                 print("Unable to remove image")
           #Temporary hack to rename file
-          os.rename(os.path.join("/output","listOfFiles.csv"), "listOfFiles.csv")
+          os.rename(os.path.join(args.outputDir,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
 
 inputs:
