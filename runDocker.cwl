@@ -47,6 +47,8 @@ requirements:
           #These are the volumes that you want to mount onto your docker container
           OUTPUT_DIR = os.path.abspath(args.outputDir)
           INPUT_DIR = os.path.abspath(args.inputDir)
+          print(OUTPUT_DIR)
+          print(INPUT_DIR)
           #These are the locations on the docker that you want your mounted volumes to be + permissions in docker (ro, rw)
           #It has to be in this format '/output:rw'
           MOUNTED_VOLUMES = {OUTPUT_DIR:'/output:rw',
