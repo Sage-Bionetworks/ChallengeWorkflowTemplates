@@ -86,7 +86,7 @@ requirements:
             except:
                 print("Unable to remove image")
           #Temporary hack to rename file
-          os.rename(os.path.join(args.ouputDir,"listOfFiles.csv"), "listOfFiles.csv")
+          os.rename(os.path.join(args.outputDir,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
 
 inputs:
