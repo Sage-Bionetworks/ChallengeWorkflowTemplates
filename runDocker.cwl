@@ -18,10 +18,10 @@ arguments:
   #Docker run has access to the local file system, so this path is the input directory locally
   - valueFrom: /Users/ThomasY/Documents/
     prefix: -i
-  - valueFrom: $(runtime.tmpdir)
+  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(2).join("/"))
+
     prefix: -o
 
-  #/$((runtime.outdir).split('/').slice(2).join("/"))
 
 requirements:
   - class: InitialWorkDirRequirement
@@ -49,7 +49,7 @@ requirements:
           #These are the volumes that you want to mount onto your docker container
 
           OUTPUT_DIR = os.path.join(args.outputDir,args.submissionId)
-          os.mkdir(OUTPUT_DIR)
+          #os.mkdir(OUTPUT_DIR)
           INPUT_DIR = args.inputDir
           #These are the locations on the docker that you want your mounted volumes to be + permissions in docker (ro, rw)
           #It has to be in this format '/output:rw'
@@ -93,7 +93,7 @@ requirements:
           #Temporary hack to rename file
             print(OUTPUT_DIR)
             print(os.listdir(OUTPUT_DIR))
-            os.rename(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
+            #os.rename(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
 
 inputs:
@@ -112,4 +112,4 @@ outputs:
   predictions:
     type: File
     outputBinding:
-      glob: listOfFiles.csv
+      glob: $(inputs.submissionId)/listOfFiles.csv
