@@ -85,7 +85,8 @@ requirements:
                 client.images.remove(dockerImage)
             except:
                 print("Unable to remove image")
-
+          #Temporary hack to rename file
+          os.rename(os.path.join(args.ouputDir,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
 
 inputs:
@@ -104,4 +105,4 @@ outputs:
   predictions:
     type: File
     outputBinding:
-      glob: $(runtime.outdir)/listOfFiles.csv
+      glob: listOfFiles.csv
