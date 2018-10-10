@@ -109,4 +109,4 @@ outputs:
   predictions:
     type: File
     outputBinding:
-      glob: $(inputs.submissionid)/listOfFiles.csv
+      glob: $(inputs.submissionId)/listOfFiles.csv
