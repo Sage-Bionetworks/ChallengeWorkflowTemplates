@@ -18,7 +18,7 @@ arguments:
   #Docker run has access to the local file system, so this path is the input directory locally
   - valueFrom: /Users/ThomasY/Documents/
     prefix: -i
-  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(2).join("/"))
+  - valueFrom: $(runtime.tmpdir)#/$((runtime.outdir).split('/').slice(2).join("/"))
     prefix: -o
 
 requirements:
@@ -91,7 +91,7 @@ requirements:
           #Temporary hack to rename file
             print(OUTPUT_DIR)
             print(os.listdir(OUTPUT_DIR))
-          #os.rename(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
+            os.rename(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
 
 inputs:
@@ -110,4 +110,4 @@ outputs:
   predictions:
     type: File
     outputBinding:
-      glob: $(inputs.submissionId)/listOfFiles.csv
+      glob: listOfFiles.csv
