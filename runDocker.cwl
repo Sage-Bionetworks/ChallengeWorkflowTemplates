@@ -45,9 +45,8 @@ requirements:
           dockerImage = args.dockerRepository + "@" + args.dockerDigest
 
           #These are the volumes that you want to mount onto your docker container
-          os.mkdir(args.submissionId)
-          print(args.outputDir)
-          OUTPUT_DIR = os.path.abspath(args.submissionId)
+          OUTPUT_DIR = os.path.join(args.outputDir,args.submissionId)
+          os.mkdir(OUTPUT_DIR)
           INPUT_DIR = args.inputDir
           #These are the locations on the docker that you want your mounted volumes to be + permissions in docker (ro, rw)
           #It has to be in this format '/output:rw'
