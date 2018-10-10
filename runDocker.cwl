@@ -26,6 +26,7 @@ arguments:
 requirements:
   - class: InitialWorkDirRequirement
     listing:
+      - "listOfFiles.csv"
       - entryname: .docker/config.json
         entry: |
           {"auths": {"$(inputs.dockerRegistry)": {"auth": "$(inputs.dockerAuth)"}}}
