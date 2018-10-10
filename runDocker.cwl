@@ -17,10 +17,9 @@ arguments:
 #    prefix: -i
   - valueFrom: /test/now
     prefix: -i
-  #- valueFrom: $(runtime.outdir)
-  #  prefix: -o
-  - valueFrom: /tmp
+  - valueFrom: /tmp/$((runtime.outdir).split('/').slice(-1)[0])
     prefix: -o
+
 requirements:
   - class: InitialWorkDirRequirement
     listing:
