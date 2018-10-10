@@ -88,6 +88,7 @@ requirements:
             #except:
             #    print("Unable to remove image")
           #Temporary hack to rename file
+            print(OUTPUT_DIR)
             print(os.listdir(OUTPUT_DIR))
           #os.rename(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
@@ -110,4 +111,4 @@ outputs:
   predictions:
     type: File
     outputBinding:
-      glob: $(inputs.submissionId)/listOfFiles.csv
+      glob: $(runtime.outdir)/$(inputs.submissionId)/listOfFiles.csv
