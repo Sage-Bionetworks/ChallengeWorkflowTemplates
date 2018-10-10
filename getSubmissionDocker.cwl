@@ -45,8 +45,6 @@ requirements:
           result = {'dockerRepository':sub.get("dockerRepositoryName",""),'dockerDigest':sub.get("dockerDigest",""),'entityId':sub.entity.id}
           with open(args.results, 'w') as o:
             o.write(json.dumps(result))
-          print(os.path.abspath(args.results))
-          boo
      
 outputs:
   - id: dockerRepository
