@@ -73,8 +73,11 @@ requirements:
             except docker.errors.APIError as e:
                 container = None
                 errors = str(e) + "\n"
+
+          print(os.listdir("/test/now"))
           print(os.listdir("/home"))
           print(os.listdir("/home/ubuntu"))
+          print(os.listdir("/tempdir"))
           print(os.listdir(args.inputDir))
           print(os.listdir(args.outputDir))
           # If the container doesn't exist, there are no logs to write out and no container to remove
