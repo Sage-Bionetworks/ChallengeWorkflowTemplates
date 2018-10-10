@@ -46,6 +46,7 @@ requirements:
           with open(args.results, 'w') as o:
             o.write(json.dumps(result))
           print(os.path.abspath(args.results))
+          boo
      
 outputs:
   - id: dockerRepository
