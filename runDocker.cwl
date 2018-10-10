@@ -17,9 +17,10 @@ arguments:
 #    prefix: -i
   - valueFrom: /test/now
     prefix: -i
-  - valueFrom: $(runtime.outdir)
+  #- valueFrom: $(runtime.outdir)
+  #  prefix: -o
+  - valueFrom: /test
     prefix: -o
-
 requirements:
   - class: InitialWorkDirRequirement
     listing:
