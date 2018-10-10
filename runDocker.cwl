@@ -98,7 +98,7 @@ requirements:
             print(os.listdir(OUTPUT_DIR))
             curDir = os.getcwd()
             print(os.listdir(curDir))
-            #os.rename(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
+            os.rename(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
 
 inputs:
