@@ -73,13 +73,14 @@ requirements:
             except docker.errors.APIError as e:
                 container = None
                 errors = str(e) + "\n"
-          print(os.listdir(args.inputDir))
-          print(os.listdir(args.outputDir))
+
           # If the container doesn't exist, there are no logs to write out and no container to remove
           if container is not None:
             #These lines below will run as long as the container is running
             for line in container.logs(stream=True):
               print(line.strip())
+            print(os.listdir(args.inputDir))
+            print(os.listdir(args.outputDir))
             print("finished")
             #Remove container and image after being done
             container.remove()
