@@ -13,7 +13,9 @@ arguments:
     prefix: -p
   - valueFrom: $(inputs.dockerDigest)
     prefix: -d
-  - valueFrom: $(inputs.inputDir)
+#  - valueFrom: $(inputs.inputDir)
+#    prefix: -i
+  - valueFrom: /Users/thomasyu/sandbox
     prefix: -i
   - valueFrom: $(runtime.outdir)
     prefix: -o
@@ -44,7 +46,6 @@ requirements:
           #These are the volumes that you want to mount onto your docker container
           OUTPUT_DIR = os.path.abspath(args.outputDir)
           INPUT_DIR = os.path.abspath(args.inputDir)
-          print(OUTPUT_DIR)
           #These are the locations on the docker that you want your mounted volumes to be + permissions in docker (ro, rw)
           #It has to be in this format '/output:rw'
           MOUNTED_VOLUMES = {OUTPUT_DIR:'/output:rw',
@@ -101,8 +102,8 @@ inputs:
     type: string
   - id: dockerAuth
     type: string
-  - id: inputDir
-    type: File
+#  - id: inputDir
+#    type: File
 
 outputs:
   predictions:

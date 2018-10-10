@@ -90,8 +90,8 @@ steps:
         source: "#getDockerConfig/dockerRegistry"
       - id: dockerAuth
         source: "#getDockerConfig/dockerAuth"
-      - id: inputDir
-        valueFrom: "/Users/ThomasY/sandbox"
+      #- id: inputDir
+      #  valueFrom: "/Users/ThomasY/sandbox"
     out:
       - id: predictions
 
