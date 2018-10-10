@@ -15,7 +15,7 @@ arguments:
     prefix: -d
 #  - valueFrom: $(inputs.inputDir)
 #    prefix: -i
-  - valueFrom: /test/now
+  - valueFrom: /Users/ThomasY/sandbox
     prefix: -i
   #- valueFrom: /tmp/$((runtime.outdir).split('/').slice(-1)[0])
    # prefix: -o
@@ -64,9 +64,13 @@ requirements:
           #TODO: Look for if the container exists already, if so, reconnect 
 
           container=None
-          for cont in client.containers.list():
+          for cont in client.containers.list(all=True):
             if args.submissionId in cont.name:
-              container = cont
+              #Must remove container if the container wasn't killed properly
+              if cont.status == "exited":
+                cont.remove()
+              else:
+                container = cont
 
           # If the container doesn't exist, make sure to run the docker image
           if container is None:
