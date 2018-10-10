@@ -84,7 +84,7 @@ requirements:
             for line in container.logs(stream=True):
               print(line.strip())
             print(os.listdir(args.inputDir))
-            print(os.listdir(args.outputDir))
+            print(os.listdir(OUTPUT_DIR))
             print("finished")
             #Remove container and image after being done
             container.remove()
@@ -93,7 +93,7 @@ requirements:
             except:
                 print("Unable to remove image")
           #Temporary hack to rename file
-          os.rename(os.path.join(args.outputDir,"listOfFiles.csv"), "listOfFiles.csv")
+          os.rename(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
 
 inputs:
