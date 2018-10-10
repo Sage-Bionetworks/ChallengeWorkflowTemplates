@@ -69,7 +69,7 @@ requirements:
           #  errors = None
           #  try:
               #Run as detached, logs will stream below
-          container = client.containers.run(dockerImage,detach=True, volumes = volumes, name=args.submissionId, network_disabled=True)
+            container = client.containers.run(dockerImage,detach=True, volumes = volumes, name=args.submissionId, network_disabled=True)
            # except docker.errors.APIError as e:
            #     container = None
            #     errors = str(e) + "\n"
