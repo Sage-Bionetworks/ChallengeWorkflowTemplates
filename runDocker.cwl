@@ -15,7 +15,7 @@ arguments:
     prefix: -d
 #  - valueFrom: $(inputs.inputDir)
 #    prefix: -i
-  - valueFrom: /Users/ThomasY/sandbox
+  - valueFrom: /Users/ThomasY/Documents/
     prefix: -i
   #- valueFrom: /tmp/$((runtime.outdir).split('/').slice(-1)[0])
    # prefix: -o
@@ -47,9 +47,7 @@ requirements:
           os.mkdir(args.submissionId)
 
           OUTPUT_DIR = os.path.abspath(args.submissionId)
-          INPUT_DIR = os.path.abspath(args.inputDir)
-          print(OUTPUT_DIR)
-          print(INPUT_DIR)
+          #INPUT_DIR = os.path.abspath(args.inputDir)
           #These are the locations on the docker that you want your mounted volumes to be + permissions in docker (ro, rw)
           #It has to be in this format '/output:rw'
           MOUNTED_VOLUMES = {OUTPUT_DIR:'/output:rw',
@@ -74,30 +72,23 @@ requirements:
 
           # If the container doesn't exist, make sure to run the docker image
           if container is None:
-          #  errors = None
-          #  try:
-              #Run as detached, logs will stream below
+            #Run as detached, logs will stream below
             container = client.containers.run(dockerImage,detach=True, volumes = volumes, name=args.submissionId, network_disabled=True)
-           # except docker.errors.APIError as e:
-           #     container = None
-           #     errors = str(e) + "\n"
 
           # If the container doesn't exist, there are no logs to write out and no container to remove
           if container is not None:
             #These lines below will run as long as the container is running
             for line in container.logs(stream=True):
               print(line.strip())
-            print(os.listdir(args.inputDir))
-            print(os.listdir(OUTPUT_DIR))
             print("finished")
             #Remove container and image after being done
-            container.remove()
-            try:
-                client.images.remove(dockerImage)
-            except:
-                print("Unable to remove image")
+            #container.remove()
+            #try:
+            #    client.images.remove(dockerImage)
+            #except:
+            #    print("Unable to remove image")
           #Temporary hack to rename file
-          os.rename(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
+          #os.rename(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
 
 inputs:
@@ -118,4 +109,4 @@ outputs:
   predictions:
     type: File
     outputBinding:
-      glob: listOfFiles.csv
+      glob: $(inputs.submissionid)/listOfFiles.csv
