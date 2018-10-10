@@ -17,8 +17,8 @@ arguments:
 #    prefix: -i
   - valueFrom: /test/now
     prefix: -i
-  - valueFrom: /tmp/$((runtime.outdir).split('/').slice(-1)[0])
-    prefix: -o
+  #- valueFrom: /tmp/$((runtime.outdir).split('/').slice(-1)[0])
+   # prefix: -o
 
 requirements:
   - class: InitialWorkDirRequirement
@@ -36,7 +36,7 @@ requirements:
           parser.add_argument("-p", "--dockerRepository", required=True, help="Docker Repository")
           parser.add_argument("-d", "--dockerDigest", required=True, help="Docker Digest")
           parser.add_argument("-i", "--inputDir", required=True, help="Input Directory")
-          parser.add_argument("-o", "--outputDir", required=True, help="Output Directory")
+          #parser.add_argument("-o", "--outputDir", required=True, help="Output Directory")
           args = parser.parse_args()
 
           client = docker.from_env()
@@ -44,7 +44,9 @@ requirements:
           dockerImage = args.dockerRepository + "@" + args.dockerDigest
 
           #These are the volumes that you want to mount onto your docker container
-          OUTPUT_DIR = os.path.abspath(args.outputDir)
+          os.mkdir(args.submissionId)
+
+          OUTPUT_DIR = os.path.abspath(args.submissionId)
           INPUT_DIR = os.path.abspath(args.inputDir)
           print(OUTPUT_DIR)
           print(INPUT_DIR)
