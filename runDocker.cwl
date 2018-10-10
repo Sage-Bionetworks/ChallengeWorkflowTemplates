@@ -66,13 +66,13 @@ requirements:
 
           # If the container doesn't exist, make sure to run the docker image
           if container is None:
-            errors = None
-            try:
+          #  errors = None
+          #  try:
               #Run as detached, logs will stream below
-                container = client.containers.run(dockerImage,detach=True, volumes = volumes, name=args.submissionId, network_disabled=True)
-            except docker.errors.APIError as e:
-                container = None
-                errors = str(e) + "\n"
+          container = client.containers.run(dockerImage,detach=True, volumes = volumes, name=args.submissionId, network_disabled=True)
+           # except docker.errors.APIError as e:
+           #     container = None
+           #     errors = str(e) + "\n"
 
           # If the container doesn't exist, there are no logs to write out and no container to remove
           if container is not None:
