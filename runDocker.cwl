@@ -18,7 +18,7 @@ arguments:
   #Docker run has access to the local file system, so this path is the input directory locally
   - valueFrom: /Users/ThomasY/Documents/
     prefix: -i
-  - valueFrom: $(runtime.tmpdir)
+  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(2).join("/"))
     prefix: -o
 
 requirements:
@@ -45,6 +45,7 @@ requirements:
           dockerImage = args.dockerRepository + "@" + args.dockerDigest
 
           #These are the volumes that you want to mount onto your docker container
+
           OUTPUT_DIR = os.path.join(args.outputDir,args.submissionId)
           os.mkdir(OUTPUT_DIR)
           INPUT_DIR = args.inputDir
@@ -109,4 +110,4 @@ outputs:
   predictions:
     type: File
     outputBinding:
-      glob: $(runtime.tmpdir)/$(inputs.submissionId)/listOfFiles.csv
+      glob: $(inputs.submissionId)/listOfFiles.csv
