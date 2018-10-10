@@ -19,7 +19,7 @@ arguments:
   - valueFrom: /Users/ThomasY/Documents/
     prefix: -i
   #- valueFrom: /tmp/$((runtime.outdir).split('/').slice(-1)[0])
-   # prefix: -o
+  #  prefix: -o
 
 requirements:
   - class: InitialWorkDirRequirement
