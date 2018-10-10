@@ -104,11 +104,9 @@ inputs:
     type: string
   - id: dockerAuth
     type: string
-#  - id: inputDir
-#    type: File
 
 outputs:
   predictions:
     type: File
     outputBinding:
-      glob: $(runtime.outdir)/$(inputs.submissionId)/listOfFiles.csv
+      glob: $(runtime.tmpdir)/$(inputs.submissionId)/listOfFiles.csv
