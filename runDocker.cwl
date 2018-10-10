@@ -48,8 +48,9 @@ requirements:
 
           #These are the volumes that you want to mount onto your docker container
 
-          OUTPUT_DIR = os.path.join(args.outputDir,args.submissionId)
+          #OUTPUT_DIR = os.path.join(args.outputDir,args.submissionId)
           #os.mkdir(OUTPUT_DIR)
+          OUTPUT_DIR = args.outputDir
           INPUT_DIR = args.inputDir
           #These are the locations on the docker that you want your mounted volumes to be + permissions in docker (ro, rw)
           #It has to be in this format '/output:rw'
@@ -93,7 +94,8 @@ requirements:
           #Temporary hack to rename file
             print(OUTPUT_DIR)
             print(os.listdir(OUTPUT_DIR))
-            print(os.getcwd())
+            curDir = os.getcwd()
+            print(os.listdir(curDir))
             #os.rename(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
 
@@ -113,4 +115,4 @@ outputs:
   predictions:
     type: File
     outputBinding:
-      glob: $(inputs.submissionId)/listOfFiles.csv
+      glob: listOfFiles.csv
