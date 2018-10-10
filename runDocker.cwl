@@ -13,8 +13,8 @@ arguments:
     prefix: -p
   - valueFrom: $(inputs.dockerDigest)
     prefix: -d
-  - valueFrom: /Users/ThomasY/sandbox
-    prefix: -i
+#  - valueFrom: /Users/ThomasY/sandbox
+#    prefix: -i
   - valueFrom: $(runtime.outdir)
     prefix: -o
 
@@ -101,6 +101,11 @@ inputs:
     type: string
   - id: dockerAuth
     type: string
+  - id: inputFile
+    type: File
+    inputBinding:
+      prefix: -i
+      valueFrom: /Users/ThomasY/sandbox
 
 outputs:
   predictions:
