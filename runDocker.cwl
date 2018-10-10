@@ -15,6 +15,7 @@ arguments:
     prefix: -d
 #  - valueFrom: $(inputs.inputDir)
 #    prefix: -i
+  #Docker run has access to the local file system, so this path is the input directory locally
   - valueFrom: /Users/ThomasY/Documents/
     prefix: -i
   #- valueFrom: /tmp/$((runtime.outdir).split('/').slice(-1)[0])
