@@ -18,8 +18,8 @@ arguments:
   #Docker run has access to the local file system, so this path is the input directory locally
   - valueFrom: /Users/ThomasY/Documents/
     prefix: -i
-  #- valueFrom: /tmp/$((runtime.outdir).split('/').slice(-1)[0])
-  #  prefix: -o
+  - valueFrom: $(runtime.tmpdir)
+    prefix: -o
 
 requirements:
   - class: InitialWorkDirRequirement
@@ -37,7 +37,7 @@ requirements:
           parser.add_argument("-p", "--dockerRepository", required=True, help="Docker Repository")
           parser.add_argument("-d", "--dockerDigest", required=True, help="Docker Digest")
           parser.add_argument("-i", "--inputDir", required=True, help="Input Directory")
-          #parser.add_argument("-o", "--outputDir", required=True, help="Output Directory")
+          parser.add_argument("-o", "--outputDir", required=True, help="Output Directory")
           args = parser.parse_args()
 
           client = docker.from_env()
@@ -46,7 +46,7 @@ requirements:
 
           #These are the volumes that you want to mount onto your docker container
           os.mkdir(args.submissionId)
-
+          print(args.outputDir)
           OUTPUT_DIR = os.path.abspath(args.submissionId)
           INPUT_DIR = args.inputDir
           #These are the locations on the docker that you want your mounted volumes to be + permissions in docker (ro, rw)
