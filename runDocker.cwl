@@ -104,7 +104,7 @@ requirements:
             curDir = os.getcwd()
             print(os.listdir(curDir))
             print(os.path.abspath("listOfFiles.csv"))
-            temp = os.path.abspath("listOfFiles.csv"))
+            temp = os.path.abspath("listOfFiles.csv")
 
             os.system("echo %s > listOfFiles.csv" % temp)
             #shutil.copy
