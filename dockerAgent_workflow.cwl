@@ -55,18 +55,18 @@ steps:
       - id: status
       - id: invalidReasons
 
-#  annotateValidationWithOutput:
-#    run: annotateSubmission.cwl
-#    in:
-#      - id: submissionId
-#        source: "#submissionId"
-#      - id: annotationValues
-#        source: "#validation/results"
-#      - id: private
-#        valueFrom: "false"
-#      - id: synapseConfig
-#        source: "#synapseConfig"
-#    out: []
+  annotateValidationWithOutput:
+    run: annotateSubmission.cwl
+    in:
+      - id: submissionId
+        source: "#submissionId"
+      - id: annotationValues
+        source: "#validation/results"
+      - id: private
+        valueFrom: "false"
+      - id: synapseConfig
+        source: "#synapseConfig"
+    out: []
  
   getDockerConfig:
     run: getDockerConfig.cwl
@@ -90,8 +90,8 @@ steps:
         source: "#getDockerConfig/dockerRegistry"
       - id: dockerAuth
         source: "#getDockerConfig/dockerAuth"
-      #- id: inputDir
-      #  valueFrom: "/Users/ThomasY/sandbox"
+      - id: status
+        source: "#validation/status"
     out:
       - id: predictions
 

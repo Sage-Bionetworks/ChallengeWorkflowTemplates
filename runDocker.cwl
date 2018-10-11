@@ -13,6 +13,8 @@ arguments:
     prefix: -p
   - valueFrom: $(inputs.dockerDigest)
     prefix: -d
+  - valueFrom: $(inputs.status)
+    prefix: --status
   #Docker run has access to the local file system, so this path is the input directory locally
 #  - valueFrom: /Users/ThomasY/Documents/
 #    prefix: -i
@@ -45,8 +47,12 @@ requirements:
           parser.add_argument("-p", "--dockerRepository", required=True, help="Docker Repository")
           parser.add_argument("-d", "--dockerDigest", required=True, help="Docker Digest")
           parser.add_argument("-i", "--inputDir", required=True, help="Input Directory")
+          parser.add_argument("--status", required=True, help="Docker image status")
+
           args = parser.parse_args()
 
+          if args.status == "INVALID":
+            raise Exception("Docker image is invalid")
           client = docker.from_env()
           #Add docker.config file
           dockerImage = args.dockerRepository + "@" + args.dockerDigest
@@ -106,6 +112,8 @@ inputs:
   - id: dockerRegistry
     type: string
   - id: dockerAuth
+    type: string
+  - id: status
     type: string
 
 outputs:
