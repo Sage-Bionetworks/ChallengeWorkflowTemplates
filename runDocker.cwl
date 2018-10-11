@@ -13,19 +13,15 @@ arguments:
     prefix: -p
   - valueFrom: $(inputs.dockerDigest)
     prefix: -d
-#  - valueFrom: $(inputs.inputDir)
-#    prefix: -i
   #Docker run has access to the local file system, so this path is the input directory locally
 #  - valueFrom: /Users/ThomasY/Documents/
 #    prefix: -i
   - valueFrom: /home/ubuntu
     prefix: -i
-  #- valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(5).join("/"))
+  #No need to pass in output because you should be getting that information in the script
+  #- valueFrom: $((runtime.tmpdir).split('/').slice(0,-1).join("/"))/$((runtime.outdir).split("/").slice(-4).join("/"))
   #  prefix: -o
-  - valueFrom: $((runtime.tmpdir).split('/').slice(0,-1).join("/"))/$((runtime.outdir).split("/").slice(-4).join("/"))
-    prefix: -o
-#  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(-1)[0])
-#    prefix: -o
+
 
 
 #/Users/ThomasY/sandbox/temp/297f782e-5087-4f33-937f-a8cc20a39d57/tmp/tmpPKPyAL/5/3/out_tmpdirqAe90Q/listOfFiles.csv
@@ -50,7 +46,6 @@ requirements:
           parser.add_argument("-p", "--dockerRepository", required=True, help="Docker Repository")
           parser.add_argument("-d", "--dockerDigest", required=True, help="Docker Digest")
           parser.add_argument("-i", "--inputDir", required=True, help="Input Directory")
-          parser.add_argument("-o", "--outputDir", required=True, help="Output Directory")
           args = parser.parse_args()
 
           client = docker.from_env()
@@ -58,10 +53,8 @@ requirements:
           dockerImage = args.dockerRepository + "@" + args.dockerDigest
 
           #These are the volumes that you want to mount onto your docker container
-
           #OUTPUT_DIR = os.path.join(args.outputDir,args.submissionId)
-          #os.mkdir(OUTPUT_DIR)
-          OUTPUT_DIR = args.outputDir
+          OUTPUT_DIR = os.getcwd()
           INPUT_DIR = args.inputDir
           #These are the locations on the docker that you want your mounted volumes to be + permissions in docker (ro, rw)
           #It has to be in this format '/output:rw'
