@@ -41,7 +41,7 @@ steps:
       - id: dockerDigest
       - id: entityId
       
-  validation:
+  validateDocker:
     run: validateDocker.cwl
     in:
       - id: dockerRepository
@@ -55,13 +55,13 @@ steps:
       - id: status
       - id: invalidReasons
 
-  annotateValidationWithOutput:
+  annotateValidationDockerWithOutput:
     run: annotateSubmission.cwl
     in:
       - id: submissionId
         source: "#submissionId"
       - id: annotationValues
-        source: "#validation/results"
+        source: "#validateDocker/results"
       - id: private
         valueFrom: "false"
       - id: synapseConfig
@@ -91,7 +91,7 @@ steps:
       - id: dockerAuth
         source: "#getDockerConfig/dockerAuth"
       - id: status
-        source: "#validation/status"
+        source: "#validateDocker/status"
     out:
       - id: predictions
 
@@ -125,3 +125,75 @@ steps:
       - id: synapseConfig
         source: "#synapseConfig"
     out: []
+
+  validation:
+    run: validate.cwl
+    in:
+      - id: inputfile
+        source: "#runDocker/predictions"
+    out:
+      - id: results
+      - id: status
+      - id: invalidReasons
+  
+  validationEmail:
+    run: validationEmail.cwl
+    in:
+      - id: submissionId
+        source: "#submissionId"
+      - id: synapseConfig
+        source: "#synapseConfig"
+      - id: status
+        source: "#validation/status"
+      - id: invalidReasons
+        source: "#validation/invalidReasons"
+
+    out: []
+
+  annotateValidationWithOutput:
+    run: annotateSubmission.cwl
+    in:
+      - id: submissionId
+        source: "#submissionId"
+      - id: annotationValues
+        source: "#validation/results"
+      - id: private
+        valueFrom: "false"
+      - id: synapseConfig
+        source: "#synapseConfig"
+    out: []
+
+  scoring:
+    run: score.cwl
+    in:
+      - id: inputfile
+        source: "#downloadSubmission/filePath"
+      - id: status 
+        source: "#validation/status"
+    out:
+      - id: results
+      
+  scoreEmail:
+    run: scoreEmail.cwl
+    in:
+      - id: submissionId
+        source: "#submissionId"
+      - id: synapseConfig
+        source: "#synapseConfig"
+      - id: results
+        source: "#scoring/results"
+    out: []
+
+  annotateSubmissionWithOutput:
+    run: annotateSubmission.cwl
+    in:
+      - id: submissionId
+        source: "#submissionId"
+      - id: annotationValues
+        source: "#scoring/results"
+      - id: private
+        valueFrom: "false"
+      - id: synapseConfig
+        source: "#synapseConfig"
+    out: []
+ 
