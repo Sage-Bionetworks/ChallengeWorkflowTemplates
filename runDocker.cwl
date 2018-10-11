@@ -37,7 +37,8 @@ requirements:
           import argparse
           import os
           import logging
-          logging.basicConfig(level=logging.INFO)
+          logger = logging.getLogger()
+          logger.setLevel(logging.INFO)
 
           parser = argparse.ArgumentParser()
           parser.add_argument("-s", "--submissionId", required=True, help="Submission Id")
@@ -84,7 +85,7 @@ requirements:
           if container is not None:
             #These lines below will run as long as the container is running
             for line in container.logs(stream=True):
-              logging.info(line.strip())
+              logger.info(line.strip())
             #Remove container and image after being done
             container.remove()
             try:
