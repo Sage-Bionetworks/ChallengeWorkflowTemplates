@@ -20,7 +20,7 @@ arguments:
 #    prefix: -i
   - valueFrom: /home/ubuntu
     prefix: -i
-  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(2).join("/"))
+  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(5).join("/"))
     prefix: -o
 #  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(-1)[0])
 #    prefix: -o
@@ -92,7 +92,6 @@ requirements:
             #These lines below will run as long as the container is running
             for line in container.logs(stream=True):
               print(line.strip())
-            print("finished")
             #Remove container and image after being done
             #container.remove()
             #try:
@@ -100,16 +99,16 @@ requirements:
             #except:
             #    print("Unable to remove image")
           #Temporary hack to rename file
+
+
+            print("finished")
             print(OUTPUT_DIR)
             print(os.listdir(OUTPUT_DIR))
             curDir = os.getcwd()
             print(os.listdir(curDir))
+            print(os.path.abspath(curDir))
             print(os.path.abspath("listOfFiles.csv"))
-            #temp = os.path.abspath("listOfFiles.csv")
 
-            #os.system("echo %s > listOfFiles.csv" % temp)
-            #shutil.copy
-            #os.system(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
 
 inputs:
