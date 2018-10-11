@@ -30,8 +30,9 @@ arguments:
 requirements:
   - class: InitialWorkDirRequirement
     listing:
-      #- entryname: listOfFiles.csv
-      #  entry: |
+      - entryname: listOfFiles.csv
+        entry: |
+          "foo"
       - entryname: .docker/config.json
         entry: |
           {"auths": {"$(inputs.dockerRegistry)": {"auth": "$(inputs.dockerAuth)"}}}
@@ -80,7 +81,6 @@ requirements:
                 cont.remove()
               else:
                 container = cont
-
           # If the container doesn't exist, make sure to run the docker image
           if container is None:
             #Run as detached, logs will stream below
