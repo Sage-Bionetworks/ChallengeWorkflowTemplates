@@ -167,7 +167,7 @@ steps:
     run: score.cwl
     in:
       - id: inputfile
-        source: "#downloadSubmission/filePath"
+        source: "#runDocker/predictions"
       - id: status 
         source: "#validation/status"
     out:
