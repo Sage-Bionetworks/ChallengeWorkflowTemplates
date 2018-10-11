@@ -103,7 +103,10 @@ requirements:
             print(os.listdir(OUTPUT_DIR))
             curDir = os.getcwd()
             print(os.listdir(curDir))
-            print(os.path.abspath(".docker"))
+            print(os.path.abspath("listOfFiles.csv"))
+            temp = os.path.abspath("listOfFiles.csv"))
+
+            os.system("echo %s > listOfFiles.csv" % temp)
             #shutil.copy
             #os.system(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
