@@ -22,7 +22,7 @@ arguments:
     prefix: -i
   #- valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(5).join("/"))
   #  prefix: -o
-  - valueFrom: $(runtime.tmpdir)/$(runtime.outdir)
+  - valueFrom: $((runtime.tmpdir).split('/').split("/").slice(0,-1).join("/"))/$((runtime.outdir).split("/").slice(-4).join("/"))
     prefix: -o
 #  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(-1)[0])
 #    prefix: -o
