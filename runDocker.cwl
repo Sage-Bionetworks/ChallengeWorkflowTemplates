@@ -20,7 +20,9 @@ arguments:
 #    prefix: -i
   - valueFrom: /home/ubuntu
     prefix: -i
-  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(5).join("/"))
+  #- valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(5).join("/"))
+  #  prefix: -o
+  - valueFrom: $(runtime.tmpdir)/$(runtime.outdir)
     prefix: -o
 #  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(-1)[0])
 #    prefix: -o
