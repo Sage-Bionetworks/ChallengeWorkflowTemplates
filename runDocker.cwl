@@ -85,7 +85,7 @@ requirements:
           if container is not None:
             #These lines below will run as long as the container is running
             for line in container.logs(stream=True):
-              logger.info(line.strip())
+              logger.error(line.strip())
             #Remove container and image after being done
             container.remove()
             try:
