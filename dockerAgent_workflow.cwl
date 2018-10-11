@@ -111,3 +111,17 @@ steps:
     out:
       - id: uploadedFileId
       - id: uploadedFileVersion
+      - id: results
+
+  annotateDockerUploadResults:
+    run: annotateSubmission.cwl
+    in:
+      - id: submissionId
+        source: "#submissionId"
+      - id: annotationValues
+        source: "#uploadResults/results"
+      - id: private
+        valueFrom: "false"
+      - id: synapseConfig
+        source: "#synapseConfig"
+    out: []
