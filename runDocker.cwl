@@ -18,11 +18,10 @@ arguments:
   #Docker run has access to the local file system, so this path is the input directory locally
   - valueFrom: /Users/ThomasY/Documents/
     prefix: -i
- # - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(2).join("/"))
-
-  #  prefix: -o
-  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(-1)[0])
+  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(2).join("/"))
     prefix: -o
+#  - valueFrom: $(runtime.tmpdir)/$((runtime.outdir).split('/').slice(-1)[0])
+#    prefix: -o
 
 
 #/Users/ThomasY/sandbox/temp/297f782e-5087-4f33-937f-a8cc20a39d57/tmp/tmpPKPyAL/5/3/out_tmpdirqAe90Q/listOfFiles.csv
@@ -30,9 +29,9 @@ arguments:
 requirements:
   - class: InitialWorkDirRequirement
     listing:
-      - entryname: listOfFiles.csv
-        entry: |
-          "foo"
+     # - entryname: listOfFiles.csv
+     #   entry: |
+     #     "foo"
       - entryname: .docker/config.json
         entry: |
           {"auths": {"$(inputs.dockerRegistry)": {"auth": "$(inputs.dockerAuth)"}}}
@@ -104,9 +103,9 @@ requirements:
             curDir = os.getcwd()
             print(os.listdir(curDir))
             print(os.path.abspath("listOfFiles.csv"))
-            temp = os.path.abspath("listOfFiles.csv")
+            #temp = os.path.abspath("listOfFiles.csv")
 
-            os.system("echo %s > listOfFiles.csv" % temp)
+            #os.system("echo %s > listOfFiles.csv" % temp)
             #shutil.copy
             #os.system(os.path.join(OUTPUT_DIR,"listOfFiles.csv"), "listOfFiles.csv")
   - class: InlineJavascriptRequirement
