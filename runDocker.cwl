@@ -95,21 +95,12 @@ requirements:
             for line in container.logs(stream=True):
               print(line.strip())
             #Remove container and image after being done
-            #container.remove()
-            #try:
-            #    client.images.remove(dockerImage)
-            #except:
-            #    print("Unable to remove image")
-          #Temporary hack to rename file
+            container.remove()
+            try:
+                client.images.remove(dockerImage)
+            except:
+                print("Unable to remove image")
 
-
-            print("finished")
-            print(OUTPUT_DIR)
-            print(os.listdir(OUTPUT_DIR))
-            curDir = os.getcwd()
-            print(os.listdir(curDir))
-            print(os.path.abspath(curDir))
-            print(os.path.abspath("listOfFiles.csv"))
 
   - class: InlineJavascriptRequirement
 
