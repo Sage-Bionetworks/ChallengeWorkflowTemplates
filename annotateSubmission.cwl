@@ -116,7 +116,7 @@ requirements:
             args.toPublic = True if args.toPublic == "true" else False
             args.forceChangeStatAcl = True if args.forceChangeStatAcl == "true" else False
             syn.login()
-            _with_retry(lambda: annotate_submission(syn, args.submissionId, args.annotationValues, toPublic=args.toPublic, forceChangeStatAcl=args.forceChangeStatAcl))
+            _with_retry(lambda: annotate_submission(syn, args.submissionId, args.annotationValues, toPublic=args.toPublic, forceChangeStatAcl=args.forceChangeStatAcl),wait=3,retries=10)
 
 
 
