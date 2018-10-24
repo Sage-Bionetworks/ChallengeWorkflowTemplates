@@ -29,6 +29,18 @@ inputs:
 outputs: []
 
 steps:
+
+  notifyParticipants:
+    run: notificationEmail.cwl
+    in:
+      - id: submissionId
+        source: "#submissionId"
+      - id: synapseConfig
+        source: "#synapseConfig"
+      - id: parentId
+        source: "#submitterUploadSynId"
+    out: []
+
   getSubmissionDocker:
     run: getSubmissionDocker.cwl
     in:
