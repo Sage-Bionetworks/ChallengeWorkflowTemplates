@@ -9,15 +9,19 @@ baseCommand: python
 inputs:
   - id: inputfile
     type: File
+  - id: goldstandard
+    type: File
   - id: status
     type: string
 
 arguments:
   - valueFrom: score.py
-  - valueFrom: $(inputs.inputfile)
+  - valueFrom: $(inputs.inputfile.path)
     prefix: -f
   - valueFrom: $(inputs.status)
     prefix: -s
+  - valueFrom: $(inputs.goldstandard.path)
+    prefix: -g
   - valueFrom: results.json
     prefix: -r
 
@@ -35,7 +39,8 @@ requirements:
           parser = argparse.ArgumentParser()
           parser.add_argument("-f", "--submissionFile", required=True, help="Submission File")
           parser.add_argument("-s", "--status", required=True, help="Submission status")
-          parser.add_argument("-r", "--results", required=True, help="scoring results")
+          parser.add_argument("-r", "--results", required=True, help="Scoring results")
+          parser.add_argument("-g", "--goldstandard", required=True, help="Goldstandard for scoring")
 
           args = parser.parse_args()
           if args.status == "VALIDATED":
