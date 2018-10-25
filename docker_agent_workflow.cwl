@@ -30,8 +30,8 @@ outputs: []
 
 steps:
 
-  notifyParticipants:
-    run: notificationEmail.cwl
+  notify_participants:
+    run: notification_email.cwl
     in:
       - id: submissionId
         source: "#submissionId"
@@ -41,8 +41,8 @@ steps:
         source: "#submitterUploadSynId"
     out: []
 
-  getSubmissionDocker:
-    run: getSubmissionDocker.cwl
+  get_docker_submission:
+    run: get_submission_docker.cwl
     in:
       - id: submissionId
         source: "#submissionId"
@@ -53,13 +53,13 @@ steps:
       - id: dockerDigest
       - id: entityId
       
-  validateDocker:
-    run: validateDocker.cwl
+  validate_docker:
+    run: validate_docker.cwl
     in:
       - id: dockerRepository
-        source: "#getSubmissionDocker/dockerRepository"
+        source: "#get_docker_submission/dockerRepository"
       - id: dockerDigest
-        source: "#getSubmissionDocker/dockerDigest"
+        source: "#get_docker_submission/dockerDigest"
       - id: synapseConfig
         source: "#synapseConfig"
     out:
@@ -67,23 +67,23 @@ steps:
       - id: status
       - id: invalidReasons
 
-  annotateValidationDockerWithOutput:
-    run: annotateSubmission.cwl
+  annotate_validation_with_output:
+    run: annotate_submission.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: annotationValues
-        source: "#validateDocker/results"
-      - id: toPublic
+      - id: annotation_values
+        source: "#validate_docker/results"
+      - id: to_public
         valueFrom: "true"
-      - id: forceChangeStatAcl
+      - id: force_change_annotation_acl
         valueFrom: "true"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
     out: []
  
-  getDockerConfig:
-    run: getDockerConfig.cwl
+  get_docker_config:
+    run: get_docker_config.cwl
     in:
       - id: synapseConfig
         source: "#synapseConfig"
@@ -91,21 +91,21 @@ steps:
       - id: dockerRegistry
       - id: dockerAuth
 
-  runDocker:
-    run: runDocker.cwl
+  run_docker:
+    run: run_docker.cwl
     in:
       - id: dockerRepository
-        source: "#getSubmissionDocker/dockerRepository"
+        source: "#get_docker_submission/dockerRepository"
       - id: dockerDigest
-        source: "#getSubmissionDocker/dockerDigest"
+        source: "#get_docker_submission/dockerDigest"
       - id: submissionId
         source: "#submissionId"
       - id: dockerRegistry
-        source: "#getDockerConfig/dockerRegistry"
+        source: "#get_docker_config/dockerRegistry"
       - id: dockerAuth
-        source: "#getDockerConfig/dockerAuth"
+        source: "#get_docker_config/dockerAuth"
       - id: status
-        source: "#validateDocker/status"
+        source: "#validate_docker/status"
       - id: parentId
         source: "#submitterUploadSynId"
       - id: synapseConfig
@@ -113,15 +113,15 @@ steps:
     out:
       - id: predictions
 
-  uploadResults:
-    run: uploadToSynapse.cwl
+  upload_results:
+    run: upload_to_synapse.cwl
     in:
       - id: infile
-        source: "#runDocker/predictions"
+        source: "#run_docker/predictions"
       - id: parentId
         source: "#adminUploadSynId"
       - id: usedEntity
-        source: "#getSubmissionDocker/entityId"
+        source: "#get_docker_submission/entityId"
       - id: executedEntity
         source: "#workflowSynapseId"
       - id: synapseConfig
@@ -131,18 +131,18 @@ steps:
       - id: uploadedFileVersion
       - id: results
 
-  annotateDockerUploadResults:
-    run: annotateSubmission.cwl
+  annotate_docker_upload_results:
+    run: annotate_submission.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: annotationValues
-        source: "#uploadResults/results"
-      - id: toPublic
+      - id: annotation_values
+        source: "#upload_results/results"
+      - id: to_public
         valueFrom: "true"
-      - id: forceChangeStatAcl
+      - id: force_change_annotation_acl
         valueFrom: "true"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
     out: []
 
@@ -150,14 +150,14 @@ steps:
     run: validate.cwl
     in:
       - id: inputfile
-        source: "#runDocker/predictions"
+        source: "#run_docker/predictions"
     out:
       - id: results
       - id: status
       - id: invalidReasons
   
-  validationEmail:
-    run: validationEmail.cwl
+  validation_email:
+    run: validate_email.cwl
     in:
       - id: submissionId
         source: "#submissionId"
@@ -170,33 +170,46 @@ steps:
 
     out: []
 
-  annotateValidationWithOutput:
-    run: annotateSubmission.cwl
+  annotate_validation_with_output:
+    run: annotate_submission.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: annotationValues
+      - id: annotation_values
         source: "#validation/results"
-      - id: toPublic
+      - id: to_public
         valueFrom: "true"
-      - id: forceChangeStatAcl
+      - id: force_change_annotation_acl
         valueFrom: "true"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
     out: []
+
+  download_goldstandard:
+    run: download_from_synapse.cwl
+    in:
+      - id: synapseid
+        #This is a dummy syn id
+        valueFrom: "syn8695042"
+      - id: synapse_config
+        source: "#synapseConfig"
+    out:
+      - id: filepath
 
   scoring:
     run: score.cwl
     in:
       - id: inputfile
-        source: "#runDocker/predictions"
+        source: "#run_docker/predictions"
       - id: status 
         source: "#validation/status"
+      - id: goldstandard
+        source: "#download_goldstandard/filepath"
     out:
       - id: results
       
-  scoreEmail:
-    run: scoreEmail.cwl
+  score_email:
+    run: score_email.cwl
     in:
       - id: submissionId
         source: "#submissionId"
@@ -206,18 +219,18 @@ steps:
         source: "#scoring/results"
     out: []
 
-  annotateSubmissionWithOutput:
-    run: annotateSubmission.cwl
+  annotate_submission_with_output:
+    run: annotate_submission.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: annotationValues
+      - id: annotation_values
         source: "#scoring/results"
-      - id: toPublic
+      - id: to_public
         valueFrom: "true"
-      - id: forceChangeStatAcl
+      - id: force_change_annotation_acl
         valueFrom: "true"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
     out: []
  
