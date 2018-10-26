@@ -8,12 +8,12 @@ class: CommandLineTool
 baseCommand: python
 
 inputs:
-  - id: synapseConfig
+  - id: synapse_config
     type: File
 
 arguments:
-  - valueFrom: getDockerConfig.py
-  - valueFrom: $(inputs.synapseConfig.path)
+  - valueFrom: get_docker_config.py
+  - valueFrom: $(inputs.synapse_config.path)
     prefix: -c
   - valueFrom: results.json
     prefix: -r
@@ -22,7 +22,7 @@ requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
-      - entryname: getDockerConfig.py
+      - entryname: get_docker_config.py
         entry: |
           #!/usr/bin/env python
           import synapseclient
@@ -31,17 +31,17 @@ requirements:
           import base64
           parser = argparse.ArgumentParser()
           parser.add_argument("-r", "--results", required=True, help="validation results")
-          parser.add_argument("-c", "--synapseConfig", required=True, help="credentials file")
+          parser.add_argument("-c", "--synapse_config", required=True, help="credentials file")
           args = parser.parse_args()
 
           #Must read in credentials (username and password)
-          config = synapseclient.Synapse().getConfigFile(configPath=args.synapseConfig)
+          config = synapseclient.Synapse().getConfigFile(configPath=args.synapse_config)
           authen = dict(config.items("authentication"))
           if authen.get("username") is None and authen.get("password") is None:
             raise Exception('Config file must have username and password')
-          dockerAuth = base64.encodestring("%s:%s" % (authen['username'],authen['password']))
+          docker_auth = base64.encodestring("%s:%s" % (authen['username'],authen['password']))
 
-          result = {'dockerAuth':dockerAuth,'dockerRegistry':'https://docker.synapse.org'}
+          result = {'docker_auth':docker_auth,'docker_registry':'https://docker.synapse.org'}
           with open(args.results, 'w') as o:
             o.write(json.dumps(result))
 
@@ -52,16 +52,16 @@ outputs:
     outputBinding:
       glob: results.json   
 
-  - id: dockerRegistry
+  - id: docker_registry
     type: string
     outputBinding:
       glob: results.json
       loadContents: true
-      outputEval: $(JSON.parse(self[0].contents)['dockerRegistry'])
+      outputEval: $(JSON.parse(self[0].contents)['docker_registry'])
 
-  - id: dockerAuth
+  - id: docker_authentication
     type: string
     outputBinding:
       glob: results.json
       loadContents: true
-      outputEval: $(JSON.parse(self[0].contents)['dockerAuth'])
+      outputEval: $(JSON.parse(self[0].contents)['docker_auth'])
