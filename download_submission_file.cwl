@@ -7,25 +7,25 @@ class: CommandLineTool
 baseCommand: python
 
 inputs:
-  - id: submissionId
+  - id: submissionid
     type: int
-  - id: synapseConfig
+  - id: synapse_config
     type: File
 
 arguments:
-  - valueFrom: downloadSubmissionFile.py
-  - valueFrom: $(inputs.submissionId)
+  - valueFrom: download_submission_file.py
+  - valueFrom: $(inputs.submissionid)
     prefix: -s
   - valueFrom: results.json
     prefix: -r
-  - valueFrom: $(inputs.synapseConfig.path)
+  - valueFrom: $(inputs.synapse_config.path)
     prefix: -c
 
 requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
-      - entryname: downloadSubmissionFile.py
+      - entryname: download_submission_file.py
         entry: |
           #!/usr/bin/env python
           import synapseclient
@@ -33,11 +33,11 @@ requirements:
           import json
           import os
           parser = argparse.ArgumentParser()
-          parser.add_argument("-s", "--submissionId", required=True, help="Submission ID")
-          parser.add_argument("-r", "--results", required=True, help="download results info")
-          parser.add_argument("-c", "--synapseConfig", required=True, help="credentials file")
+          parser.add_argument("-s", "--submissionid", required=True, help="Submission ID")
+          parser.add_argument("-r", "--results",required=True, help="download results info")
+          parser.add_argument("-c", "--synapse_config", required=True, help="credentials file")
           args = parser.parse_args()
-          syn = synapseclient.Synapse(configPath=args.synapseConfig)
+          syn = synapseclient.Synapse(configPath=args.synapse_config)
           syn.login()
           sub = syn.getSubmission(args.submissionId, downloadLocation=".")
           if sub.entity.entityType!='org.sagebionetworks.repo.model.FileEntity':
@@ -48,10 +48,10 @@ requirements:
             o.write(json.dumps(result))
      
 outputs:
-  - id: filePath
+  - id: filepath
     type: File
     outputBinding:
-      glob: $("submission-"+inputs.submissionId)
+      glob: $("submission-"+inputs.submissionid)
   - id: entity
     type:
       type: record

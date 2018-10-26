@@ -75,7 +75,6 @@ requirements:
                 public_annotations= {key:public_annotations[key] for key in public_annotations if key not in private_added_annotations}
             else:
                 raise ValueError("You are trying to change the ACL of these annotation key(s): %s.  Either change the annotation key or specify force_change_annotation_acl=True" % ", ".join([key for key in public_annotations if key in private_added_annotations]))
-
             private_annotations.update(private_added_annotations)
             public_annotations.update(public_added_annotations)
 
@@ -97,8 +96,8 @@ requirements:
           def annotate_submission(syn, submissionid, annotation_values, to_public, force_change_annotation_acl):
             status = syn.getSubmissionStatus(submissionid)
             with open(annotation_values) as json_data:
-              annots = json.load(json_data)
-            status = update_single_submission_status(status, annotation_values, to_public=to_public, force_change_annotation_acl=force_change_annotation_acl)
+              annotation_json = json.load(json_data)
+            status = update_single_submission_status(status, annotation_json, to_public=to_public, force_change_annotation_acl=force_change_annotation_acl)
             status = syn.store(status)
 
           if __name__ == '__main__':
