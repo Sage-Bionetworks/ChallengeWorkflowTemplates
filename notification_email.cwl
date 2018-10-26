@@ -7,27 +7,27 @@ class: CommandLineTool
 baseCommand: python
 
 inputs:
-  - id: submissionId
+  - id: submissionid
     type: int
-  - id: synapseConfig
+  - id: synapse_config
     type: File
-  - id: parentId
+  - id: parentid
     type: string
 
 arguments:
-  - valueFrom: notifyEmail.py
-  - valueFrom: $(inputs.submissionId)
+  - valueFrom: notify_email.py
+  - valueFrom: $(inputs.submissionid)
     prefix: -s
-  - valueFrom: $(inputs.synapseConfig.path)
+  - valueFrom: $(inputs.synapse_config.path)
     prefix: -c
-  - valueFrom: $(inputs.parentId)
+  - valueFrom: $(inputs.parentid)
     prefix: -p
 
 requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
-      - entryname: notifyEmail.py
+      - entryname: notify_email.py
         entry: |
           #!/usr/bin/env python
           import synapseclient
@@ -35,24 +35,24 @@ requirements:
           import json
           import os
           parser = argparse.ArgumentParser()
-          parser.add_argument("-s", "--submissionId", required=True, help="Submission ID")
-          parser.add_argument("-c", "--synapseConfig", required=True, help="credentials file")
-          parser.add_argument("-p","--parentId", required=True, help="Parent Id of participant folder")
+          parser.add_argument("-s", "--submissionid", required=True, help="Submission ID")
+          parser.add_argument("-c", "--synapse_config", required=True, help="credentials file")
+          parser.add_argument("-p","--parentid", required=True, help="Parent Id of participant folder")
 
           args = parser.parse_args()
-          syn = synapseclient.Synapse(configPath=args.synapseConfig)
+          syn = synapseclient.Synapse(configPath=args.synapse_config)
           syn.login()
 
-          sub = syn.getSubmission(args.submissionId)
-          userId = sub.userId
+          sub = syn.getSubmission(args.submissionid)
+          userid = sub.userId
           evaluation = syn.getEvaluation(sub.evaluationId)
 
           subject = "Docker Submission Logs to '%s'!" % evaluation.name
-          message = ["Hello %s,\n\n" % syn.getUserProfile(userId)['userName'],
-                     "Your docker submission (%s) will have logs that can be found here: https://www.synapse.org/#!Synapse:%s !\n\n" % (sub.name, args.parentId),
+          message = ["Hello %s,\n\n" % syn.getUserProfile(userid)['userName'],
+                     "Your docker submission (%s) will have logs that can be found here: https://www.synapse.org/#!Synapse:%s !\n\n" % (sub.name, args.parentid),
                      "\nSincerely,\nChallenge Administrator"]
           syn.sendMessage(
-            userIds=[userId],
+            userIds=[userid],
             messageSubject=subject,
             messageBody="".join(message),
             contentType="text/html")

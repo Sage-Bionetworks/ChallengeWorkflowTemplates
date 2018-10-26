@@ -1,3 +1,3 @@
 echo helloWorld
-ls /input > /output/listOfFiles.csv
+ls /input > /output/predictions.csv
 echo done

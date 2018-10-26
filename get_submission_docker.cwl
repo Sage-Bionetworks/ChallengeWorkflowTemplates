@@ -7,25 +7,25 @@ class: CommandLineTool
 baseCommand: python
 
 inputs:
-  - id: submissionId
+  - id: submissionid
     type: int
-  - id: synapseConfig
+  - id: synapse_config
     type: File
 
 arguments:
-  - valueFrom: getSubmissionDocker.py
-  - valueFrom: $(inputs.submissionId)
+  - valueFrom: get_submission_docker.py
+  - valueFrom: $(inputs.submissionid)
     prefix: -s
   - valueFrom: results.json
     prefix: -r
-  - valueFrom: $(inputs.synapseConfig.path)
+  - valueFrom: $(inputs.synapse_config.path)
     prefix: -c
 
 requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
-      - entryname: getSubmissionDocker.py
+      - entryname: get_submission_docker.py
         entry: |
           #!/usr/bin/env python
           import synapseclient
@@ -33,35 +33,35 @@ requirements:
           import json
           import os
           parser = argparse.ArgumentParser()
-          parser.add_argument("-s", "--submissionId", required=True, help="Submission ID")
+          parser.add_argument("-s", "--submissionid", required=True, help="Submission ID")
           parser.add_argument("-r", "--results", required=True, help="download results info")
-          parser.add_argument("-c", "--synapseConfig", required=True, help="credentials file")
+          parser.add_argument("-c", "--synapse_config", required=True, help="credentials file")
           args = parser.parse_args()
-          syn = synapseclient.Synapse(configPath=args.synapseConfig)
+          syn = synapseclient.Synapse(configPath=args.synapse_config)
           syn.login()
-          sub = syn.getSubmission(args.submissionId, downloadLocation=".")
+          sub = syn.getSubmission(args.submissionid, downloadLocation=".")
           if sub.entity.entityType!='org.sagebionetworks.repo.model.docker.DockerRepository':
             raise Exception('Expected DockerRepository type but found '+sub.entity.entityType)
-          result = {'dockerRepository':sub.get("dockerRepositoryName",""),'dockerDigest':sub.get("dockerDigest",""),'entityId':sub.entity.id}
+          result = {'docker_repository':sub.get("dockerRepositoryName",""),'docker_digest':sub.get("dockerDigest",""),'entityid':sub.entity.id}
           with open(args.results, 'w') as o:
             o.write(json.dumps(result))
      
 outputs:
-  - id: dockerRepository
+  - id: docker_repository
     type: string
     outputBinding:
       glob: results.json
       loadContents: true
-      outputEval: $(JSON.parse(self[0].contents)['dockerRepository'])
-  - id: dockerDigest
+      outputEval: $(JSON.parse(self[0].contents)['docker_repository'])
+  - id: docker_digest
     type: string
     outputBinding:
       glob: results.json
       loadContents: true
-      outputEval: $(JSON.parse(self[0].contents)['dockerDigest'])
-  - id: entityId
+      outputEval: $(JSON.parse(self[0].contents)['docker_digest'])
+  - id: entityid
     type: string
     outputBinding:
       glob: results.json
       loadContents: true
-      outputEval: $(JSON.parse(self[0].contents)['entityId'])
+      outputEval: $(JSON.parse(self[0].contents)['entityid'])

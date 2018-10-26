@@ -7,18 +7,18 @@ class: CommandLineTool
 baseCommand: python
 
 inputs:
-  - id: submissionId
+  - id: submissionid
     type: int
-  - id: synapseConfig
+  - id: synapse_config
     type: File
   - id: results
     type: File
 
 arguments:
-  - valueFrom: validationEmail.py
-  - valueFrom: $(inputs.submissionId)
+  - valueFrom: score_email.py
+  - valueFrom: $(inputs.submissionid)
     prefix: -s
-  - valueFrom: $(inputs.synapseConfig.path)
+  - valueFrom: $(inputs.synapse_config.path)
     prefix: -c
   - valueFrom: $(inputs.results)
     prefix: -r
@@ -28,7 +28,7 @@ requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
-      - entryname: validationEmail.py
+      - entryname: score_email.py
         entry: |
           #!/usr/bin/env python
           import synapseclient
@@ -36,31 +36,31 @@ requirements:
           import json
           import os
           parser = argparse.ArgumentParser()
-          parser.add_argument("-s", "--submissionId", required=True, help="Submission ID")
-          parser.add_argument("-c", "--synapseConfig", required=True, help="credentials file")
+          parser.add_argument("-s", "--submissionid", required=True, help="Submission ID")
+          parser.add_argument("-c", "--synapse_config", required=True, help="credentials file")
           parser.add_argument("-r","--results", required=True, help="Resulting scores")
 
           args = parser.parse_args()
-          syn = synapseclient.Synapse(configPath=args.synapseConfig)
+          syn = synapseclient.Synapse(configPath=args.synapse_config)
           syn.login()
 
-          sub = syn.getSubmission(args.submissionId)
-          userId = sub.userId
+          sub = syn.getSubmission(args.submissionid)
+          userid = sub.userId
           evaluation = syn.getEvaluation(sub.evaluationId)
           with open(args.results) as json_data:
             annots = json.load(json_data)
-          if annots.get('predictionFileStatus') is None:
-            raise Exception("score.cwl must return predictionFileStatus as a json key")
-          status = annots['predictionFileStatus']
-          del annots['predictionFileStatus']
+          if annots.get('prediction_file_status') is None:
+            raise Exception("score.cwl must return prediction_file_status as a json key")
+          status = annots['prediction_file_status']
+          del annots['prediction_file_status']
           if status == "SCORED":
             subject = "Submission to '%s' scored!" % evaluation.name
-            message = ["Hello %s,\n\n" % syn.getUserProfile(userId)['userName'],
+            message = ["Hello %s,\n\n" % syn.getUserProfile(userid)['userName'],
                        "Your submission (%s) is scored, below are your results:\n\n" % sub.name,
                        "\n".join([i + " : " + str(annots[i]) for i in annots]),
                        "\n\nSincerely,\nChallenge Administrator"]
             syn.sendMessage(
-              userIds=[userId],
+              userIds=[userid],
               messageSubject=subject,
               messageBody="".join(message),
               contentType="text/html")

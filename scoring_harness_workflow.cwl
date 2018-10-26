@@ -30,89 +30,102 @@ inputs:
 outputs: []
 
 steps:
-  downloadSubmission:
-    run: downloadSubmissionFile.cwl
+  download_submission:
+    run: download_submission_file.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
     out:
-      - id: filePath
+      - id: filepath
       - id: entity
       
   validation:
     run: validate.cwl
     in:
       - id: inputfile
-        source: "#downloadSubmission/filePath"
+        source: "#download_submission/filepath"
     out:
       - id: results
       - id: status
-      - id: invalidReasons
+      - id: invalid_reasons
   
-  validationEmail:
-    run: validationEmail.cwl
+  validation_email:
+    run: validate_email.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
       - id: status
         source: "#validation/status"
-      - id: invalidReasons
-        source: "#validation/invalidReasons"
+      - id: invalid_reasons
+        source: "#validation/invalid_reasons"
 
     out: []
 
-  annotateValidationWithOutput:
-    run: annotateSubmission.cwl
+  annotate_validation_with_output:
+    run: annotate_submission.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: annotationValues
+      - id: annotation_values
         source: "#validation/results"
-      - id: toPublic
+      - id: to_public
         valueFrom: "true"
-      - id: forceChangeStatAcl
+      - id: force_change_annotation_acl
         valueFrom: "true"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
     out: []
+
+  download_goldstandard:
+    run: download_from_synapse.cwl
+    in:
+      - id: synapseid
+        #This is a dummy syn id
+        valueFrom: "syn8695042"
+      - id: synapse_config
+        source: "#synapseConfig"
+    out:
+      - id: filepath
 
   scoring:
     run: score.cwl
     in:
       - id: inputfile
-        source: "#downloadSubmission/filePath"
+        source: "#download_submission/filepath"
       - id: status 
         source: "#validation/status"
+      - id: goldstandard
+        source: "#download_goldstandard/filepath"
     out:
       - id: results
       
-  scoreEmail:
-    run: scoreEmail.cwl
+  score_email:
+    run: score_email.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
       - id: results
         source: "#scoring/results"
     out: []
 
-  annotateSubmissionWithOutput:
-    run: annotateSubmission.cwl
+  annotate_submission_with_output:
+    run: annotate_submission.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: annotationValues
+      - id: annotation_values
         source: "#scoring/results"
-      - id: toPublic
+      - id: to_public
         valueFrom: "true"
-      - id: forceChangeStatAcl
+      - id: force_change_annotation_acl
         valueFrom: "true"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
     out: []
  
