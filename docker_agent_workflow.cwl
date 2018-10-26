@@ -33,39 +33,39 @@ steps:
   notify_participants:
     run: notification_email.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
-      - id: parentId
+      - id: parentid
         source: "#submitterUploadSynId"
     out: []
 
   get_docker_submission:
     run: get_submission_docker.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
     out:
-      - id: dockerRepository
-      - id: dockerDigest
-      - id: entityId
+      - id: docker_repository
+      - id: docker_digest
+      - id: entityid
       
   validate_docker:
     run: validate_docker.cwl
     in:
-      - id: dockerRepository
-        source: "#get_docker_submission/dockerRepository"
-      - id: dockerDigest
-        source: "#get_docker_submission/dockerDigest"
-      - id: synapseConfig
+      - id: docker_repository
+        source: "#get_docker_submission/docker_repository"
+      - id: docker_digest
+        source: "#get_docker_submission/docker_digest"
+      - id: synapse_config
         source: "#synapseConfig"
     out:
       - id: results
       - id: status
-      - id: invalidReasons
+      - id: invalid_reasons
 
   annotate_validation_with_output:
     run: annotate_submission.cwl
@@ -85,30 +85,30 @@ steps:
   get_docker_config:
     run: get_docker_config.cwl
     in:
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
     out: 
-      - id: dockerRegistry
-      - id: dockerAuth
+      - id: docker_registry
+      - id: docker_authentication
 
   run_docker:
     run: run_docker.cwl
     in:
-      - id: dockerRepository
-        source: "#get_docker_submission/dockerRepository"
-      - id: dockerDigest
-        source: "#get_docker_submission/dockerDigest"
-      - id: submissionId
+      - id: docker_repository
+        source: "#get_docker_submission/docker_repository"
+      - id: docker_digest
+        source: "#get_docker_submission/docker_digest"
+      - id: submissionid
         source: "#submissionId"
-      - id: dockerRegistry
-        source: "#get_docker_config/dockerRegistry"
-      - id: dockerAuth
-        source: "#get_docker_config/dockerAuth"
+      - id: docker_registry
+        source: "#get_docker_config/docker_registry"
+      - id: docker_authentication
+        source: "#get_docker_config/docker_authentication"
       - id: status
         source: "#validate_docker/status"
-      - id: parentId
+      - id: parentid
         source: "#submitterUploadSynId"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
     out:
       - id: predictions
@@ -118,17 +118,17 @@ steps:
     in:
       - id: infile
         source: "#run_docker/predictions"
-      - id: parentId
+      - id: parentid
         source: "#adminUploadSynId"
-      - id: usedEntity
-        source: "#get_docker_submission/entityId"
-      - id: executedEntity
+      - id: used_entity
+        source: "#get_docker_submission/entityid"
+      - id: executed_entity
         source: "#workflowSynapseId"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
     out:
-      - id: uploadedFileId
-      - id: uploadedFileVersion
+      - id: uploaded_fileid
+      - id: uploaded_file_version
       - id: results
 
   annotate_docker_upload_results:
@@ -154,19 +154,19 @@ steps:
     out:
       - id: results
       - id: status
-      - id: invalidReasons
+      - id: invalid_reasons
   
   validation_email:
     run: validate_email.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
       - id: status
         source: "#validation/status"
-      - id: invalidReasons
-        source: "#validation/invalidReasons"
+      - id: invalid_reasons
+        source: "#validation/invalid_reasons"
 
     out: []
 
@@ -211,9 +211,9 @@ steps:
   score_email:
     run: score_email.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
       - id: results
         source: "#scoring/results"

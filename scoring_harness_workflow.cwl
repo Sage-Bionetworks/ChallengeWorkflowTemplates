@@ -30,22 +30,22 @@ inputs:
 outputs: []
 
 steps:
-  downloadSubmission:
-    run: downloadSubmissionFile.cwl
+  download_submission:
+    run: download_submission_file.cwl
     in:
-      - id: submissionId
+      - id: submissionid
         source: "#submissionId"
-      - id: synapseConfig
+      - id: synapse_config
         source: "#synapseConfig"
     out:
-      - id: filePath
+      - id: filepath
       - id: entity
       
   validation:
     run: validate.cwl
     in:
       - id: inputfile
-        source: "#downloadSubmission/filePath"
+        source: "#download_submission/filepath"
     out:
       - id: results
       - id: status
