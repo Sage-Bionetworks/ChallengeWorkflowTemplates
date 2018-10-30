@@ -67,7 +67,7 @@ steps:
       - id: status
       - id: invalid_reasons
 
-  annotate_validation_with_output:
+  annotate_docker_validation_with_output:
     run: annotate_submission.cwl
     in:
       - id: submissionid
