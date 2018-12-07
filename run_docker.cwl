@@ -192,6 +192,7 @@ requirements:
             parser.add_argument("--status", required=True, help="Docker image status")
             args = parser.parse_args()
             client = docker.from_env()
+            docker_image = args.docker_repository + "@" + args.docker_digest
 
             quit_sub = partial(quit, submissionid=args.submissionid, docker_image=docker_image)
             for sig in ('TERM', 'HUP', 'INT'):
