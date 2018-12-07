@@ -166,17 +166,20 @@ requirements:
 
             #Try to remove the image
             try:
-              client.images.remove(docker_image)
+              client.images.remove(docker_image, force=True))
             except:
               print("Unable to remove image")
 
           def quit(signo, _frame, submissionid=None, docker_image=None):
             print("Interrupted by %d, shutting down" % signo)
+            client = docker.from_env()
             try:
-              client = docker.from_env()
               cont = client.containers.get(submissionid)
               cont.remove()
-              client.images.remove(docker_image)
+            except Exception as e:
+              pass
+            try:
+              client.images.remove(docker_image, force=True)
             except Exception as e:
               pass
             exit.set()
