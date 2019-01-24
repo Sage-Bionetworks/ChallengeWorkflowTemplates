@@ -29,12 +29,12 @@ requirements:
           import argparse
           import os
           parser = argparse.ArgumentParser()
-          parser.add_argument("-s", "--submissionid", required=True, help="Submission Id")
+          parser.add_argument("-s", "--synapseid", required=True, help="Submission Id")
           parser.add_argument("-c", "--synapse_config", required=True, help="Credentials file")
           args = parser.parse_args()
           syn = synapseclient.Synapse(configPath=args.synapse_config)
           syn.login()
-          sub = syn.get(args.submissionid, downloadLocation=".")
+          sub = syn.get(args.synapseid, downloadLocation=".")
           os.rename(sub.path, "goldstandard.csv")
      
 outputs:

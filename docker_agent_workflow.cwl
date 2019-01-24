@@ -189,8 +189,8 @@ steps:
     run: download_from_synapse.cwl
     in:
       - id: synapseid
-        #This is a dummy syn id
-        valueFrom: "syn8695042"
+        #This is a dummy syn id, replace when you use your own workflow
+        valueFrom: "syn18081597"
       - id: synapse_config
         source: "#synapseConfig"
     out:
