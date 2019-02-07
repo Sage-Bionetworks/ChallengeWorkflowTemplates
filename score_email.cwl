@@ -13,6 +13,8 @@ inputs:
     type: File
   - id: results
     type: File
+  - id: private_annotations
+    type: string[]?
 
 arguments:
   - valueFrom: score_email.py
@@ -22,6 +24,8 @@ arguments:
     prefix: -c
   - valueFrom: $(inputs.results)
     prefix: -r
+  - valueFrom: $(inputs.private_annotations)
+    prefix: -p
 
 
 requirements:
@@ -38,7 +42,8 @@ requirements:
           parser = argparse.ArgumentParser()
           parser.add_argument("-s", "--submissionid", required=True, help="Submission ID")
           parser.add_argument("-c", "--synapse_config", required=True, help="credentials file")
-          parser.add_argument("-r","--results", required=True, help="Resulting scores")
+          parser.add_argument("-r", "--results", required=True, help="Resulting scores")
+          parser.add_argument("-p", "--private_annotaions", nargs="+", default=[], help="annotations to not be sent via e-mail")
 
           args = parser.parse_args()
           syn = synapseclient.Synapse(configPath=args.synapse_config)
@@ -54,6 +59,8 @@ requirements:
           status = annots['prediction_file_status']
           del annots['prediction_file_status']
           if status == "SCORED":
+            for annot in args.private_annotaions:
+                del annots[annot]
             subject = "Submission to '%s' scored!" % evaluation.name
             message = ["Hello %s,\n\n" % syn.getUserProfile(userid)['userName'],
                        "Your submission (%s) is scored, below are your results:\n\n" % sub.name,
