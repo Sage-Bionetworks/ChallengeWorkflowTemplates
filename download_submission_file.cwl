@@ -40,7 +40,7 @@ requirements:
           syn = synapseclient.Synapse(configPath=args.synapse_config)
           syn.login()
           sub = syn.getSubmission(args.submissionid, downloadLocation=".")
-          if sub.entity.entityType!='org.sagebionetworks.repo.model.FileEntity':
+          if sub.entity.concreteType!='org.sagebionetworks.repo.model.FileEntity':
             raise Exception('Expected FileEntity type but found '+sub.entity.entityType)
           os.rename(sub.filePath, "submission-"+args.submissionid)
           result = {'entityId':sub.entity.id,'entityVersion':sub.entity.versionNumber}
