@@ -42,21 +42,20 @@ requirements:
           syn = synapseclient.Synapse(configPath=args.synapse_config)
           syn.login()
           sub = syn.getSubmission(args.submissionid, downloadLocation=".")
+          entity_type = sub.entity.concreteType
 
-          if sub.entity.concreteType!='org.sagebionetworks.repo.model.FileEntity':
+          if entity_type!='org.sagebionetworks.repo.model.FileEntity':
               result = {
-                  'prediction_file_status':"INVALID",
-                  'prediction_file_errors':'Expected FileEntity type but found ' + sub.entity.entityType,
-                  'entityId':"none",
-                  'entityVersion':0}
+                  'entity_type': entity_type,
+                  'entity_id':"none",
+                  'entity_version':0}
         
           else:
               os.rename(sub.filePath, "submission-"+args.submissionid)
               result = {
-                  'prediction_file_status': "VALIDATED",
-                  'prediction_file_errors': "",
-                  'entityId':sub.entity.id,
-                  'entityVersion':sub.entity.versionNumber}
+                  'entity_type': entity_type,
+                  'entity_id':sub.entity.id,
+                  'entity_version':sub.entity.versionNumber}
     
           with open(args.results, 'w') as o:
               o.write(json.dumps(result))
@@ -70,21 +69,14 @@ outputs:
   - id: results
     type: File
     outputBinding:
-      glob: results.json   
+      glob: results.json
 
-  - id: status
+  - id: entity_type
     type: string
     outputBinding:
       glob: results.json
       loadContents: true
-      outputEval: $(JSON.parse(self[0].contents)['prediction_file_status'])
-
-  - id: invalid_reasons
-    type: string
-    outputBinding:
-      glob: results.json
-      loadContents: true
-      outputEval: $(JSON.parse(self[0].contents)['prediction_file_errors'])
+      outputEval: $(JSON.parse(self[0].contents)['entity_type'])
 
   - id: entity
     type:
@@ -95,10 +87,11 @@ outputs:
         outputBinding:
           glob: results.json
           loadContents: true
-          outputEval: $(JSON.parse(self[0].contents)['entityId'])
+          outputEval: $(JSON.parse(self[0].contents)['entity_id'])
       - name: version
         type: int
         outputBinding:
           glob: results.json
           loadContents: true
-          outputEval: $(JSON.parse(self[0].contents)['entityVersion'])
+          outputEval: $(JSON.parse(self[0].contents)['entity_version'])
+

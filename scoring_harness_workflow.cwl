@@ -40,12 +40,15 @@ steps:
     out:
       - id: filepath
       - id: entity
+      - id: entity_type 
       
   validation:
     run: validate.cwl
     in:
       - id: inputfile
         source: "#download_submission/filepath"
+      - id: entity_type
+        source: "#download_submission/entity_type"
     out:
       - id: results
       - id: status
