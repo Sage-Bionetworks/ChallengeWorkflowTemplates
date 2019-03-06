@@ -41,6 +41,7 @@ steps:
     out:
       - id: filepath
       - id: entity
+      - id: entity_type 
       
   validation:
     run: validate2.cwl
@@ -49,6 +50,8 @@ steps:
         source: "#download_current_submission/filepath"
       - id: goldstandard
         source: "#download_goldstandard/filepath"
+      - id: entity_type
+        source: "#download_current_submission/entity_type"
     out:
       - id: results
       - id: status
