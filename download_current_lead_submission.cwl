@@ -4,11 +4,11 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: [python3, /usr/local/bin/download_current_lead_submission.py]
+baseCommand: [challengeutils download_current_lead_submission]
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/andrewelamb/python_challenge_utils
+    dockerPull: challengeutils
 
 inputs:
 
@@ -21,11 +21,6 @@ inputs:
     type: File
     inputBinding:
       prefix: -c
-
-  - id: queue
-    type: string
-    inputBinding:
-      prefix: -q
     
   - id: status
     type: string
