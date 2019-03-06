@@ -46,7 +46,9 @@ requirements:
           if sub.entity.concreteType!='org.sagebionetworks.repo.model.FileEntity':
               result = {
                   'prediction_file_status':"INVALID",
-                  'prediction_file_errors':'Expected FileEntity type but found ' + sub.entity.entityType}
+                  'prediction_file_errors':'Expected FileEntity type but found ' + sub.entity.entityType,
+                  'entityId':"none",
+                  'entityVersion':0}
         
           else:
               os.rename(sub.filePath, "submission-"+args.submissionid)
@@ -61,7 +63,7 @@ requirements:
      
 outputs:
   - id: filepath
-    type: File
+    type: File?
     outputBinding:
       glob: $("submission-"+inputs.submissionid)
 
