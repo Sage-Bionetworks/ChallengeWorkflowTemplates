@@ -93,9 +93,6 @@ steps:
         source: "#synapseConfig"
       - id: status 
         source: "#validation/status"
-########## Must supply correct evaluation queue here #################
-      - id: queue
-        valueFrom: "evaluation_1"
     out:
       - id: output
 
