@@ -57,19 +57,22 @@ requirements:
           if annots.get('prediction_file_status') is None:
             raise Exception("score.cwl must return prediction_file_status as a json key")
           status = annots['prediction_file_status']
-          del annots['prediction_file_status']
           if status == "SCORED":
-            for annot in args.private_annotaions:
-                del annots[annot]
-            subject = "Submission to '%s' scored!" % evaluation.name
-            message = ["Hello %s,\n\n" % syn.getUserProfile(userid)['userName'],
-                       "Your submission (%s) is scored, below are your results:\n\n" % sub.name,
-                       "\n".join([i + " : " + str(annots[i]) for i in annots]),
-                       "\n\nSincerely,\nChallenge Administrator"]
-            syn.sendMessage(
-              userIds=[userid],
-              messageSubject=subject,
-              messageBody="".join(message),
-              contentType="text/html")
+              del annots['prediction_file_status']
+              subject = "Submission to '%s' scored!" % evaluation.name
+              if len(annots) == 0:
+                  message = "Your submission has been scored."
+              else:
+                  for annot in args.private_annotaions:
+                      del annots[annot]
+                  message = ["Hello %s,\n\n" % syn.getUserProfile(userid)['userName'],
+                             "Your submission (%s) is scored, below are your results:\n\n" % sub.name,
+                             "\n".join([i + " : " + str(annots[i]) for i in annots]),
+                             "\n\nSincerely,\nChallenge Administrator"]
+              syn.sendMessage(
+                  userIds=[userid],
+                  messageSubject=subject,
+                  messageBody="".join(message),
+                  contentType="text/html")
           
 outputs: []
