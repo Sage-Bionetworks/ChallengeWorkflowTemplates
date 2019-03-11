@@ -8,7 +8,7 @@ baseCommand: [challengeutils download_current_lead_submission]
 
 hints:
   DockerRequirement:
-    dockerPull: challengeutils
+    dockerPull: sagebionetworks/challengeutils
 
 inputs:
 
