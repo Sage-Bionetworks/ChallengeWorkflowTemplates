@@ -4,7 +4,17 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: [challengeutils download_current_lead_submission]
+baseCommand:
+
+- challengeutils
+
+arguments:
+
+- valueFrom: $(inputs.synapse_config.path)
+  prefix: -c
+
+- download_current_lead_submission
+
 
 hints:
   DockerRequirement:
@@ -19,8 +29,6 @@ inputs:
       
   - id: synapse_config
     type: File
-    inputBinding:
-      prefix: -c
     
   - id: status
     type: string
@@ -28,7 +36,8 @@ inputs:
       prefix: -s
 
   - id: cutoff_annotation
-    type: string?
+    type: string
+    default: "met_cutoff"
     inputBinding:
       prefix: -a
    
