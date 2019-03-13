@@ -13,6 +13,7 @@ class: Workflow
 
 requirements:
   - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
 
 inputs:
   - id: submissionId
@@ -30,7 +31,7 @@ inputs:
 outputs: []
 
 steps:
-  download_submission:
+  download_current_submission:
     run: download_submission_file.cwl
     in:
       - id: submissionid
@@ -43,17 +44,20 @@ steps:
       - id: entity_type 
       
   validation:
-    run: validate.cwl
+    run: validate2.cwl
     in:
       - id: inputfile
-        source: "#download_submission/filepath"
+        source: "#download_current_submission/filepath"
+      - id: goldstandard
+        source: "#download_goldstandard/filepath"
       - id: entity_type
-        source: "#download_submission/entity_type"
+        source: "#download_current_submission/entity_type"
     out:
       - id: results
       - id: status
       - id: invalid_reasons
-  
+      
+
   validation_email:
     run: validate_email.cwl
     in:
@@ -82,27 +86,41 @@ steps:
       - id: synapse_config
         source: "#synapseConfig"
     out: []
+    
+  download_previous_submission:
+    run: download_current_lead_submission.cwl
+    in:
+      - id: submissionid
+        source: "#submissionId"
+      - id: synapse_config
+        source: "#synapseConfig"
+      - id: status 
+        source: "#validation/status"
+    out:
+      - id: output
 
   download_goldstandard:
     run: download_from_synapse.cwl
     in:
+########## Must supply correct synapse id here here #################
       - id: synapseid
-        #This is a dummy syn id, replace when you use your own workflow
-        valueFrom: "syn18081597"
+        valueFrom: "syn1"
       - id: synapse_config
         source: "#synapseConfig"
     out:
       - id: filepath
 
   scoring:
-    run: score.cwl
+    run: score2.cwl
     in:
       - id: inputfile
-        source: "#download_submission/filepath"
+        source: "#download_current_submission/filepath"
       - id: status 
         source: "#validation/status"
       - id: goldstandard
         source: "#download_goldstandard/filepath"
+      - id: previousfile
+        source: "#download_previous_submission/output"
     out:
       - id: results
       

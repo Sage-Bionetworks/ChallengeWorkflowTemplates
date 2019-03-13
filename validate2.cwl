@@ -2,23 +2,28 @@
 #
 # Example validate submission file
 #
+# This version of validate.cwl uses the gold standard to test the input file
+
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: python
 
 inputs:
-
   - id: entity_type
     type: string
   - id: inputfile
     type: File?
+  - id: goldstandard
+    type: File
 
 arguments:
   - valueFrom: validate.py
-  - valueFrom: $(inputs.inputfile)
+  - valueFrom: $(inputs.inputfile.path)
     prefix: -s
   - valueFrom: results.json
     prefix: -r
+  - valueFrom: $(inputs.goldstandard.path)
+    prefix: -g
   - valueFrom: $(inputs.entity_type)
     prefix: -e
 
@@ -34,9 +39,10 @@ requirements:
           import os
           import json
           parser = argparse.ArgumentParser()
-          parser.add_argument("-r", "--results", required=True, help="validation results")
-          parser.add_argument("-e", "--entity_type", required=True, help="synapse entity type downloaded")
           parser.add_argument("-s", "--submission_file", help="Submission File")
+          parser.add_argument("-e", "--entity_type", required=True, help="synapse entity type downloaded")
+          parser.add_argument("-r", "--results", required=True, help="validation results")
+          parser.add_argument("-g", "--goldstandard", required=True, help="Goldstandard for scoring")
 
           args = parser.parse_args()
           
