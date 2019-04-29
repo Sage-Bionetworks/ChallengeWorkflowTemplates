@@ -18,6 +18,10 @@ inputs:
     type: string
   - id: synapse_config
     type: File
+  - id: previous_annotation_finished
+    type: boolean?
+
+
 
 arguments:
   - valueFrom: annotationSubmission.py
@@ -114,5 +118,10 @@ requirements:
             syn.login()
             _with_retry(lambda: annotate_submission(syn, args.submissionid, args.annotation_values, to_public=args.to_public, force_change_annotation_acl=args.force_change_annotation_acl),wait=3,retries=10)
      
-outputs: []
+outputs: 
+
+- id: finished
+  type: boolean
+  outputBinding:
+    outputEval: $( true )
 
