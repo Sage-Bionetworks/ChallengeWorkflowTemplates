@@ -144,7 +144,7 @@ steps:
         valueFrom: "true"
       - id: synapse_config
         source: "#synapseConfig"
-    out: []
+    out: [finished]
 
   validation:
     run: validate.cwl
@@ -183,7 +183,7 @@ steps:
         valueFrom: "true"
       - id: synapse_config
         source: "#synapseConfig"
-    out: []
+    out: [finished]
 
   download_goldstandard:
     run: download_from_synapse.cwl
@@ -232,5 +232,7 @@ steps:
         valueFrom: "true"
       - id: synapse_config
         source: "#synapseConfig"
-    out: []
+      - id: previous_annotation_finished
+        source: "#annotate_validation_with_output/finished"
+    out: [finished]
  
