@@ -40,8 +40,8 @@ requirements:
           syn = synapseclient.Synapse(configPath=args.synapse_config)
           syn.login()
           sub = syn.getSubmission(args.submissionid, downloadLocation=".")
-          if sub.entity.entityType!='org.sagebionetworks.repo.model.docker.DockerRepository':
-            raise Exception('Expected DockerRepository type but found '+sub.entity.entityType)
+          if sub.entity.concreteType!='org.sagebionetworks.repo.model.docker.DockerRepository':
+            raise Exception('Expected DockerRepository type but found '+sub.entity.concreteType)
           result = {'docker_repository':sub.get("dockerRepositoryName",""),'docker_digest':sub.get("dockerDigest",""),'entityid':sub.entity.id}
           with open(args.results, 'w') as o:
             o.write(json.dumps(result))
