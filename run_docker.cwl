@@ -166,7 +166,7 @@ requirements:
 
             #Try to remove the image
             try:
-              client.images.remove(docker_image, force=True))
+              client.images.remove(docker_image, force=True)
             except:
               print("Unable to remove image")
 

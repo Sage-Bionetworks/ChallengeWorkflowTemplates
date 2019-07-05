@@ -52,7 +52,27 @@ steps:
       - id: docker_repository
       - id: docker_digest
       - id: entityid
-      
+
+  get_docker_config:
+    run: get_docker_config.cwl
+    in:
+      - id: synapse_config
+        source: "#synapseConfig"
+    out: 
+      - id: docker_registry
+      - id: docker_authentication
+
+  download_goldstandard:
+    run: download_from_synapse.cwl
+    in:
+      - id: synapseid
+        #This is a dummy syn id, replace when you use your own workflow
+        valueFrom: "syn18081597"
+      - id: synapse_config
+        source: "#synapseConfig"
+    out:
+      - id: filepath
+
   validate_docker:
     run: validate_docker.cwl
     in:
@@ -80,17 +100,8 @@ steps:
         valueFrom: "true"
       - id: synapse_config
         source: "#synapseConfig"
-    out: []
+    out: [finished]
  
-  get_docker_config:
-    run: get_docker_config.cwl
-    in:
-      - id: synapse_config
-        source: "#synapseConfig"
-    out: 
-      - id: docker_registry
-      - id: docker_authentication
-
   run_docker:
     run: run_docker.cwl
     in:
@@ -144,6 +155,8 @@ steps:
         valueFrom: "true"
       - id: synapse_config
         source: "#synapseConfig"
+      - id: previous_annotation_finished
+        source: "#annotate_docker_validation_with_output/finished"
     out: [finished]
 
   validation:
@@ -187,26 +200,15 @@ steps:
         valueFrom: "true"
       - id: synapse_config
         source: "#synapseConfig"
+      - id: previous_annotation_finished
+        source: "#annotate_docker_upload_results/finished"
     out: [finished]
-
-  download_goldstandard:
-    run: download_from_synapse.cwl
-    in:
-      - id: synapseid
-        #This is a dummy syn id, replace when you use your own workflow
-        valueFrom: "syn18081597"
-      - id: synapse_config
-        source: "#synapseConfig"
-    out:
-      - id: filepath
 
   scoring:
     run: score.cwl
     in:
       - id: inputfile
         source: "#run_docker/predictions"
-      - id: status 
-        source: "#validation/status"
       - id: goldstandard
         source: "#download_goldstandard/filepath"
     out:
