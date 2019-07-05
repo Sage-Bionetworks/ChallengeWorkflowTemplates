@@ -67,6 +67,10 @@ requirements:
             userIds=[userid],
             messageSubject=subject,
             messageBody="".join(message),
-            contentType="text/html")
+            contentType="text")
           
-outputs: []
+outputs:
+- id: finished
+  type: boolean
+  outputBinding:
+    outputEval: $( true )
