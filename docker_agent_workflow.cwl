@@ -52,7 +52,27 @@ steps:
       - id: docker_repository
       - id: docker_digest
       - id: entityid
-      
+
+  get_docker_config:
+    run: get_docker_config.cwl
+    in:
+      - id: synapse_config
+        source: "#synapseConfig"
+    out: 
+      - id: docker_registry
+      - id: docker_authentication
+
+  download_goldstandard:
+    run: download_from_synapse.cwl
+    in:
+      - id: synapseid
+        #This is a dummy syn id, replace when you use your own workflow
+        valueFrom: "syn18081597"
+      - id: synapse_config
+        source: "#synapseConfig"
+    out:
+      - id: filepath
+
   validate_docker:
     run: validate_docker.cwl
     in:
@@ -80,16 +100,7 @@ steps:
         valueFrom: "true"
       - id: synapse_config
         source: "#synapseConfig"
-    out: []
- 
-  get_docker_config:
-    run: get_docker_config.cwl
-    in:
-      - id: synapse_config
-        source: "#synapseConfig"
-    out: 
-      - id: docker_registry
-      - id: docker_authentication
+    out: [finished]
 
   run_docker:
     run: run_docker.cwl
@@ -144,6 +155,8 @@ steps:
         valueFrom: "true"
       - id: synapse_config
         source: "#synapseConfig"
+      - id: previous_annotation_finished
+        source: "#annotate_docker_validation_with_output/finished"
     out: [finished]
 
   validation:
@@ -171,8 +184,7 @@ steps:
         source: "#validation/status"
       - id: invalid_reasons
         source: "#validation/invalid_reasons"
-
-    out: []
+    out: [finished]
 
   annotate_validation_with_output:
     run: annotate_submission.cwl
@@ -187,28 +199,30 @@ steps:
         valueFrom: "true"
       - id: synapse_config
         source: "#synapseConfig"
+      - id: previous_annotation_finished
+        source: "#annotate_docker_upload_results/finished"
     out: [finished]
 
-  download_goldstandard:
-    run: download_from_synapse.cwl
+  check_status:
+    run: check_status.cwl
     in:
-      - id: synapseid
-        #This is a dummy syn id, replace when you use your own workflow
-        valueFrom: "syn18081597"
-      - id: synapse_config
-        source: "#synapseConfig"
-    out:
-      - id: filepath
+      - id: status
+        source: "#validation/status"
+      - id: previous_annotation_finished
+        source: "#annotate_validation_with_output/finished"
+      - id: previous_email_finished
+        source: "#validation_email/finished"
+    out: [finished]
 
   scoring:
     run: score.cwl
     in:
       - id: inputfile
         source: "#run_docker/predictions"
-      - id: status 
-        source: "#validation/status"
       - id: goldstandard
         source: "#download_goldstandard/filepath"
+      - id: check_validation_finished 
+        source: "#check_status/finished"
     out:
       - id: results
       

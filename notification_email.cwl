@@ -55,6 +55,6 @@ requirements:
             userIds=[userid],
             messageSubject=subject,
             messageBody="".join(message),
-            contentType="text/html")
+            contentType="text")
           
 outputs: []

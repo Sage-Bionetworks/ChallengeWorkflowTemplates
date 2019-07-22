@@ -42,6 +42,17 @@ steps:
       - id: entity
       - id: entity_type 
       
+  download_goldstandard:
+    run: download_from_synapse.cwl
+    in:
+      - id: synapseid
+        #This is a dummy syn id, replace when you use your own workflow
+        valueFrom: "syn18081597"
+      - id: synapse_config
+        source: "#synapseConfig"
+    out:
+      - id: filepath
+
   validation:
     run: validate.cwl
     in:
@@ -66,7 +77,7 @@ steps:
       - id: invalid_reasons
         source: "#validation/invalid_reasons"
 
-    out: []
+    out: [finished]
 
   annotate_validation_with_output:
     run: annotate_submission.cwl
@@ -83,26 +94,26 @@ steps:
         source: "#synapseConfig"
     out: [finished]
 
-  download_goldstandard:
-    run: download_from_synapse.cwl
+  check_status:
+    run: check_status.cwl
     in:
-      - id: synapseid
-        #This is a dummy syn id, replace when you use your own workflow
-        valueFrom: "syn18081597"
-      - id: synapse_config
-        source: "#synapseConfig"
-    out:
-      - id: filepath
+      - id: status
+        source: "#validation/status"
+      - id: previous_annotation_finished
+        source: "#annotate_validation_with_output/finished"
+      - id: previous_email_finished
+        source: "#validation_email/finished"
+    out: [finished]
 
   scoring:
     run: score.cwl
     in:
       - id: inputfile
         source: "#download_submission/filepath"
-      - id: status 
-        source: "#validation/status"
       - id: goldstandard
         source: "#download_goldstandard/filepath"
+      - id: check_validation_finished 
+        source: "#check_status/finished"
     out:
       - id: results
       

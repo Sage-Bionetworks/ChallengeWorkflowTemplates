@@ -21,8 +21,6 @@ inputs:
   - id: previous_annotation_finished
     type: boolean?
 
-
-
 arguments:
   - valueFrom: annotationSubmission.py
   - valueFrom: $(inputs.submissionid)
