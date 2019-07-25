@@ -11,6 +11,9 @@ hints:
   DockerRequirement:
     dockerPull: sagebionetworks/challengeutils:develop
 
+requirements:
+  - class: InlineJavascriptRequirement
+
 inputs:
   - id: submissionid
     type: int
