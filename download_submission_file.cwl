@@ -4,7 +4,14 @@
 #
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: python
+baseCommand: challengeutils
+
+hints:
+  DockerRequirement:
+    dockerPull: sagebionetworks/challengeutils:develop
+
+requirements:
+  - class: InlineJavascriptRequirement
 
 inputs:
   - id: submissionid
@@ -13,52 +20,12 @@ inputs:
     type: File
 
 arguments:
-  - valueFrom: download_submission_file.py
-  - valueFrom: $(inputs.submissionid)
-    prefix: -s
-  - valueFrom: results.json
-    prefix: -r
   - valueFrom: $(inputs.synapse_config.path)
     prefix: -c
-
-requirements:
-  - class: InlineJavascriptRequirement
-  - class: InitialWorkDirRequirement
-    listing:
-      - entryname: download_submission_file.py
-        entry: |
-          #!/usr/bin/env python
-          import synapseclient
-          import argparse
-          import json
-          import os
-          parser = argparse.ArgumentParser()
-          parser.add_argument("-s", "--submissionid", required=True, help="Submission ID")
-          parser.add_argument("-r", "--results",required=True, help="download results info")
-          parser.add_argument("-c", "--synapse_config", required=True, help="credentials file")
-
-          args = parser.parse_args()
-
-          syn = synapseclient.Synapse(configPath=args.synapse_config)
-          syn.login()
-          sub = syn.getSubmission(args.submissionid, downloadLocation=".")
-          entity_type = sub.entity.concreteType
-
-          if entity_type!='org.sagebionetworks.repo.model.FileEntity':
-              result = {
-                  'entity_type': entity_type,
-                  'entity_id':"none",
-                  'entity_version':0}
-        
-          else:
-              os.rename(sub.filePath, "submission-"+args.submissionid)
-              result = {
-                  'entity_type': entity_type,
-                  'entity_id':sub.entity.id,
-                  'entity_version':sub.entity.versionNumber}
-    
-          with open(args.results, 'w') as o:
-              o.write(json.dumps(result))
+  - valueFrom: downloadsubmission
+  - valueFrom: $(inputs.submissionid)
+  - valueFrom: results.json
+    prefix: --output
      
 outputs:
   - id: filepath
