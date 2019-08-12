@@ -42,7 +42,7 @@ steps:
     out: []
 
   get_docker_submission:
-    run: download_submission.cwl
+    run: get_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
