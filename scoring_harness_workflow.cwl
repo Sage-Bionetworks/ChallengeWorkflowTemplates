@@ -31,7 +31,7 @@ outputs: []
 
 steps:
   download_submission:
-    run: download_submission_file.cwl
+    run: download_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -39,8 +39,11 @@ steps:
         source: "#synapseConfig"
     out:
       - id: filepath
-      - id: entity
-      - id: entity_type 
+      - id: docker_repository
+      - id: docker_digest
+      - id: entity_id
+      - id: entity_type
+      - id: results
       
   download_goldstandard:
     run: download_from_synapse.cwl

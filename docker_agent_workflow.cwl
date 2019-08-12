@@ -42,16 +42,19 @@ steps:
     out: []
 
   get_docker_submission:
-    run: get_submission_docker.cwl
+    run: download_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
       - id: synapse_config
         source: "#synapseConfig"
     out:
+      - id: filepath
       - id: docker_repository
       - id: docker_digest
-      - id: entityid
+      - id: entity_id
+      - id: entity_type
+      - id: results
 
   get_docker_config:
     run: get_docker_config.cwl
@@ -132,7 +135,7 @@ steps:
       - id: parentid
         source: "#adminUploadSynId"
       - id: used_entity
-        source: "#get_docker_submission/entityid"
+        source: "#get_docker_submission/entity_id"
       - id: executed_entity
         source: "#workflowSynapseId"
       - id: synapse_config
