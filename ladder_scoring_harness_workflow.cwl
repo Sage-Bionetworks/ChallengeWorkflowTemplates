@@ -32,7 +32,7 @@ outputs: []
 
 steps:
   download_current_submission:
-    run: download_submission_file.cwl
+    run: get_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
