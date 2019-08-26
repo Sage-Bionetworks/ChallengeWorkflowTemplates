@@ -123,7 +123,7 @@ steps:
         source: "#synapseConfig"
       - id: input_dir
         # Replace this with correct datapath
-        valueFrom: "/home/ubuntu/input/"
+        valueFrom: "/home/thomasyu/input"
     out:
       - id: predictions
 
