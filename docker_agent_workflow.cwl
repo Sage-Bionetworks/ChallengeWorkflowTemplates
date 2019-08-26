@@ -121,6 +121,9 @@ steps:
         source: "#submitterUploadSynId"
       - id: synapse_config
         source: "#synapseConfig"
+      - id: input_dir
+        # Replace this with correct datapath
+        valueFrom: "/home/ubuntu/input/"
     out:
       - id: predictions
 
