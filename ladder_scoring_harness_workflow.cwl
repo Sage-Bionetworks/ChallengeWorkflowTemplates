@@ -100,7 +100,7 @@ steps:
       - id: output
 
   download_goldstandard:
-    run: download_from_synapse.cwl
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
     in:
 ########## Must supply correct synapse id here here #################
       - id: synapseid
