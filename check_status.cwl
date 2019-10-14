@@ -27,8 +27,6 @@ expression: |
   ${
     if(inputs.status == "INVALID"){
       throw 'invalid submission';
-    } else {
-      return true;
     }
   }
 
