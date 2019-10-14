@@ -8,6 +8,10 @@ cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: python
 
+hints:
+  DockerRequirement:
+    dockerPull: python:3.7
+
 inputs:
   - id: entity_type
     type: string
@@ -34,9 +38,7 @@ requirements:
       - entryname: validate.py
         entry: |
           #!/usr/bin/env python
-          import synapseclient
           import argparse
-          import os
           import json
           parser = argparse.ArgumentParser()
           parser.add_argument("-s", "--submission_file", help="Submission File")
