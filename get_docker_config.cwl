@@ -46,8 +46,8 @@ requirements:
           authen_string = "{}:{}".format(authen['username'], authen['password'])
           docker_auth = base64.encodestring(authen_string.encode('utf-8'))
 
-          result = {'docker_auth':docker_auth,'docker_registry':'https://docker.synapse.org'}
-          with open(args.results, 'w', encoding='utf-8') as o:
+          result = {'docker_auth':docker_auth.decode('utf-8'),'docker_registry':'https://docker.synapse.org'}
+          with open(args.results, 'w') as o:
             o.write(json.dumps(result))
 
 outputs:
