@@ -48,7 +48,7 @@ steps:
     in:
 ########## Must supply correct synapse id here here #################
       - id: synapseid
-        valueFrom: "syn1"
+        valueFrom: "syn18081597"
       - id: synapse_config
         source: "#synapseConfig"
     out:
