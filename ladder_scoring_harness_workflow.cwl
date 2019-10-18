@@ -32,7 +32,7 @@ outputs: []
 
 steps:
   download_current_submission:
-    run: download_submission_file.cwl
+    run: get_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -40,11 +40,25 @@ steps:
         source: "#synapseConfig"
     out:
       - id: filepath
-      - id: entity
-      - id: entity_type 
-      
+      - id: docker_repository
+      - id: docker_digest
+      - id: entity_id
+      - id: entity_type
+      - id: results
+
+  download_goldstandard:
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
+    in:
+########## Must supply correct synapse id here here #################
+      - id: synapseid
+        valueFrom: "syn18081597"
+      - id: synapse_config
+        source: "#synapseConfig"
+    out:
+      - id: filepath
+
   validation:
-    run: validate2.cwl
+    run: validate_with_goldstandard.cwl
     in:
       - id: inputfile
         source: "#download_current_submission/filepath"
@@ -56,7 +70,6 @@ steps:
       - id: results
       - id: status
       - id: invalid_reasons
-      
 
   validation_email:
     run: validate_email.cwl
@@ -80,9 +93,9 @@ steps:
       - id: annotation_values
         source: "#validation/results"
       - id: to_public
-        valueFrom: "true"
+        default: true
       - id: force_change_annotation_acl
-        valueFrom: "true"
+        default: true
       - id: synapse_config
         source: "#synapseConfig"
     out: [finished]
@@ -99,19 +112,8 @@ steps:
     out:
       - id: output
 
-  download_goldstandard:
-    run: download_from_synapse.cwl
-    in:
-########## Must supply correct synapse id here here #################
-      - id: synapseid
-        valueFrom: "syn1"
-      - id: synapse_config
-        source: "#synapseConfig"
-    out:
-      - id: filepath
-
   scoring:
-    run: score2.cwl
+    run: score_ladder.cwl
     in:
       - id: inputfile
         source: "#download_current_submission/filepath"
@@ -143,9 +145,9 @@ steps:
       - id: annotation_values
         source: "#scoring/results"
       - id: to_public
-        valueFrom: "true"
+        default: true
       - id: force_change_annotation_acl
-        valueFrom: "true"
+        default: true
       - id: synapse_config
         source: "#synapseConfig"
       - id: previous_annotation_finished

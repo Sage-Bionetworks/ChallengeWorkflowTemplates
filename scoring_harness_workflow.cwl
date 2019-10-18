@@ -31,7 +31,7 @@ outputs: []
 
 steps:
   download_submission:
-    run: download_submission_file.cwl
+    run: get_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -39,11 +39,14 @@ steps:
         source: "#synapseConfig"
     out:
       - id: filepath
-      - id: entity
-      - id: entity_type 
+      - id: docker_repository
+      - id: docker_digest
+      - id: entity_id
+      - id: entity_type
+      - id: results
       
   download_goldstandard:
-    run: download_from_synapse.cwl
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
     in:
       - id: synapseid
         #This is a dummy syn id, replace when you use your own workflow
@@ -87,9 +90,9 @@ steps:
       - id: annotation_values
         source: "#validation/results"
       - id: to_public
-        valueFrom: "true"
+        default: true
       - id: force_change_annotation_acl
-        valueFrom: "true"
+        default: true
       - id: synapse_config
         source: "#synapseConfig"
     out: [finished]
@@ -136,9 +139,9 @@ steps:
       - id: annotation_values
         source: "#scoring/results"
       - id: to_public
-        valueFrom: "true"
+        default: true
       - id: force_change_annotation_acl
-        valueFrom: "true"
+        default: true
       - id: synapse_config
         source: "#synapseConfig"
       - id: previous_annotation_finished

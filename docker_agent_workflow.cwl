@@ -42,16 +42,19 @@ steps:
     out: []
 
   get_docker_submission:
-    run: get_submission_docker.cwl
+    run: get_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
       - id: synapse_config
         source: "#synapseConfig"
     out:
+      - id: filepath
       - id: docker_repository
       - id: docker_digest
-      - id: entityid
+      - id: entity_id
+      - id: entity_type
+      - id: results
 
   get_docker_config:
     run: get_docker_config.cwl
@@ -63,7 +66,7 @@ steps:
       - id: docker_authentication
 
   download_goldstandard:
-    run: download_from_synapse.cwl
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
     in:
       - id: synapseid
         #This is a dummy syn id, replace when you use your own workflow
@@ -95,9 +98,9 @@ steps:
       - id: annotation_values
         source: "#validate_docker/results"
       - id: to_public
-        valueFrom: "true"
+        default: true
       - id: force_change_annotation_acl
-        valueFrom: "true"
+        default: true
       - id: synapse_config
         source: "#synapseConfig"
     out: [finished]
@@ -121,6 +124,9 @@ steps:
         source: "#submitterUploadSynId"
       - id: synapse_config
         source: "#synapseConfig"
+      - id: input_dir
+        # Replace this with correct datapath
+        valueFrom: "/home/thomasyu/input"
     out:
       - id: predictions
 
@@ -132,7 +138,7 @@ steps:
       - id: parentid
         source: "#adminUploadSynId"
       - id: used_entity
-        source: "#get_docker_submission/entityid"
+        source: "#get_docker_submission/entity_id"
       - id: executed_entity
         source: "#workflowSynapseId"
       - id: synapse_config
@@ -150,9 +156,9 @@ steps:
       - id: annotation_values
         source: "#upload_results/results"
       - id: to_public
-        valueFrom: "true"
+        default: true
       - id: force_change_annotation_acl
-        valueFrom: "true"
+        default: true
       - id: synapse_config
         source: "#synapseConfig"
       - id: previous_annotation_finished
@@ -194,9 +200,9 @@ steps:
       - id: annotation_values
         source: "#validation/results"
       - id: to_public
-        valueFrom: "true"
+        default: true
       - id: force_change_annotation_acl
-        valueFrom: "true"
+        default: true
       - id: synapse_config
         source: "#synapseConfig"
       - id: previous_annotation_finished
@@ -245,9 +251,9 @@ steps:
       - id: annotation_values
         source: "#scoring/results"
       - id: to_public
-        valueFrom: "true"
+        default: true
       - id: force_change_annotation_acl
-        valueFrom: "true"
+        default: true
       - id: synapse_config
         source: "#synapseConfig"
       - id: previous_annotation_finished
