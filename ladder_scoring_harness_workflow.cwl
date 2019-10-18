@@ -40,8 +40,11 @@ steps:
         source: "#synapseConfig"
     out:
       - id: filepath
-      - id: entity
-      - id: entity_type 
+      - id: docker_repository
+      - id: docker_digest
+      - id: entity_id
+      - id: entity_type
+      - id: results
 
   download_goldstandard:
     run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
