@@ -42,7 +42,18 @@ steps:
       - id: filepath
       - id: entity
       - id: entity_type 
-      
+
+  download_goldstandard:
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
+    in:
+########## Must supply correct synapse id here here #################
+      - id: synapseid
+        valueFrom: "syn1"
+      - id: synapse_config
+        source: "#synapseConfig"
+    out:
+      - id: filepath
+
   validation:
     run: validate_with_goldstandard.cwl
     in:
@@ -56,7 +67,6 @@ steps:
       - id: results
       - id: status
       - id: invalid_reasons
-      
 
   validation_email:
     run: validate_email.cwl
@@ -99,16 +109,7 @@ steps:
     out:
       - id: output
 
-  download_goldstandard:
-    run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
-    in:
-########## Must supply correct synapse id here here #################
-      - id: synapseid
-        valueFrom: "syn1"
-      - id: synapse_config
-        source: "#synapseConfig"
-    out:
-      - id: filepath
+
 
   scoring:
     run: score_ladder.cwl
