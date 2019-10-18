@@ -44,7 +44,7 @@ requirements:
           if authen.get("username") is None and authen.get("password") is None:
             raise Exception('Config file must have username and password')
           authen_string = "{}:{}".format(authen['username'], authen['password'])
-          docker_auth = base64.encodestring(authen_string.encode('utf-8)
+          docker_auth = base64.encodestring(authen_string.encode('utf-8'))
 
           result = {'docker_auth':docker_auth,'docker_registry':'https://docker.synapse.org'}
           with open(args.results, 'w') as o:
