@@ -44,7 +44,7 @@ steps:
       - id: entity_type 
       
   validation:
-    run: validate2.cwl
+    run: validate_with_goldstandard.cwl
     in:
       - id: inputfile
         source: "#download_current_submission/filepath"
@@ -111,7 +111,7 @@ steps:
       - id: filepath
 
   scoring:
-    run: score2.cwl
+    run: score_ladder.cwl
     in:
       - id: inputfile
         source: "#download_current_submission/filepath"
