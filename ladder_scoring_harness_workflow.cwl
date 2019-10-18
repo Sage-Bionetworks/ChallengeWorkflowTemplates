@@ -109,8 +109,6 @@ steps:
     out:
       - id: output
 
-
-
   scoring:
     run: score_ladder.cwl
     in:
