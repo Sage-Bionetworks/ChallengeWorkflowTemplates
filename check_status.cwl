@@ -16,8 +16,6 @@ inputs:
 outputs:
   - id: finished
     type: boolean
-    outputBinding:
-      outputEval: $( true )
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -28,7 +26,7 @@ expression: |
     if(inputs.status == "INVALID"){
       throw 'invalid submission';
     } else {
-      return true;
+      return {finished: true};
     }
   }
 

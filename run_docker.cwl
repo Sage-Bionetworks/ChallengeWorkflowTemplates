@@ -4,7 +4,7 @@
 #
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: python
+baseCommand: python3
 
 inputs:
   - id: submissionid
@@ -121,7 +121,7 @@ requirements:
               while container in client.containers.list():
                 log_text = container.logs()
                 with open(log_filename,'w') as log_file:
-                  log_file.write(log_text)
+                  log_file.write(log_text.decode('utf-8'))
                 statinfo = os.stat(log_filename)
                 if statinfo.st_size > 0 and statinfo.st_size/1000.0 <= 50:
                   ent = synapseclient.File(log_filename, parent = args.parentid)
@@ -133,7 +133,7 @@ requirements:
               #Must run again to make sure all the logs are captured
               log_text = container.logs()
               with open(log_filename,'w') as log_file:
-                log_file.write(log_text)
+                log_file.write(log_text.decode('utf-8'))
               statinfo = os.stat(log_filename)
               #Only store log file if > 0 bytes
               if statinfo.st_size > 0 and statinfo.st_size/1000.0 <= 50:
@@ -150,7 +150,7 @@ requirements:
             if statinfo.st_size == 0:
               with open(log_filename,'w') as log_file:
                 if errors is not None:
-                  log_file.write(errors)
+                  log_file.write(errors.decode('utf-8'))
                 else:
                   log_file.write("No Logs, or logs exceed size limit")
               ent = synapseclient.File(log_filename, parent = args.parentid)

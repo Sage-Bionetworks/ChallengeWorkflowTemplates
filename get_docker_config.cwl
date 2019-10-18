@@ -5,7 +5,11 @@
 #
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: python
+baseCommand: python3
+
+hints:
+  DockerRequirement:
+    dockerPull: sagebionetworks/synapsepythonclient:v1.9.2
 
 inputs:
   - id: synapse_config
@@ -39,9 +43,10 @@ requirements:
           authen = dict(config.items("authentication"))
           if authen.get("username") is None and authen.get("password") is None:
             raise Exception('Config file must have username and password')
-          docker_auth = base64.encodestring("%s:%s" % (authen['username'],authen['password']))
+          authen_string = "{}:{}".format(authen['username'], authen['password'])
+          docker_auth = base64.encodestring(authen_string.encode('utf-8'))
 
-          result = {'docker_auth':docker_auth,'docker_registry':'https://docker.synapse.org'}
+          result = {'docker_auth':docker_auth.decode('utf-8'),'docker_registry':'https://docker.synapse.org'}
           with open(args.results, 'w') as o:
             o.write(json.dumps(result))
 
