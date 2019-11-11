@@ -4,7 +4,7 @@
 #
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: python
+baseCommand: python3
 
 inputs:
   - id: submissionid
@@ -26,7 +26,7 @@ inputs:
   - id: input_dir
     type: string
   - id: docker_script
-    type: string
+    type: File
 
 arguments: 
   - valueFrom: $(inputs.docker_script.path)

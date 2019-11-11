@@ -92,6 +92,8 @@ def main(syn, args):
 
     #These are the volumes that you want to mount onto your docker container
     output_dir = os.path.join(os.getcwd(), "output")
+    # Must make the directory or else it will be mounted into docker as a file
+    os.mkdir(output_dir)
     input_dir = args.input_dir
 
     print("mounting volumes")
@@ -99,7 +101,7 @@ def main(syn, args):
     # volumes to be + permissions in docker (ro, rw)
     # It has to be in this format '/output:rw'
     mounted_volumes = {output_dir: '/output:rw',
-                       input_dir: '/train:ro'}
+                       input_dir: '/input:ro'}
     #All mounted volumes here in a list
     all_volumes = [output_dir, input_dir]
     #Mount volumes
@@ -135,8 +137,9 @@ def main(syn, args):
             errors = str(err) + "\n"
 
     print("creating logfile")
-    #Create the logfile
+    # Create the logfile
     log_filename = args.submissionid + "_log.txt"
+    # Open log file first
     open(log_filename, 'w').close()
 
     # If the container doesn't exist, there are no logs to write out and
