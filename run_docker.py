@@ -17,7 +17,7 @@ def create_log_file(log_filename, log_text=None):
     """Create log file"""
     with open(log_filename, 'w') as log_file:
         if log_text is not None:
-            log_file.write(log_text)
+            log_file.write(log_text.decode('utf-8'))
         else:
             log_file.write("No Logs")
 
