@@ -127,6 +127,10 @@ steps:
       - id: input_dir
         # Replace this with correct datapath
         valueFrom: "/home/thomasyu/input"
+      - id: docker_script
+        default:
+          class: File
+          location: "run_docker.py"
     out:
       - id: predictions
 
