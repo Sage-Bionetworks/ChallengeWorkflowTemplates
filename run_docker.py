@@ -175,7 +175,9 @@ def main(syn, args):
     elif "predictions.csv" not in output_folder:
         raise Exception("No 'predictions.csv' file written to /output, "
                         "please check inference docker")
-    # tar(output_dir, 'model_files.tar.gz')
+    # CWL has a limit of the array of files it can accept in a folder
+    # therefore creating a tarball is sometimes necessary
+    # tar(output_dir, 'outputs.tar.gz')
 
 
 def quitting(signo, _frame, submissionid=None, docker_image=None,
