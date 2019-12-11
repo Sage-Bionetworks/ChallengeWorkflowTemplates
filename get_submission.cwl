@@ -8,7 +8,7 @@ baseCommand: challengeutils
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/challengeutils:develop
+    dockerPull: docker.synapse.org/syn18058986/challengeutils:develop
 
 requirements:
   - class: InlineJavascriptRequirement
