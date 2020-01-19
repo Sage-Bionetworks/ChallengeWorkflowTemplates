@@ -1,3 +1,4 @@
+#!/usr/bin/env cwl-runner
 #
 # Example sends validation emails to participants
 #
@@ -83,4 +84,4 @@ outputs:
 - id: finished
   type: boolean
   outputBinding:
-    outputEval: $( true ) 
+    outputEval: $( true )
