@@ -90,6 +90,21 @@ steps:
       - id: status
       - id: invalid_reasons
 
+  docker_validation_email:
+    run: validate_email.cwl
+    in:
+      - id: submissionid
+        source: "#submissionId"
+      - id: synapse_config
+        source: "#synapseConfig"
+      - id: status
+        source: "#validate_docker/status"
+      - id: invalid_reasons
+        source: "#validate_docker/invalid_reasons"
+      - id: errors_only
+        default: true
+    out: [finished]
+  
   annotate_docker_validation_with_output:
     run: annotate_submission.cwl
     in:
@@ -103,6 +118,17 @@ steps:
         default: true
       - id: synapse_config
         source: "#synapseConfig"
+    out: [finished]
+
+  check_docker_status:
+    run: check_status.cwl
+    in:
+      - id: status
+        source: "#validate_docker/status"
+      - id: previous_annotation_finished
+        source: "#annotate_docker_validation_with_output/finished"
+      - id: previous_email_finished
+        source: "#docker_validation_email/finished"
     out: [finished]
 
   run_docker:
@@ -194,6 +220,8 @@ steps:
         source: "#validation/status"
       - id: invalid_reasons
         source: "#validation/invalid_reasons"
+      - id: errors_only
+        default: true
     out: [finished]
 
   annotate_validation_with_output:

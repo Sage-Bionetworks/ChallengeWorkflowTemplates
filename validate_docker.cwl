@@ -69,33 +69,38 @@ requirements:
               headers={'Authorization': 'Basic %s' % auth})
             return(bearer_token_request.json()['token'])
 
-          #Must read in credentials (username and password)
-          config = synapseclient.Synapse().getConfigFile(configPath=args.synapse_config)
-          authen = dict(config.items("authentication"))
-          if authen.get("username") is None and authen.get("password") is None:
-            raise Exception('Config file must have username and password')
-          docker_repo = args.docker_repository.replace("docker.synapse.org/","")
-          docker_digest = args.docker_digest
-          index_endpoint = 'https://docker.synapse.org'
-
-          #Check if docker is able to be pulled
-          docker_request_url = '{0}/v2/{1}/manifests/{2}'.format(index_endpoint, docker_repo, docker_digest)
-          token = get_auth_token(docker_request_url, authen['username'], authen['password'])
-
-          resp = requests.get(docker_request_url, headers={'Authorization': 'Bearer %s' % token})
           invalid_reasons = []
-          status = "VALIDATED"
-          if resp.status_code != 200:
-            invalid_reasons.append("Docker image + sha digest must exist.  You submitted %s@%s" % (args.docker_repository,args.docker_digest))
-            status = "INVALID"
 
-          #Must check docker image size
-          #Synapse docker registry
-          docker_size = sum([layer['size'] for layer in resp.json()['layers']])
-          if docker_size/1000000000.0 >= 1000:
-            invalid_reasons.append("Docker container must be less than a teribyte")
-            status = "INVALID"
+          # Submission must be a Docker image, not Project/Folder/File
+          if args.docker_repository and args.docker_digest:
 
+            #Must read in credentials (username and password)
+            config = synapseclient.Synapse().getConfigFile(configPath=args.synapse_config)
+            authen = dict(config.items("authentication"))
+            if authen.get("username") is None and authen.get("password") is None:
+              raise Exception('Config file must have username and password')
+            docker_repo = args.docker_repository.replace("docker.synapse.org/","")
+            docker_digest = args.docker_digest
+            index_endpoint = 'https://docker.synapse.org'
+
+            #Check if docker is able to be pulled
+            docker_request_url = '{0}/v2/{1}/manifests/{2}'.format(index_endpoint, docker_repo, docker_digest)
+            token = get_auth_token(docker_request_url, authen['username'], authen['password'])
+
+            resp = requests.get(docker_request_url, headers={'Authorization': 'Bearer %s' % token})
+            if resp.status_code != 200:
+              invalid_reasons.append("Docker image + sha digest must exist.  You submitted %s@%s" % (args.docker_repository,args.docker_digest))
+
+            #Must check docker image size
+            #Synapse docker registry
+            docker_size = sum([layer['size'] for layer in resp.json()['layers']])
+            if docker_size/1000000000.0 >= 1000:
+              invalid_reasons.append("Docker container must be less than a teribyte")
+
+          else:
+            invalid_reasons.append("Submission must be a Docker image, not Project/Folder/File. Please visit 'Docker Submission' for more information.")
+
+          status = "INVALID" if invalid_reasons else "VALID"
           result = {'docker_image_errors':"\n".join(invalid_reasons),'docker_image_status':status}
           with open(args.results, 'w') as o:
             o.write(json.dumps(result))
