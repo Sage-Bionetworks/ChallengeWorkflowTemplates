@@ -12,9 +12,9 @@ hints:
 
 inputs:
   - id: docker_repository
-    type: string
+    type: string?
   - id: docker_digest
-    type: string
+    type: string?
   - id: synapse_config
     type: File
 
