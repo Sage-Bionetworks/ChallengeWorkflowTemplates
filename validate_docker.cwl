@@ -43,8 +43,8 @@ requirements:
           import base64
           import requests
           parser = argparse.ArgumentParser()
-          parser.add_argument("-p", "--docker_repository", required=True, help="Submission File")
-          parser.add_argument("-d", "--docker_digest", required=True, help="Submission File")
+          parser.add_argument("-p", "--docker_repository", help="Submission File")
+          parser.add_argument("-d", "--docker_digest", help="Submission File")
           parser.add_argument("-r", "--results", required=True, help="validation results")
           parser.add_argument("-c", "--synapse_config", required=True, help="credentials file")
           args = parser.parse_args()
@@ -70,7 +70,7 @@ requirements:
             return(bearer_token_request.json()['token'])
 
           invalid_reasons = []
-
+        
           # Submission must be a Docker image, not Project/Folder/File
           if args.docker_repository and args.docker_digest:
 
@@ -96,10 +96,10 @@ requirements:
             docker_size = sum([layer['size'] for layer in resp.json()['layers']])
             if docker_size/1000000000.0 >= 1000:
               invalid_reasons.append("Docker container must be less than a teribyte")
-
+            
           else:
             invalid_reasons.append("Submission must be a Docker image, not Project/Folder/File. Please visit 'Docker Submission' for more information.")
-
+        
           status = "INVALID" if invalid_reasons else "VALID"
           result = {'docker_image_errors':"\n".join(invalid_reasons),'docker_image_status':status}
           with open(args.results, 'w') as o:
