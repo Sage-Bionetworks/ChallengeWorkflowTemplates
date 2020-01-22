@@ -15,9 +15,9 @@ This readme will guide you to learn how to use these challenge templates.  Here 
 * [Metadata Automation DREAM Challenge](https://github.com/Sage-Bionetworks/metadata-automation-challenge/tree/master/workflow)
 * [EHR DREAM Challenge](https://github.com/Sage-Bionetworks/EHR-challenge)
 
-> You will notice that these examples linked above do not contain all the tools you see in this repository, but instead the `run` steps link out to specific tagged versions of these tools.  This specific step below is using `v2.1` of the `get_submission.cwl` tool.
+You will notice that these examples linked above do not contain all the tools you see in this repository, but instead the `run` steps link out to specific tagged versions of these tools.  This specific step below is using `v2.1` of the `get_submission.cwl` tool.
 
-> ```
+```
 download_submission:
   run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v2.1/get_submission.cwl
 ...
