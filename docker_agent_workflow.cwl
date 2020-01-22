@@ -30,6 +30,20 @@ outputs: []
 
 steps:
 
+  set_permissions:
+    run: set_permissions.cwl
+    in:
+      - id: entityid
+        source: "#submitterUploadSynId"
+      # Must update the principal id here
+      - id: principalid
+        valueFrom: "3379097"
+      - id: permissions
+        valueFrom: "download"
+      - id: synapse_config
+        source: "#synapseConfig"
+    out: []
+
   notify_participants:
     run: notification_email.cwl
     in:
