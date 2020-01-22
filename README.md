@@ -141,9 +141,9 @@ This can be any path onto your local file system as a directory or particular fi
 
 #### Download goldstandard
 
-See instructions above for the `Scoring Harness` setup.
+See [download synapse file](#download-synapse-file)
 
-#### Annotations
+#### Annotation
 
 See instructions above for the `Scoring Harness` setup.
 
