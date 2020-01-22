@@ -94,7 +94,7 @@ If you would not like to email participants, simply comment these steps out.  Th
 
 Please note that the this run docker step has access to your local file system, but the output file must be written to the current working directory of the CWL environment such that CWL can bind the file.  There are a few customizations that you can make.
 
-**Directory path that is mounted into docker run**
+**Docker volume mounting**
 
 Change the `/output` and `/input` as you see fit just make sure you tell participants to write to the correct output directory and read from the correct input directory.
 
