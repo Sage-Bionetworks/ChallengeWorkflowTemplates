@@ -1,6 +1,6 @@
 #!/usr/bin/env cwl-runner
 #
-# Run Docker Submission
+# Runs Docker Submission
 #
 cwlVersion: v1.0
 class: CommandLineTool

@@ -1,11 +1,12 @@
 #!/usr/bin/env cwl-runner
 #
-# Sample workflow
+# Model to Data Challenge Workflow 
 # Inputs:
 #   submissionId: ID of the Synapse submission to process
 #   adminUploadSynId: ID of a folder accessible only to the submission queue administrator
 #   submitterUploadSynId: ID of a folder accessible to the submitter
 #   workflowSynapseId:  ID of the Synapse entity containing a reference to the workflow file(s)
+#   synapseConfig: ~/.synapseConfig file that has your Synapse credentials
 #
 cwlVersion: v1.0
 class: Workflow
