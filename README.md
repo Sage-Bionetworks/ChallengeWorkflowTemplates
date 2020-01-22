@@ -110,6 +110,7 @@ The logging of these Docker containers are done with functions `store_log_file` 
 The log file size can also be restricted.  If you want to remove this, simply add `statinfo.st_size/1000.0 <= 50` or a separate restriction.  The particular restriction is that the log file will not be updated when it is larger than 50K.  The log file size limit is implemented to ensure submitters aren't writing private data into their logs.
 
 **Docker run parameters**
+
 It is important to notice that the `network_disabled=True` so that submitter models cannot upload the private dataset anywhere.  Furthermore a `mem_limit` is set on the model so that concurrent models can be run without causing the instance running these models to run out of memory.
 
 ```
@@ -138,11 +139,13 @@ This can be any path onto your local file system as a directory or particular fi
 ```
 
 **Download goldstandard**
+
 See instructions above for the `Scoring Harness` setup.
 
 **Annotations**
+
 See instructions above for the `Scoring Harness` setup.
 
 **Validation / Scoring / Messaging**
-See instructions above for the `Scoring Harness` setup.
 
+See instructions above for the `Scoring Harness` setup.
