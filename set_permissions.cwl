@@ -1,6 +1,6 @@
 #!/usr/bin/env cwl-runner
 #
-# Set permissions.
+# Sets permissions.
 # This tool was created so that download permissions can be set
 # on the log folder of the submission given to the admin team.
 # When the challenge is run by a service account, only the service account

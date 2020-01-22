@@ -1,5 +1,7 @@
 #!/usr/bin/env cwl-runner
 #
+# Downloads current lead submission based on a cutoff
+#
 # Authors: Andrew Lamb
 
 cwlVersion: v1.0

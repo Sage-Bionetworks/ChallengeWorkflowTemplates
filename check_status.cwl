@@ -1,6 +1,6 @@
 #!/usr/bin/env cwl-runner
 #
-# Example sends validation emails to participants
+# Throws invalid error which invalidates the workflow
 #
 cwlVersion: v1.0
 class: ExpressionTool

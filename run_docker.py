@@ -130,7 +130,7 @@ def main(syn, args):
         print("running container")
         try:
             container = client.containers.run(docker_image,
-                                              'bash /app/train.sh',
+                                              # 'bash /app/train.sh',
                                               detach=True, volumes=volumes,
                                               name=args.submissionid,
                                               network_disabled=True,

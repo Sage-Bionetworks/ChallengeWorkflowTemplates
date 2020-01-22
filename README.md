@@ -1,120 +1,152 @@
 # ChallengeWorkflowTemplates
 
-These are the two boiler plate challenge workflows that can be linked with the [Synapse workflow hook](https://github.com/Sage-Bionetworks/SynapseWorkflowHook).  There are two different challenge infrastructures:
+These are the collection of challenge CWL workflows and tools that can be linked with the [Synapse Workflow Orchestrator](https://github.com/Sage-Bionetworks/SynapseWorkflowOrchestrator).  These are three different challenge workflows:
 
-1. Scoring Harness - Participants submit prediction files and these files are validated and scored.
-2. Docker Agent - Participants submit a docker container, which then generates a prediction file.
+1. **Scoring Harness**: Participants submit prediction files and these files are validated and scored.
+1. **Docker Agent**: Participants submit a docker container with their model, which then runs against internal data and a prediction file is generate.  This prediction file is then validated and scored.
+1. **Ladder Scoring Harness**: Participants submit prediction files but these files are compared against leading submissions.
 
+This readme will guide you to learn how to use these challenge templates.  Here are some example challenges that currently use these templates: 
+
+* [CTD^2 Panacea Challenge](https://github.com/Sage-Bionetworks/CTDD-Panacea-Challenge)
+* [RA2-DREAM-challenge](https://github.com/Sage-Bionetworks/RA2-dream-workflows)
+
+You will notice that these examples do not contain all the tools you see in this repository, but instead link out to specific tagged versions of tools.  This specific step below is using `v2.1` of the `get_submission.cwl` tool.
+
+```
+download_submission:
+  run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v2.1/get_submission.cwl
+  in:
+    - id: submissionid
+      source: "#submissionId"
+    - id: synapse_config
+      source: "#synapseConfig"
+  out:
+    - id: filepath
+    - id: docker_repository
+    - id: docker_digest
+    - id: entity_id
+    - id: entity_type
+    - id: results
+```
 
 ## Scoring Harness
-* Workflow: scoring_harness_workflow.cwl
-* Tools: annotate_submission.cwl, download_submission_file.cwl, score.cwl, score_email.cwl, validate.cwl, validate_email.cwl, download_from_synapse.cwl
 
-### Making edits to the scoring harness.
+* Workflow: `scoring_harness_workflow.cwl`
+* Recommended tools to edit: `validate.cwl`, `score.cwl`
 
-* Validation: validate.cwl
+### Validation: validate.cwl
 
-This file can be changed to validate whatever format participants submit their predictions.  It must have `status` and `invalid_reasons` as outputs where `status` is the `prediction_file_status` and `invalid_reasons` is a `\n` joined set of strings that define whatever is wrong with the prediction file. 
+This file can be changed to validate whatever format participants submit their predictions.  This tool must write out a resulting JSON file that has keys `prediction_file_status` and `invalid_reasons`.
 
-* Scoring: score.cwl
+`prediction_file_status`: status of the prediction file - `SCORED`, `VALIDATED`, `INVALID`
+`invalid_reasons`: `\n` joined set of strings that define whatever is wrong with the prediction file (empty string is nothing wrong)
+
+### Scoring: score.cwl
 
 This script scores the prediction file against the goldstandard. It must have `results` output which is a json file with the key `prediction_file_status`.
 
-* Annotations: scoring_harness_workflow.cwl
+### Workflow Steps: scoring_harness_workflow.cwl
 
-There are a couple inputs that the annotation workflow step takes.  Below is an example of a workflow step
-
+**Annotation**
 ```
   annotate_submission:
-    run: annotate_submission.cwl
+    run: https://github.com/Sage-Bionetworks/ChallengeWorkflowTemplates/tree/v2.1/annotate_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
       - id: annotation_values
         source: "#validate_docker/results"
       - id: to_public
-        valueFrom: "true"
+        default: true
       - id: force_change_annotation_acl
-        valueFrom: "true"
+        default: true
       - id: synapse_config
         source: "#synapseConfig"
     out: []
 ```
-The values `to_public` and `force_change_annotation_acl` can be 'true' or 'false'.  `to_public` controls the ACL of each annotation key passed in during the annotation step, while `force_change_annotation_acl` allows for the same annotation key to change ACLs.  For instance, if the original annotations had annotation A that was private, and annotation A was passed in again as a public annotation, this would fail the pipeline.  However, passing in `force_change_annotation_acl` as 'true' would allow for this change.
+The values `to_public` and `force_change_annotation_acl` can be `true` or `false`.  `to_public` controls the ACL of each annotation key passed in during the annotation step, while `force_change_annotation_acl` allows for the same annotation key to change ACLs.  For instance, if the original annotations had annotation `A` that was private, and annotation `A` was passed in again as a public annotation, this would fail the pipeline.  However, passing in `force_change_annotation_acl` as `true` would allow for this change.
 
-* Download goldstandard: scoring_harness_workflow.cwl
+**Download Synapse File**
 
-You can pass in a synapse id here to download the goldstandard file for a specific challenge.  Example input is
+You can pass in a synapse id here to download the file you need for the workflow.  An example would be downloading the truth file required for challenges.
 ```
   download_goldstandard:
-    run: download_from_synapse.cwl
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
     in:
       - id: synapseid
-        #This is a dummy syn id, update syn12345 value to real Synapse id
-        valueFrom: "syn12345"
+        #This is a dummy syn id, replace when you use your own workflow
+        valueFrom: "syn1234"
       - id: synapse_config
         source: "#synapseConfig"
     out:
       - id: filepath
 ```
 
-* Messaging: validate_email.cwl and score_email.cwl
+**Messages**
 
-Both of these are general templates for submission emails.  You may edit the body of the email to change the subject title and message sent.
+`{notificiation,validate,score}_email.cwl` are general templates for submission emails.  You may edit the body of the email to change the subject title and message sent.
 
 If you would not like to email participants, simply comment these steps out.  These workflow steps are required for challenges because participants should only be receiving pertinent information back from the scoring harness.  If the scoring code breaks, it is the responsibility of the administrator to receive notifications and fix the code.
 
 
 ## Docker Agent
 * Workflow: docker_agent_workflow.cwl
-* Tools: annotate_submission.cwl, get_submission_docker.cwl, score.cwl, score_email.cwl, validate.cwl, validate_email.cwl, download_from_synapse.cwl, get_docker_config.cwl, notification_email.cwl, validate_docker.cwl, run_docker.cwl, upload_to_synapse.cwl
+* Recommended tools to edit: `run_docker.cwl/run_docker.py`, `validate.cwl`, `score.cwl`
 
-### Making edits to the docker agent.
-
-* Running Docker Submission:  run_docker.cwl
+### Running Docker Submission: run_docker.cwl/run_docker.py
 
 Please note that the this run docker step has access to your local file system, but the output file must be written to the current working directory of the CWL environment such that CWL can bind the file.  There are a few customizations that you can make.
-
-**Input files**:
-
-This can be any path onto your local file system as a directory or particular file
-```
-- valueFrom: /path/to/directory/
-prefix: -i
-```
 
 **Directory path that is mounted into docker run**
 
 Change the `/output` and `/input` as you see fit just make sure you tell participants to write to the correct output directory and read from the correct input directory.
+
 ```
 mounted_volumes = {output_dir:'/output:rw',
-                 input_dir:'/input:ro'}
+                   input_dir:'/input:ro'}
 ```
 
 **Log file**
 
-Log files do not need to be returned.  An entire chunk of code can be commented out to not return log files from line 117 to line 145.
+The logging of these Docker containers are done with functions `store_log_file` and `create_log_file` in `run_docker.py`. It is not necessary to return log files, but the log files do assist submitters in debugging their submission.
 
-The log file size can also be restricted.  If you want to remove this, simply remove `statinfo.st_size/1000.0 <= 50` or you can provide a separate restriction.  The current restriction is that the log file will not be updated when its larger than 50K.
+The log file size can also be restricted.  If you want to remove this, simply add `statinfo.st_size/1000.0 <= 50` or a separate restriction.  The particular restriction is that the log file will not be updated when it is larger than 50K.  The log file size limit is implemented to ensure submitters aren't writing private data into their logs.
+
+**Docker run parameters**
+It is important to notice that the `network_disabled=True` so that submitter models cannot upload the private dataset anywhere.  Furthermore a `mem_limit` is set on the model so that concurrent models can be run without causing the instance running these models to run out of memory.
+
 ```
-if statinfo.st_size > 0 and statinfo.st_size/1000.0 <= 50:
+container = client.containers.run(docker_image,
+                                  # 'bash /app/train.sh',
+                                  detach=True, volumes=volumes,
+                                  name=args.submissionid,
+                                  network_disabled=True,
+                                  mem_limit='10g', stderr=True)
 ```
 
 **Output**
 
 The default output is `predictions.csv`, but this could easily be multiple outputs.  Just make sure you link up the rest of the workflow correctly.
 
-* Download goldstandard: docker_agent_workflow.cwl
+## Workflow Steps:
 
+**Run docker**
+
+This can be any path onto your local file system as a directory or particular file.  It will be mounted into the submitted Docker container.
+
+```
+- id: input_dir
+  # Replace this with correct datapath
+  valueFrom: "/home/thomasyu/input"
+```
+
+**Download goldstandard**
 See instructions above for the `Scoring Harness` setup.
 
-* Annotations: docker_agent_workflow.cwl
-
+**Annotations**
 See instructions above for the `Scoring Harness` setup.
 
-* Validation / Scoring / Messaging 
-
+**Validation / Scoring / Messaging**
 See instructions above for the `Scoring Harness` setup.
-
-
 

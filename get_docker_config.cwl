@@ -1,7 +1,7 @@
 #!/usr/bin/env cwl-runner
 #
+# Extracts the Synapse credentials and format into Docker config
 # Since the Synapse Docker registry has the same password as Synapse
-# Extract the Synapse credentials and format into Docker config
 #
 cwlVersion: v1.0
 class: CommandLineTool
