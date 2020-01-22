@@ -41,33 +41,36 @@ download_submission:
 
 ### Validation: validate.cwl
 
-This file can be changed to validate whatever format participants submit their predictions.  This tool must write out a resulting JSON file that has keys `prediction_file_status` and `invalid_reasons`.
+This tool can be changed to validate whatever format participants submit their predictions.  It must write results to a JSON file that has keys `prediction_file_status` and `invalid_reasons`.
 
-`prediction_file_status`: status of the prediction file - `SCORED`, `VALIDATED`, `INVALID`
-`invalid_reasons`: `\n` joined set of strings that define whatever is wrong with the prediction file (empty string is nothing wrong)
+* `prediction_file_status`: status of the prediction file - `VALIDATED`, `INVALID`
+* `invalid_reasons`: `\n` joined set of strings that define whatever is wrong with the prediction file (empty string is nothing wrong)
 
 ### Scoring: score.cwl
 
-This script scores the prediction file against the goldstandard. It must have `results` output which is a json file with the key `prediction_file_status`.
+This tool scores the prediction file against a truth file. It must write results to a JSON file that has keys `prediction_file_status` and `user_defined_score`.
+
+* `prediction_file_status`: status of the prediction file - `SCORED`
+* `user_defined_score`: This is an annotation that you want to add to the submission, so it should describe what the score is such as `auc`, `aupr`, `f1`, and etc.
 
 ### Workflow Steps: scoring_harness_workflow.cwl
 
 **Annotation**
 ```
-  annotate_submission:
-    run: https://github.com/Sage-Bionetworks/ChallengeWorkflowTemplates/tree/v2.1/annotate_submission.cwl
-    in:
-      - id: submissionid
-        source: "#submissionId"
-      - id: annotation_values
-        source: "#validate_docker/results"
-      - id: to_public
-        default: true
-      - id: force_change_annotation_acl
-        default: true
-      - id: synapse_config
-        source: "#synapseConfig"
-    out: []
+annotate_submission:
+  run: https://github.com/Sage-Bionetworks/ChallengeWorkflowTemplates/tree/v2.1/annotate_submission.cwl
+  in:
+    - id: submissionid
+      source: "#submissionId"
+    - id: annotation_values
+      source: "#validate_docker/results"
+    - id: to_public
+      default: true
+    - id: force_change_annotation_acl
+      default: true
+    - id: synapse_config
+      source: "#synapseConfig"
+  out: []
 ```
 The values `to_public` and `force_change_annotation_acl` can be `true` or `false`.  `to_public` controls the ACL of each annotation key passed in during the annotation step, while `force_change_annotation_acl` allows for the same annotation key to change ACLs.  For instance, if the original annotations had annotation `A` that was private, and annotation `A` was passed in again as a public annotation, this would fail the pipeline.  However, passing in `force_change_annotation_acl` as `true` would allow for this change.
 
