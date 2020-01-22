@@ -1,11 +1,12 @@
 #!/usr/bin/env cwl-runner
 #
-# Sample workflow
+# Model to Data Challenge Workflow 
 # Inputs:
 #   submissionId: ID of the Synapse submission to process
 #   adminUploadSynId: ID of a folder accessible only to the submission queue administrator
 #   submitterUploadSynId: ID of a folder accessible to the submitter
 #   workflowSynapseId:  ID of the Synapse entity containing a reference to the workflow file(s)
+#   synapseConfig: ~/.synapseConfig file that has your Synapse credentials
 #
 cwlVersion: v1.0
 class: Workflow
@@ -29,6 +30,20 @@ inputs:
 outputs: []
 
 steps:
+
+  set_permissions:
+    run: set_permissions.cwl
+    in:
+      - id: entityid
+        source: "#submitterUploadSynId"
+      # Must update the principal id here
+      - id: principalid
+        valueFrom: "3379097"
+      - id: permissions
+        valueFrom: "download"
+      - id: synapse_config
+        source: "#synapseConfig"
+    out: []
 
   notify_participants:
     run: notification_email.cwl

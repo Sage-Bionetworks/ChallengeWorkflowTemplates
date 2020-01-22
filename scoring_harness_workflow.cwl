@@ -1,6 +1,6 @@
 #!/usr/bin/env cwl-runner
 #
-# Sample workflow
+# Prediction file challenge workflow
 # Inputs:
 #   submissionId: ID of the Synapse submission to process
 #   adminUploadSynId: ID of a folder accessible only to the submission queue administrator
@@ -30,6 +30,21 @@ inputs:
 outputs: []
 
 steps:
+
+  set_permissions:
+    run: set_permissions.cwl
+    in:
+      - id: entityid
+        source: "#submitterUploadSynId"
+      # Must update the principal id here
+      - id: principalid
+        valueFrom: "3379097"
+      - id: permissions
+        valueFrom: "download"
+      - id: synapse_config
+        source: "#synapseConfig"
+    out: []
+
   download_submission:
     run: get_submission.cwl
     in:
