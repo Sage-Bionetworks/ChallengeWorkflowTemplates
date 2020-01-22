@@ -139,14 +139,13 @@ This can be any path onto your local file system as a directory or particular fi
   valueFrom: "/home/thomasyu/input"
 ```
 
-#### Download goldstandard
+#### Other Configuration
 
-See [download synapse file](#download-synapse-file)
+* See [download synapse file](#download-synapse-file) in `Classic` section above
+* See [annotations](#annotations) in `Classic` section above
+* See [validation](#validation-validatecwl) in `Classic` section above
+* See [scoring](#scoring-scorecwl) in `Classic` section above
+* See [messages](#messages) in `Classic` section above
 
-#### Annotation
 
-See instructions above for the `Scoring Harness` setup.
 
-#### Validation / Scoring / Messaging
-
-See instructions above for the `Scoring Harness` setup.
