@@ -10,6 +10,10 @@ This readme will guide you to learn how to use these challenge templates.  Here 
 
 * [CTD^2 Panacea Challenge](https://github.com/Sage-Bionetworks/CTDD-Panacea-Challenge)
 * [RA2-DREAM-challenge](https://github.com/Sage-Bionetworks/RA2-dream-workflows)
+* [CTD^2 BeatAML Challenge](https://github.com/Sage-Bionetworks/CTD2-BeatAML-Challenge)
+* [Allen Institute Cell Lineage Reconstruction DREAM Challenge](https://github.com/Sage-Bionetworks/Allen-DREAM-Challenge)
+* [Metadata Automation DREAM Challenge](https://github.com/Sage-Bionetworks/metadata-automation-challenge/tree/master/workflow)
+* [EHR DREAM Challenge](https://github.com/Sage-Bionetworks/EHR-challenge)
 
 You will notice that these examples do not contain all the tools you see in this repository, but instead link out to specific tagged versions of tools.  This specific step below is using `v2.1` of the `get_submission.cwl` tool.
 
