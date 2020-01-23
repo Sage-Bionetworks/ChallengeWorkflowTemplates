@@ -1,6 +1,6 @@
 #!/usr/bin/env cwl-runner
 #
-# Example sends validation emails to participants
+# Sends notification emails to participants
 #
 cwlVersion: v1.0
 class: CommandLineTool

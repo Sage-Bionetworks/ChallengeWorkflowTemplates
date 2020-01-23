@@ -1,6 +1,6 @@
 #!/usr/bin/env cwl-runner
 #
-# upload a file to Synapse and return the ID
+# Uploads a file to Synapse and return the ID
 # param's include the parentId (project or folder) to which the file is to be uploaded
 # and the provenance information for the file
 #
