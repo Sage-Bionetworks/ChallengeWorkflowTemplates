@@ -54,7 +54,12 @@ requirements:
           syn.login()
 
           sub = syn.getSubmission(args.submissionid)
-          userid = sub.userId
+          participantid = sub.get("teamId")
+          if teamid is not None:
+            name = syn.getTeam(participantid)['name']
+          else:
+            participantid = sub.userId
+            name = syn.getUserProfile(participantid)['userName']
           evaluation = syn.getEvaluation(sub.evaluationId)
           with open(args.results) as json_data:
             annots = json.load(json_data)
@@ -69,12 +74,12 @@ requirements:
               else:
                   for annot in args.private_annotaions:
                       del annots[annot]
-                  message = ["Hello %s,\n\n" % syn.getUserProfile(userid)['userName'],
+                  message = ["Hello %s,\n\n" % name,
                              "Your submission (%s) is scored, below are your results:\n\n" % sub.name,
                              "\n".join([i + " : " + str(annots[i]) for i in annots]),
                              "\n\nSincerely,\nChallenge Administrator"]
               syn.sendMessage(
-                  userIds=[userid],
+                  userIds=[participantid],
                   messageSubject=subject,
                   messageBody="".join(message),
                   contentType="text")
