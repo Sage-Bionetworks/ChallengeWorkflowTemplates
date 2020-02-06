@@ -55,7 +55,7 @@ requirements:
 
           sub = syn.getSubmission(args.submissionid)
           participantid = sub.get("teamId")
-          if teamid is not None:
+          if participantid is not None:
             name = syn.getTeam(participantid)['name']
           else:
             participantid = sub.userId
