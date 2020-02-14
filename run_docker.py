@@ -25,13 +25,13 @@ def create_log_file(log_filename, log_text=None):
             log_file.write("No Logs")
 
 
-def store_log_file(syn, log_filename, parentid, test=False):
+def store_log_file(syn, log_filename, parentid, store_log=True):
     """Store log file"""
     statinfo = os.stat(log_filename)
     if statinfo.st_size > 0:
         ent = synapseclient.File(log_filename, parent=parentid)
         # Don't store if test
-        if not test:
+        if store_log:
             try:
                 syn.store(ent)
             except synapseclient.exceptions.SynapseHTTPError as err:
@@ -90,10 +90,10 @@ def main(syn, args):
 
     print(getpass.getuser())
 
-    #Add docker.config file
+    # Add docker.config file
     docker_image = args.docker_repository + "@" + args.docker_digest
 
-    #These are the volumes that you want to mount onto your docker container
+    # These are the volumes that you want to mount onto your docker container
     output_dir = os.path.join(os.getcwd(), "output")
     # Must make the directory or else it will be mounted into docker as a file
     os.mkdir(output_dir)
@@ -105,15 +105,15 @@ def main(syn, args):
     # It has to be in this format '/output:rw'
     mounted_volumes = {output_dir: '/output:rw',
                        input_dir: '/input:ro'}
-    #All mounted volumes here in a list
+    # All mounted volumes here in a list
     all_volumes = [output_dir, input_dir]
-    #Mount volumes
+    # Mount volumes
     volumes = {}
     for vol in all_volumes:
         volumes[vol] = {'bind': mounted_volumes[vol].split(":")[0],
                         'mode': mounted_volumes[vol].split(":")[1]}
 
-    #Look for if the container exists already, if so, reconnect
+    # Look for if the container exists already, if so, reconnect
     print("checking for containers")
     container = None
     errors = None
@@ -126,7 +126,7 @@ def main(syn, args):
                 container = cont
     # If the container doesn't exist, make sure to run the docker image
     if container is None:
-        #Run as detached, logs will stream below
+        # Run as detached, logs will stream below
         print("running container")
         try:
             container = client.containers.run(docker_image,
