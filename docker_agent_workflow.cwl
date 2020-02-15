@@ -45,17 +45,6 @@ steps:
         source: "#synapseConfig"
     out: []
 
-  notify_participants:
-    run: notification_email.cwl
-    in:
-      - id: submissionid
-        source: "#submissionId"
-      - id: synapse_config
-        source: "#synapseConfig"
-      - id: parentid
-        source: "#submitterUploadSynId"
-    out: []
-
   get_docker_submission:
     run: get_submission.cwl
     in:
