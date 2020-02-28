@@ -69,11 +69,11 @@ requirements:
           if status == "SCORED":
               del annots['prediction_file_status']
               subject = "Submission to '%s' scored!" % evaluation.name
+              for annot in args.private_annotaions:
+                del annots[annot]
               if len(annots) == 0:
-                  message = "Your submission has been scored."
+                  message = "Your submission has been scored. Results will be announced at a later time."
               else:
-                  for annot in args.private_annotaions:
-                      del annots[annot]
                   message = ["Hello %s,\n\n" % name,
                              "Your submission (%s) is scored, below are your results:\n\n" % sub.name,
                              "\n".join([i + " : " + str(annots[i]) for i in annots]),
