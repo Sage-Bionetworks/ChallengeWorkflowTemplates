@@ -20,7 +20,7 @@ arguments:
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/challengeutils:develop
+    dockerPull: sagebionetworks/challengeutils:v1.3.0
 
 inputs:
 
