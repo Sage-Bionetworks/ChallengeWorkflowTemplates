@@ -8,7 +8,7 @@ baseCommand: challengeutils
 
 hints:
   DockerRequirement:
-    dockerPull: docker.synapse.org/syn18058986/challengeutils:develop
+    dockerPull: docker.synapse.org/syn18058986/challengeutils:v1.3.0
 
 requirements:
   - class: InlineJavascriptRequirement
