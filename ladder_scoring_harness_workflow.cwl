@@ -107,9 +107,9 @@ steps:
         source: "#submissionId"
       - id: annotation_values
         source: "#validation/results"
-      - id: to_public
-        default: true
-      - id: force_change_annotation_acl
+      - id: is_private
+        default: false
+      - id: force
         default: true
       - id: synapse_config
         source: "#synapseConfig"
@@ -159,9 +159,9 @@ steps:
         source: "#submissionId"
       - id: annotation_values
         source: "#scoring/results"
-      - id: to_public
-        default: true
-      - id: force_change_annotation_acl
+      - id: is_private
+        default: false
+      - id: force
         default: true
       - id: synapse_config
         source: "#synapseConfig"

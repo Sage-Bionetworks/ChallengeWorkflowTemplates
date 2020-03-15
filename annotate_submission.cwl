@@ -9,7 +9,7 @@ baseCommand: challengeutils
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/challengeutils:v1.3.0
+    dockerPull: sagebionetworks/challengeutils:develop
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -19,9 +19,9 @@ inputs:
     type: int
   - id: annotation_values
     type: File
-  - id: to_public
+  - id: is_private
     type: boolean?
-  - id: force_change_annotation_acl
+  - id: force
     type: boolean?
   - id: synapse_config
     type: File
@@ -34,9 +34,9 @@ arguments:
   - valueFrom: annotatesubmission
   - valueFrom: $(inputs.submissionid)
   - valueFrom: $(inputs.annotation_values)
-  - valueFrom: $(inputs.to_public)
+  - valueFrom: $(inputs.is_private)
     prefix: -p
-  - valueFrom: $(inputs.force_change_annotation_acl)
+  - valueFrom: $(inputs.force)
     prefix: -f
 
 outputs:
