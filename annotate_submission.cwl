@@ -9,7 +9,7 @@ baseCommand: challengeutils
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/challengeutils:develop
+    dockerPull: sagebionetworks/challengeutils:v1.4.0
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -45,4 +45,3 @@ outputs:
   type: boolean
   outputBinding:
     outputEval: $( true )
-
