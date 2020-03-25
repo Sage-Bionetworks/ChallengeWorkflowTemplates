@@ -9,7 +9,7 @@ baseCommand: challengeutils
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/challengeutils:v1.3.0
+    dockerPull: sagebionetworks/challengeutils:v1.5.2
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -21,7 +21,7 @@ inputs:
     type: File
   - id: to_public
     type: boolean?
-  - id: force_change_annotation_acl
+  - id: force
     type: boolean?
   - id: synapse_config
     type: File
@@ -36,7 +36,7 @@ arguments:
   - valueFrom: $(inputs.annotation_values)
   - valueFrom: $(inputs.to_public)
     prefix: -p
-  - valueFrom: $(inputs.force_change_annotation_acl)
+  - valueFrom: $(inputs.force)
     prefix: -f
 
 outputs:
@@ -45,4 +45,3 @@ outputs:
   type: boolean
   outputBinding:
     outputEval: $( true )
-

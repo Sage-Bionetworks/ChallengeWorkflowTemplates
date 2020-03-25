@@ -109,7 +109,7 @@ steps:
         source: "#validation/results"
       - id: to_public
         default: true
-      - id: force_change_annotation_acl
+      - id: force
         default: true
       - id: synapse_config
         source: "#synapseConfig"
@@ -161,7 +161,7 @@ steps:
         source: "#scoring/results"
       - id: to_public
         default: true
-      - id: force_change_annotation_acl
+      - id: force
         default: true
       - id: synapse_config
         source: "#synapseConfig"
