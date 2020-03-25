@@ -8,7 +8,7 @@ baseCommand: python3
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/synapsepythonclient:v1.9.2
+    dockerPull: sagebionetworks/synapsepythonclient:v2.0.0
 
 inputs:
   - id: submissionid
@@ -82,8 +82,7 @@ requirements:
             syn.sendMessage(
               userIds=[participantid],
               messageSubject=subject,
-              messageBody="".join(message),
-              contentType="text")
+              messageBody="".join(message))
 
 outputs:
 - id: finished

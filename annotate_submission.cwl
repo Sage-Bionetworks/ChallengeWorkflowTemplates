@@ -9,7 +9,7 @@ baseCommand: challengeutils
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/challengeutils:v1.5.1
+    dockerPull: sagebionetworks/challengeutils:v1.5.2
 
 requirements:
   - class: InlineJavascriptRequirement
