@@ -116,8 +116,8 @@ steps:
         source: "#submissionId"
       - id: annotation_values
         source: "#validate_docker/results"
-      - id: is_private
-        default: false
+      - id: to_public
+        default: true
       - id: force
         default: true
       - id: synapse_config
@@ -189,8 +189,8 @@ steps:
         source: "#submissionId"
       - id: annotation_values
         source: "#upload_results/results"
-      - id: is_private
-        default: false
+      - id: to_public
+        default: true
       - id: force
         default: true
       - id: synapse_config
@@ -235,8 +235,8 @@ steps:
         source: "#submissionId"
       - id: annotation_values
         source: "#validation/results"
-      - id: is_private
-        default: false
+      - id: to_public
+        default: true
       - id: force
         default: true
       - id: synapse_config
@@ -286,8 +286,8 @@ steps:
         source: "#submissionId"
       - id: annotation_values
         source: "#scoring/results"
-      - id: is_private
-        default: false
+      - id: to_public
+        default: true
       - id: force
         default: true
       - id: synapse_config

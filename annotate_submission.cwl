@@ -9,7 +9,7 @@ baseCommand: challengeutils
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/challengeutils:v1.4.0
+    dockerPull: sagebionetworks/challengeutils:v1.5.1
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -19,7 +19,7 @@ inputs:
     type: int
   - id: annotation_values
     type: File
-  - id: is_private
+  - id: to_public
     type: boolean?
   - id: force
     type: boolean?
@@ -34,7 +34,7 @@ arguments:
   - valueFrom: annotatesubmission
   - valueFrom: $(inputs.submissionid)
   - valueFrom: $(inputs.annotation_values)
-  - valueFrom: $(inputs.is_private)
+  - valueFrom: $(inputs.to_public)
     prefix: -p
   - valueFrom: $(inputs.force)
     prefix: -f
