@@ -82,6 +82,5 @@ requirements:
                   userIds=[participantid],
                   messageSubject=subject,
                   messageBody="".join(message))
-                  #contentType="text")
           
 outputs: []
