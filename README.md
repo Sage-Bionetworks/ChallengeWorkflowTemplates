@@ -2,7 +2,7 @@
 
 These are the collection of challenge CWL workflows and tools that can be linked with the [Synapse Workflow Orchestrator](https://github.com/Sage-Bionetworks/SynapseWorkflowOrchestrator).  These are three different challenge workflows:
 
-1. **Classic**: Participants submit prediction files and these files are validated and scored.
+1. **Data to Model**: Participants submit prediction files and these files are validated and scored.
 1. **Model to Data**: Participants submit a docker container with their model, which then runs against internal data and a prediction file is generate.  This prediction file is then validated and scored.
 1. **Ladder Classic**: Participants submit prediction files but these files are compared against leading submissions.
 
@@ -23,7 +23,7 @@ download_submission:
 ...
 ```
 
-## Classic
+## Data to Model
 
 * Workflow: `scoring_harness_workflow.cwl`
 * Recommended tools to edit: `validate.cwl`, `score.cwl`
