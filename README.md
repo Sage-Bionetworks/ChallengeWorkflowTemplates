@@ -30,17 +30,17 @@ download_submission:
 
 ### Validation: validate.cwl
 
-This tool can be changed to validate whatever format participants submit their predictions.  It must write results to a JSON file that has keys `prediction_file_status` and `invalid_reasons`.
+This tool can be changed to validate whatever format participants submit their predictions.  It must write results to a JSON file that has keys `submission_status` and `submission_errors`.
 
-* `prediction_file_status`: status of the prediction file - `VALIDATED`, `INVALID`
-* `invalid_reasons`: `\n` joined set of strings that define whatever is wrong with the prediction file (empty string is nothing wrong)
+* `submission_status`: status of the prediction file - `VALIDATED`, `INVALID`
+* `submission_errors`: `\n` joined set of strings that define whatever is wrong with the prediction file (empty string is nothing wrong)
 
 ### Scoring: score.cwl
 
-This tool scores the prediction file against a truth file. It must write results to a JSON file that has keys `prediction_file_status` and `user_defined_score`.
+This tool scores the prediction file against a truth file. It must write results to a JSON file that has keys `submission_status` and user defined score keys.
 
-* `prediction_file_status`: status of the prediction file - `SCORED`
-* `user_defined_score`: This is an annotation that you want to add to the submission, so it should describe what the score is such as `auc`, `aupr`, `f1`, and etc.
+* `submission_status`: status of the prediction file - `SCORED`
+* user defined keys: This is an annotation that you want to add to the submission, so it should describe what the score is such as `auc`, `aupr`, `f1`, and etc.
 
 ### Workflow Steps: scoring_harness_workflow.cwl
 
@@ -55,13 +55,13 @@ annotate_submission:
       source: "#validate_docker/results"
     - id: to_public
       default: true
-    - id: force_change_annotation_acl
+    - id: force
       default: true
     - id: synapse_config
       source: "#synapseConfig"
   out: []
 ```
-The values `to_public` and `force_change_annotation_acl` can be `true` or `false`.  `to_public` controls the ACL of each annotation key passed in during the annotation step, while `force_change_annotation_acl` allows for the same annotation key to change ACLs.  For instance, if the original annotations had annotation `A` that was private, and annotation `A` was passed in again as a public annotation, this would fail the pipeline.  However, passing in `force_change_annotation_acl` as `true` would allow for this change.
+The values `to_public` and `force` can be `true` or `false`.  `to_public` controls the ACL of each annotation key passed in during the annotation step, while `force` allows for the same annotation key to change ACLs.  For instance, if the original annotations had annotation `A` that was private, and annotation `A` was passed in again as a public annotation, this would fail the pipeline.  However, passing in `force` as `true` would allow for this change.
 
 #### Download Synapse File
 
@@ -116,7 +116,6 @@ It is important to notice that the `network_disabled=True` so that submitter mod
 
 ```
 container = client.containers.run(docker_image,
-                                  # 'bash /app/train.sh',
                                   detach=True, volumes=volumes,
                                   name=args.submissionid,
                                   network_disabled=True,
