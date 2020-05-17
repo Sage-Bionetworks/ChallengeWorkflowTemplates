@@ -1,12 +1,8 @@
 """Run training synthetic docker models"""
-from __future__ import print_function
 import argparse
-from functools import partial
 import getpass
 import os
-import signal
 import subprocess
-import sys
 import time
 
 import docker
