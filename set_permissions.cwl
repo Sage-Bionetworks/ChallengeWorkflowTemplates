@@ -10,6 +10,10 @@ cwlVersion: v1.1
 class: CommandLineTool
 baseCommand: challengeutils
 
+requirements:
+  NetworkAccess:
+    networkAccess: true
+
 hints:
   DockerRequirement:
     dockerPull: sagebionetworks/challengeutils:v1.5.2

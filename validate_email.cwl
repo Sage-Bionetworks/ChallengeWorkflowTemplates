@@ -37,6 +37,8 @@ arguments:
 
 
 requirements:
+  - class: NetworkAccess
+    networkAccess: true
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:

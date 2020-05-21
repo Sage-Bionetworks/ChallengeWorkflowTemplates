@@ -17,6 +17,9 @@ arguments:
 
 - download_current_lead_submission
 
+requirements:
+  NetworkAccess:
+    networkAccess: true
 
 hints:
   DockerRequirement:

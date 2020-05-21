@@ -40,6 +40,8 @@ arguments:
     prefix: -c
 
 requirements:
+  - class: NetworkAccess:
+    networkAccess: true
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:

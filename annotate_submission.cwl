@@ -13,6 +13,8 @@ hints:
 
 requirements:
   - class: InlineJavascriptRequirement
+  - class: NetworkAccess
+    networkAccess: true
 
 inputs:
   - id: submissionid
