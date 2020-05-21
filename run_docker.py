@@ -1,12 +1,8 @@
 """Run training synthetic docker models"""
-from __future__ import print_function
 import argparse
-from functools import partial
 import getpass
 import os
-import signal
 import subprocess
-import sys
 import time
 
 import docker
@@ -172,34 +168,17 @@ def main(syn, args):
     remove_docker_image(docker_image)
 
     output_folder = os.listdir(output_dir)
-    if not output_folder:
-        raise Exception("No 'predictions.csv' file written to /output, "
-                        "please check inference docker")
-    elif "predictions.csv" not in output_folder:
-        raise Exception("No 'predictions.csv' file written to /output, "
-                        "please check inference docker")
+    # Don't throw an exception here
+    pred_path = os.path.join(output_dir, "predictions.csv")
+    if not output_folder or "predictions.csv" not in output_folder:
+        with open(pred_path, 'w'):
+            pass
+    #     raise Exception("No 'predictions.csv' file written to /output, "
+    #                     "please check inference docker")
+
     # CWL has a limit of the array of files it can accept in a folder
     # therefore creating a tarball is sometimes necessary
     # tar(output_dir, 'outputs.tar.gz')
-
-
-def quitting(signo, _frame, submissionid=None, docker_image=None,
-             parentid=None, syn=None):
-    """When quit signal, stop docker container and delete image"""
-    print("Interrupted by %d, shutting down" % signo)
-    # Make sure to store logs and remove containers
-    try:
-        cont = client.containers.get(submissionid)
-        log_text = cont.logs()
-        log_filename = submissionid + "_training_log.txt"
-        create_log_file(log_filename, log_text=log_text)
-        store_log_file(syn, log_filename, args.parentid)
-        cont.stop()
-        cont.remove()
-    except Exception:
-        pass
-    remove_docker_image(docker_image)
-    sys.exit(0)
 
 
 if __name__ == '__main__':
@@ -218,16 +197,7 @@ if __name__ == '__main__':
                         help="Parent Id of submitter directory")
     parser.add_argument("--status", required=True, help="Docker image status")
     args = parser.parse_args()
-    client = docker.from_env()
     syn = synapseclient.Synapse(configPath=args.synapse_config)
     syn.login()
-
-    docker_image = args.docker_repository + "@" + args.docker_digest
-
-    quit_sub = partial(quitting, submissionid=args.submissionid,
-                       docker_image=docker_image, parentid=args.parentid,
-                       syn=syn)
-    for sig in ('TERM', 'HUP', 'INT'):
-        signal.signal(getattr(signal, 'SIG'+sig), quit_sub)
 
     main(syn, args)
