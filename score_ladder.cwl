@@ -5,7 +5,7 @@
 # This version of score.cwl uses takes a previous submission file for use in
 # ladder-style scoring
 
-cwlVersion: v1.0
+cwlVersion: v1.1
 class: CommandLineTool
 baseCommand: python
 

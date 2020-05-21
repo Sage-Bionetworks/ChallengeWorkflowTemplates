@@ -3,7 +3,7 @@
 # Extracts the Synapse credentials and format into Docker config
 # Since the Synapse Docker registry has the same password as Synapse
 #
-cwlVersion: v1.0
+cwlVersion: v1.1
 class: CommandLineTool
 baseCommand: python3
 

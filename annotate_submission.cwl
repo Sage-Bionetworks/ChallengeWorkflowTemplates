@@ -3,7 +3,7 @@
 # Annotate an existing submission with a string value
 # (variations can be written to pass long or float values)
 #
-cwlVersion: v1.0
+cwlVersion: v1.1
 class: CommandLineTool
 baseCommand: challengeutils
 
@@ -13,6 +13,8 @@ hints:
 
 requirements:
   - class: InlineJavascriptRequirement
+  - class: NetworkAccess
+    networkAccess: true
 
 inputs:
   - id: submissionid

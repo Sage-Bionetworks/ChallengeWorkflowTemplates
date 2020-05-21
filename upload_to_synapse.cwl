@@ -4,7 +4,7 @@
 # param's include the parentId (project or folder) to which the file is to be uploaded
 # and the provenance information for the file
 #
-cwlVersion: v1.0
+cwlVersion: v1.1
 class: CommandLineTool
 baseCommand: python3
 
@@ -40,6 +40,8 @@ arguments:
     prefix: -c
 
 requirements:
+  - class: NetworkAccess:
+    networkAccess: true
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:

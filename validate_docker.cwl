@@ -2,7 +2,7 @@
 #
 # Validates Docker Submission
 #
-cwlVersion: v1.0
+cwlVersion: v1.1
 class: CommandLineTool
 baseCommand: python3
 
@@ -30,6 +30,8 @@ arguments:
     prefix: -r
 
 requirements:
+  - class: NetworkAccess
+    networkAccess: true
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
