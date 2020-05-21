@@ -8,7 +8,7 @@ baseCommand: challengeutils
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/challengeutils:v1.5.2
+    dockerPull: sagebionetworks/challengeutils:v2.1.0
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -60,6 +60,13 @@ outputs:
       glob: results.json
       loadContents: true
       outputEval: $(JSON.parse(self[0].contents)['entity_id'])
+
+  - id: evaluation_id
+    type: string
+    outputBinding:
+      glob: results.json
+      loadContents: true
+      outputEval: $(JSON.parse(self[0].contents)['evaluation_id'])
 
   - id: results
     type: File

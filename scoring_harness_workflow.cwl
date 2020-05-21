@@ -58,6 +58,7 @@ steps:
       - id: docker_digest
       - id: entity_id
       - id: entity_type
+      - id: evaluation_id
       - id: results
       
   download_goldstandard:
