@@ -6,7 +6,7 @@
 # When the challenge is run by a service account, only the service account
 # has access to the log folder.
 #
-cwlVersion: v1.0
+cwlVersion: v1.1
 class: CommandLineTool
 baseCommand: challengeutils
 

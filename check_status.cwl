@@ -2,7 +2,7 @@
 #
 # Throws invalid error which invalidates the workflow
 #
-cwlVersion: v1.0
+cwlVersion: v1.1
 class: ExpressionTool
 
 inputs:

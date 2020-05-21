@@ -8,7 +8,7 @@
 #   workflowSynapseId:  ID of the Synapse entity containing a reference to the workflow file(s)
 #   synapseConfig: ~/.synapseConfig file that has your Synapse credentials
 #
-cwlVersion: v1.0
+cwlVersion: v1.1
 class: Workflow
 
 requirements:
