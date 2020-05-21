@@ -101,7 +101,8 @@ requirements:
             invalid_reasons.append("Submission must be a Docker image, not Project/Folder/File. Please visit 'Docker Submission' for more information.")
         
           status = "INVALID" if invalid_reasons else "VALID"
-          result = {'docker_image_errors':"\n".join(invalid_reasons),'docker_image_status':status}
+          result = {'submission_errors':"\n".join(invalid_reasons),
+                    'submission_status':status}
           with open(args.results, 'w') as o:
             o.write(json.dumps(result))
 
@@ -117,11 +118,11 @@ outputs:
     outputBinding:
       glob: results.json
       loadContents: true
-      outputEval: $(JSON.parse(self[0].contents)['docker_image_status'])
+      outputEval: $(JSON.parse(self[0].contents)['submission_status'])
 
   - id: invalid_reasons
     type: string
     outputBinding:
       glob: results.json
       loadContents: true
-      outputEval: $(JSON.parse(self[0].contents)['docker_image_errors'])
+      outputEval: $(JSON.parse(self[0].contents)['submission_errors'])

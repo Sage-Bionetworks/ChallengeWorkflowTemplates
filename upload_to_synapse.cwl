@@ -61,9 +61,19 @@ requirements:
             args = parser.parse_args()
             syn = synapseclient.Synapse(configPath=args.synapse_config)
             syn.login()
-            file=synapseclient.File(path=args.infile, parent=args.parentid)
-            file = syn.store(file, used={'reference':{'targetId':args.used_entityid, 'targetVersionNumber':args.used_entity_version}}, executed=args.executed_entity)
-            results = {'prediction_fileid':file.id,'prediction_file_version':file.versionNumber}
+            file = synapseclient.File(path=args.infile, parent=args.parentid)
+            try:
+              file = syn.store(file,
+                               used={'reference': {'targetId': args.used_entityid,
+                                                   'targetVersionNumber':args.used_entity_version}},
+                               executed=args.executed_entity)
+              fileid = file.id
+              fileversion = file.versionNumber
+            except Exception:
+              fileid = ''
+              fileversion = 0
+            results = {'prediction_fileid': fileid,
+                       'prediction_file_version': fileversion}
             with open(args.results, 'w') as o:
               o.write(json.dumps(results))
      
