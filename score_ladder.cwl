@@ -52,7 +52,8 @@ requirements:
           args = parser.parse_args()
           score = 3
           prediction_file_status = "SCORED"
-          result = {'score':score,'prediction_file_status':prediction_file_status}
+          result = {'score':score,
+                    'submission_status': prediction_file_status}
           with open(args.results, 'w') as o:
             o.write(json.dumps(result))
      

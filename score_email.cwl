@@ -47,7 +47,7 @@ requirements:
           parser.add_argument("-s", "--submissionid", required=True, help="Submission ID")
           parser.add_argument("-c", "--synapse_config", required=True, help="credentials file")
           parser.add_argument("-r", "--results", required=True, help="Resulting scores")
-          parser.add_argument("-p", "--private_annotaions", nargs="+", default=[], help="annotations to not be sent via e-mail")
+          parser.add_argument("-p", "--private_annotations", nargs="+", default=[], help="annotations to not be sent via e-mail")
 
           args = parser.parse_args()
           syn = synapseclient.Synapse(configPath=args.synapse_config)
@@ -63,13 +63,13 @@ requirements:
           evaluation = syn.getEvaluation(sub.evaluationId)
           with open(args.results) as json_data:
             annots = json.load(json_data)
-          if annots.get('prediction_file_status') is None:
-            raise Exception("score.cwl must return prediction_file_status as a json key")
-          status = annots['prediction_file_status']
+          if annots.get('submission_status') is None:
+            raise Exception("score.cwl must return submission_status as a json key")
+          status = annots['submission_status']
           if status == "SCORED":
-              del annots['prediction_file_status']
+              del annots['submission_status']
               subject = "Submission to '%s' scored!" % evaluation.name
-              for annot in args.private_annotaions:
+              for annot in args.private_annotations:
                 del annots[annot]
               if len(annots) == 0:
                   message = "Your submission has been scored. Results will be announced at a later time."
