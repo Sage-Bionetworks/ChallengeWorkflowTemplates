@@ -12,6 +12,11 @@ s:author:
     s:email: thomas.yu@sagebionetworks.org
     s:name: Thomas Yu
 
+s:contributor:
+  - class: s:Person
+    s:email: verena.chung@sagebase.org
+    s:name: Verena Chung
+
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: python3

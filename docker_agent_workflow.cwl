@@ -8,7 +8,6 @@
 #   workflowSynapseId:  ID of the Synapse entity containing a reference to the workflow file(s)
 #   synapseConfig: ~/.synapseConfig file that has your Synapse credentials
 #
-
 $namespaces:
   s: https://schema.org/
 
@@ -17,6 +16,11 @@ s:author:
     s:identifier: https://orcid.org/0000-0002-5841-0198
     s:email: thomas.yu@sagebionetworks.org
     s:name: Thomas Yu
+
+s:contributor:
+  - class: s:Person
+    s:email: verena.chung@sagebase.org
+    s:name: Verena Chung
 
 cwlVersion: v1.0
 class: Workflow
