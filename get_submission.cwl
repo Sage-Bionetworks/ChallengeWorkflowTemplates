@@ -2,13 +2,23 @@
 #
 # Download a submitted file from Synapse and return the downloaded file
 #
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-5841-0198
+    s:email: thomas.yu@sagebionetworks.org
+    s:name: Thomas Yu
+
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: challengeutils
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/challengeutils:v2.1.0
+    dockerPull: sagebionetworks/challengeutils:v2.2.0
 
 requirements:
   - class: InlineJavascriptRequirement

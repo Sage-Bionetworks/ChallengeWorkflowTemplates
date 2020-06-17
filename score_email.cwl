@@ -2,13 +2,28 @@
 #
 # Sends score emails to participants
 #
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-5841-0198
+    s:email: thomas.yu@sagebionetworks.org
+    s:name: Thomas Yu
+
+s:contributor:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-5622-7998
+    s:email: verena.chung@sagebase.org
+    s:name: Verena Chung
+
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: python3
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/synapsepythonclient:v2.0.0
+    dockerPull: sagebionetworks/synapsepythonclient:v2.1.0
 
 inputs:
   - id: submissionid

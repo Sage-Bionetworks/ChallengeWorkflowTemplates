@@ -8,6 +8,16 @@
 #   workflowSynapseId:  ID of the Synapse entity containing a reference to the workflow file(s)
 #   synapseConfig: ~/.synapseConfig file that has your Synapse credentials
 #
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-0326-7494
+    s:email: andrew.lamb@sagebase.org
+    s:name: Andrew Lamb
+
 cwlVersion: v1.0
 class: Workflow
 

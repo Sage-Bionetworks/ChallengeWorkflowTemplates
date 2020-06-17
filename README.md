@@ -1,4 +1,11 @@
-# ChallengeWorkflowTemplates
+# Challenge Workflow CWL Tools
+
+## Authors
+* [Thomas Yu](https://github.com/thomasyu888)
+* [Verena Chung](https://github.com/vpchung)
+* [Andrew Lamb](https://github.com/andrewelamb)
+
+## Introduction
 
 These are the collection of challenge CWL workflows and tools that can be linked with the [Synapse Workflow Orchestrator](https://github.com/Sage-Bionetworks/SynapseWorkflowOrchestrator).  These are three different challenge workflows:
 
