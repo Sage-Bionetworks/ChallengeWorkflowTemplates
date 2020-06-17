@@ -2,6 +2,7 @@
 #
 # Example score submission file
 #
+
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: python
