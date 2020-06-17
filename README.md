@@ -1,4 +1,4 @@
-# ChallengeWorkflowTemplates
+# Challenge Workflow CWL Tools
 
 ## Authors
 * [Thomas Yu](https://github.com/thomasyu888)
