@@ -20,6 +20,7 @@ s:author:
 
 s:contributor:
   - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-5622-7998
     s:email: verena.chung@sagebase.org
     s:name: Verena Chung
 
