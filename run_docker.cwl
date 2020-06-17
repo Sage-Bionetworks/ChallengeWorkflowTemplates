@@ -2,6 +2,22 @@
 #
 # Runs Docker Submission
 #
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-5841-0198
+    s:email: thomas.yu@sagebionetworks.org
+    s:name: Thomas Yu
+
+s:contributor:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-5622-7998
+    s:email: verena.chung@sagebase.org
+    s:name: Verena Chung
+
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: python3

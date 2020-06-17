@@ -3,13 +3,23 @@
 # Extracts the Synapse credentials and format into Docker config
 # Since the Synapse Docker registry has the same password as Synapse
 #
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-5841-0198
+    s:email: thomas.yu@sagebionetworks.org
+    s:name: Thomas Yu
+
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: python3
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/synapsepythonclient:v2.0.0
+    dockerPull: sagebionetworks/synapsepythonclient:v2.1.0
 
 inputs:
   - id: synapse_config

@@ -3,6 +3,16 @@
 # Annotate an existing submission with a string value
 # (variations can be written to pass long or float values)
 #
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-5841-0198
+    s:email: thomas.yu@sagebionetworks.org
+    s:name: Thomas Yu
+
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: challengeutils
