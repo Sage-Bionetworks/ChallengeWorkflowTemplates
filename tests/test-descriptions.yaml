@@ -1,0 +1,13 @@
+- job: check_status_fail.yaml
+  tool: ../check_status.cwl
+  label: check_status
+  id: 0
+  should_fail: true
+  doc: Check submission status fail
+- job: check_status.yaml
+  output:
+    finished: true
+  tool: ../check_status.cwl
+  label: check_status
+  id: 0
+  doc: Check submission status
