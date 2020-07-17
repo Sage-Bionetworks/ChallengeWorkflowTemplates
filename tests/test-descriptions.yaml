@@ -11,3 +11,10 @@
   label: check_status
   id: 0
   doc: Check submission status
+- job: annotate_submission/annotate_submission.yaml
+  output:
+    finished: true
+  tool: ../annotate_submission.cwl
+  label: annotate_submission
+  id: 0
+  doc: Annotation submission

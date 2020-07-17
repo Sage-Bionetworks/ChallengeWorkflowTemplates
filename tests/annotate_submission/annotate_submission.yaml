@@ -1,0 +1,9 @@
+submissionid: 9705973
+annotation_values:
+  class: File
+  path: 'annotations.json'
+to_public: true
+synapse_config:
+  class: File
+  path: '/tmp/.synapseConfig'
+previous_annotation_finished: true
