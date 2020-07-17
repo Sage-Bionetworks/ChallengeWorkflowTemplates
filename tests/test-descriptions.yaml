@@ -53,3 +53,17 @@
   label: set_permissions
   id: 0
   doc: Set entity permissions
+- job: validate.yaml
+  output:
+    results: {
+      "class": "File",
+      "location": "results.json",
+      "checksum": "sha1$6f26039c1639382f0703f1e64fdf52cb682ab523",
+      "size": 89
+    }
+    status: "INVALID"
+    invalid_reasons: "Submission must have test column"
+  tool: ../validate.cwl
+  label: validate
+  id: 0
+  doc: Validation example
