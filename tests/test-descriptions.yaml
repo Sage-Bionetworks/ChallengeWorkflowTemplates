@@ -41,3 +41,9 @@
   label: get_submission
   id: 0
   doc: Get Submission
+- job: submit_to_challenge.yaml
+  output: {}
+  tool: ../submit_to_challenge.cwl
+  label: submit_to_challenge
+  id: 0
+  doc: Submit to challenge
