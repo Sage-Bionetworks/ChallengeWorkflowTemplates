@@ -18,3 +18,26 @@
   label: annotate_submission
   id: 0
   doc: Annotation submission
+- job: get_submission.yaml
+  output:
+    results: {
+      "class": "File",
+      "location": "results.json",
+      "checksum": "sha1$44db4f3b5197da0325207d23d0d2ea2f96f81118",
+      "size": 223
+    }
+    docker_repository: null
+    docker_digest: null
+    entity_type: "org.sagebionetworks.repo.model.FileEntity"
+    entity_id: "syn22254267"
+    evaluation_id: "9614581"
+    filepath: {
+      "class": "File",
+      "location": "submission-9705973",
+      "checksum": "sha1$393c6031d204f759a245471cdc547c29b42f0cb2",
+      "size": 9
+    }
+  tool: ../get_submission.cwl
+  label: get_submission
+  id: 0
+  doc: Get Submission

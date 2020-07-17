@@ -1,0 +1,4 @@
+synapse_config:
+  class: File
+  path: '/tmp/.synapseConfig'
+submissionid: 9705973
