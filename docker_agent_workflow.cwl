@@ -181,21 +181,30 @@ steps:
       - id: predictions
 
   upload_results:
-    run: upload_to_synapse.cwl
+    run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v0.2/cwl/synapse-store-tool.cwl
     in:
-      - id: infile
+      - id: file_to_store
         source: "#run_docker/predictions"
       - id: parentid
         source: "#adminUploadSynId"
-      - id: used_entity
-        source: "#get_docker_submission/entity_id"
-      - id: executed_entity
-        source: "#workflowSynapseId"
+      # - id: used_entity
+      #   source: "#get_docker_submission/entity_id"
+      # - id: executed_entity
+      #   source: "#workflowSynapseId"
       - id: synapse_config
         source: "#synapseConfig"
     out:
-      - id: uploaded_fileid
-      - id: uploaded_file_version
+      - id: stdout
+      - id: file_id
+
+  write_upload_results:
+    run: write_json.cwl
+    in:
+      - id: key
+        valueFrom: "prediction_fileid"
+      - id: value
+        source: "#upload_results/file_id"
+    out:
       - id: results
 
   annotate_docker_upload_results:
@@ -204,7 +213,7 @@ steps:
       - id: submissionid
         source: "#submissionId"
       - id: annotation_values
-        source: "#upload_results/results"
+        source: "#write_upload_results/results"
       - id: to_public
         default: true
       - id: force
