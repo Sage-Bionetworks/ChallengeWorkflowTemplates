@@ -47,3 +47,9 @@
   label: submit_to_challenge
   id: 0
   doc: Submit to challenge
+- job: set_permissions.yaml
+  output: {}
+  tool: ../set_permissions.cwl
+  label: set_permissions
+  id: 0
+  doc: Set entity permissions
