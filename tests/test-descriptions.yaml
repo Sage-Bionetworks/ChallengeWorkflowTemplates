@@ -105,3 +105,18 @@
   label: get_docker_config
   id: 0
   doc: Get docker configuration
+- job: validate_docker.yaml
+  output:
+    status: VALID
+    invalid_reasons: ''
+    docker_authentication: Any
+    results: {
+      "class": "File",
+      "location": "results.json",
+      "checksum": "sha1$1094f61b9b62a705b5a85cd3ea220cf84a0da75b",
+      "size": 55
+    }
+  tool: ../validate_docker.cwl
+  label: validate_docker
+  id: 0
+  doc: Validate Docker Repository
