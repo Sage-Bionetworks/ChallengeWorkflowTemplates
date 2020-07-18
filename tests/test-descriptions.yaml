@@ -75,8 +75,7 @@
   id: 0
   doc: Validation email
 - job: score_email/score_email.yaml
-  output:
-    finished: true
+  output: {}
   tool: ../score_email.cwl
   label: score_email
   id: 0
