@@ -25,13 +25,13 @@ inputs:
   - id: goldstandard
     type: File?
     inputBinding:
-      prefix: -s
+      prefix: -g
 
   - id: output
     type: string?
     default: results.json
     inputBinding:
-      prefix: -s
+      prefix: -r
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -71,7 +71,7 @@ outputs:
   - id: results
     type: File
     outputBinding:
-      glob: results.json   
+      glob: $(inputs.output)
 
   - id: status
     type: string
