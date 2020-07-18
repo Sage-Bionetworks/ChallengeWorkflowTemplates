@@ -1,0 +1,7 @@
+submissionid: 9705973
+synapse_config:
+  class: File
+  path: '/tmp/.synapseConfig'
+status: "INVALID"
+invalid_reasons: "foobar"
+errors_only: true
