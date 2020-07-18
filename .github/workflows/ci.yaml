@@ -32,8 +32,8 @@ jobs:
           OUTPUT_FILE=/tmp/.synapseConfig
           cat > "$OUTPUT_FILE" << EOM
           [authentication]
-          username = "${{secrets.SYNAPSE_USERNAME }}"
-          password = "${{secrets.SYNAPSE_PASSWORD }}"
+          username: ${{secrets.SYNAPSE_USERNAME }}
+          password: ${{secrets.SYNAPSE_PASSWORD }}
           EOM
           chmod +x "$OUTPUT_FILE"
       - name: Test CWL

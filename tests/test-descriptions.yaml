@@ -92,3 +92,16 @@
   label: upload_to_synapse
   id: 0
   doc: Upload to Synapse
+- job: get_docker_config.yaml
+  output:
+    docker_registry: https://docker.synapse.org
+    docker_authentication: Any
+    results: {
+      "class": "File",
+      "location": "results.json",
+      "size": 110
+    }
+  tool: ../get_docker_config.cwl
+  label: get_docker_config
+  id: 0
+  doc: Get docker configuration
