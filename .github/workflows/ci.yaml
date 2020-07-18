@@ -33,7 +33,7 @@ jobs:
           cat > "$OUTPUT_FILE" << EOM
           [authentication]
           username = "${{secrets.SYNAPSE_USERNAME }}"
-          apikey = "${{secrets.SYNAPSE_API_KEY }}"
+          password = "${{secrets.SYNAPSE_PASSWORD }}"
           EOM
           chmod +x "$OUTPUT_FILE"
       - name: Test CWL
