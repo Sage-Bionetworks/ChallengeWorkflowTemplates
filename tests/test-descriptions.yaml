@@ -80,3 +80,15 @@
   label: score_email
   id: 0
   doc: Scoring email
+- job: upload_to_synapse.yaml
+  output:
+    uploaded_fileid: syn22256514
+    uploaded_file_version: Any
+    results: {
+      "class": "File",
+      "location": "results.json",
+    }
+  tool: ../upload_to_synapse.cwl
+  label: upload_to_synapse
+  id: 0
+  doc: Upload to Synapse
