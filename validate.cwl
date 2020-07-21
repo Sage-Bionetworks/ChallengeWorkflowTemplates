@@ -4,7 +4,7 @@
 #
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: python
+baseCommand: [python, validate.py]
 
 hints:
   DockerRequirement:
@@ -14,17 +14,24 @@ inputs:
 
   - id: entity_type
     type: string
+    inputBinding:
+      prefix: -e
+
   - id: inputfile
     type: File?
+    inputBinding:
+      prefix: -s
 
-arguments:
-  - valueFrom: validate.py
-  - valueFrom: $(inputs.inputfile)
-    prefix: -s
-  - valueFrom: results.json
-    prefix: -r
-  - valueFrom: $(inputs.entity_type)
-    prefix: -e
+  - id: goldstandard
+    type: File?
+    inputBinding:
+      prefix: -g
+
+  - id: output
+    type: string?
+    default: results.json
+    inputBinding:
+      prefix: -r
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -39,6 +46,7 @@ requirements:
           parser.add_argument("-r", "--results", required=True, help="validation results")
           parser.add_argument("-e", "--entity_type", required=True, help="synapse entity type downloaded")
           parser.add_argument("-s", "--submission_file", help="Submission File")
+          parser.add_argument("-g", "--goldstandard", help="Goldstandard for scoring")
 
           args = parser.parse_args()
           
@@ -63,7 +71,7 @@ outputs:
   - id: results
     type: File
     outputBinding:
-      glob: results.json   
+      glob: $(inputs.output)
 
   - id: status
     type: string
