@@ -7,10 +7,10 @@
 
 ## Introduction
 
-These are the collection of challenge CWL workflows and tools that can be linked with the [Synapse Workflow Orchestrator](https://github.com/Sage-Bionetworks/SynapseWorkflowOrchestrator).  These are three different challenge workflows:
+These are the collection of challenge CWL tools are used in challenge infrastructure workflows that can be linked with the [Synapse Workflow Orchestrator](https://github.com/Sage-Bionetworks/SynapseWorkflowOrchestrator).  These are three different challenge workflows:
 
-1. **Data to Model**: Participants submit prediction files and these files are validated and scored.
-1. **Model to Data**: Participants submit a docker container with their model, which then runs against internal data and a prediction file is generate.  This prediction file is then validated and scored.
+1. **Data to Model**: Participants submit prediction files and these files are validated and scored.  Please see [data-to-model-challenge-workflow](https://github.com/Sage-Bionetworks-Challenges/data-to-model-challenge-workflow) to see how to use the CWL tool in the `cwl` folder.
+1. **Model to Data**: Participants submit a docker container with their model, which then runs against internal data and a prediction file is generate.  This prediction file is then validated and scored. Please see [model-to-data-challenge-workflow](https://github.com/Sage-Bionetworks-Challenges/model-to-data-challenge-workflow) to see how to use the CWL tool in the `cwl` folder.
 1. **Ladder Classic**: Participants submit prediction files but these files are compared against leading submissions.
 
 This readme will guide you to learn how to use these challenge templates.  Here are some example challenges that currently use these templates: 
@@ -22,39 +22,22 @@ This readme will guide you to learn how to use these challenge templates.  Here 
 * [Metadata Automation DREAM Challenge](https://github.com/Sage-Bionetworks/metadata-automation-challenge/tree/master/workflow)
 * [EHR DREAM Challenge](https://github.com/Sage-Bionetworks/EHR-challenge)
 
-You will notice that these examples linked above do not contain all the tools you see in this repository, but instead the `run` steps link out to specific tagged versions of these tools.  This specific step below is using `v2.1` of the `get_submission.cwl` tool.
+You will notice that these examples linked above do not contain all the tools you see in this repository, but instead the `run` steps link out to specific tagged versions of these tools.  This specific step below is using `v3.0` of the `get_submission.cwl` tool.
 
 ```
 download_submission:
-  run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v2.1/get_submission.cwl
+  run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v3.0/cwl/get_submission.cwl
 ...
 ```
 
-## Data to Model
 
-* Workflow: `scoring_harness_workflow.cwl`
-* Recommended tools to edit: `validate.cwl`, `score.cwl`
+## CWL Tools
 
-### Validation: validate.cwl
 
-This tool can be changed to validate whatever format participants submit their predictions.  It must write results to a JSON file that has keys `submission_status` and `submission_errors`.
-
-* `submission_status`: status of the prediction file - `VALIDATED`, `INVALID`
-* `submission_errors`: `\n` joined set of strings that define whatever is wrong with the prediction file (empty string is nothing wrong)
-
-### Scoring: score.cwl
-
-This tool scores the prediction file against a truth file. It must write results to a JSON file that has keys `submission_status` and user defined score keys.
-
-* `submission_status`: status of the prediction file - `SCORED`
-* user defined keys: This is an annotation that you want to add to the submission, so it should describe what the score is such as `auc`, `aupr`, `f1`, and etc.
-
-### Workflow Steps: scoring_harness_workflow.cwl
-
-#### Annotation
+### Annotation
 ```
 annotate_submission:
-  run: https://github.com/Sage-Bionetworks/ChallengeWorkflowTemplates/tree/v2.1/annotate_submission.cwl
+  run: https://github.com/Sage-Bionetworks/ChallengeWorkflowTemplates/tree/v3.0/cwl/annotate_submission.cwl
   in:
     - id: submissionid
       source: "#submissionId"
@@ -70,33 +53,11 @@ annotate_submission:
 ```
 The values `to_public` and `force` can be `true` or `false`.  `to_public` controls the ACL of each annotation key passed in during the annotation step, while `force` allows for the same annotation key to change ACLs.  For instance, if the original annotations had annotation `A` that was private, and annotation `A` was passed in again as a public annotation, this would fail the pipeline.  However, passing in `force` as `true` would allow for this change.
 
-#### Download Synapse File
-
-You can pass in a synapse id here to download the file you need for the workflow.  An example would be downloading the truth file required for challenges.
-```
-  download_goldstandard:
-    run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
-    in:
-      - id: synapseid
-        #This is a dummy syn id, replace when you use your own workflow
-        valueFrom: "syn1234"
-      - id: synapse_config
-        source: "#synapseConfig"
-    out:
-      - id: filepath
-```
-
-#### Messages
+### Messages
 
 `{notificiation,validate,score}_email.cwl` are general templates for submission emails.  You may edit the body of the email to change the subject title and message sent.
 
 If you would not like to email participants, simply comment these steps out.  These workflow steps are required for challenges because participants should only be receiving pertinent information back from the scoring harness.  If the scoring code breaks, it is the responsibility of the administrator to receive notifications and fix the code.
-
-
-## Model to Data
-
-* Workflow: docker_agent_workflow.cwl
-* Recommended tools to edit: `run_docker.cwl/run_docker.py`, `validate.cwl`, `score.cwl`
 
 ### Running Docker Submission: run_docker.cwl/run_docker.py
 
@@ -133,7 +94,6 @@ container = client.containers.run(docker_image,
 
 The default output is `predictions.csv`, but this could easily be multiple outputs.  Just make sure you link up the rest of the workflow correctly.
 
-### Workflow Steps: docker_agent_workflow.cwl
 
 #### Run docker
 
@@ -144,14 +104,5 @@ This can be any path onto your local file system as a directory or particular fi
   # Replace this with correct datapath
   valueFrom: "/home/thomasyu/input"
 ```
-
-#### Other Configuration
-
-* See [download synapse file](#download-synapse-file) in `Classic` section above
-* See [annotations](#annotations) in `Classic` section above
-* See [validation](#validation-validatecwl) in `Classic` section above
-* See [scoring](#scoring-scorecwl) in `Classic` section above
-* See [messages](#messages) in `Classic` section above
-
 
 
