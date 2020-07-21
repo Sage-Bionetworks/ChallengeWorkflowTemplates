@@ -43,7 +43,7 @@ outputs: []
 steps:
 
   set_permissions:
-    run: set_permissions.cwl
+    run: cwl/set_permissions.cwl
     in:
       - id: entityid
         source: "#submitterUploadSynId"
@@ -57,7 +57,7 @@ steps:
     out: []
 
   download_current_submission:
-    run: get_submission.cwl
+    run: cwl/get_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -84,7 +84,7 @@ steps:
       - id: filepath
 
   validation:
-    run: validate.cwl
+    run: cwl/validate.cwl
     in:
       - id: inputfile
         source: "#download_current_submission/filepath"
@@ -98,7 +98,7 @@ steps:
       - id: invalid_reasons
 
   validation_email:
-    run: validate_email.cwl
+    run: cwl/validate_email.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -112,7 +112,7 @@ steps:
     out: []
 
   annotate_validation_with_output:
-    run: annotate_submission.cwl
+    run: cwl/annotate_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -127,7 +127,7 @@ steps:
     out: [finished]
     
   download_previous_submission:
-    run: download_current_lead_submission.cwl
+    run: cwl/download_current_lead_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -139,7 +139,7 @@ steps:
       - id: output
 
   scoring:
-    run: score_ladder.cwl
+    run: cwl/score_ladder.cwl
     in:
       - id: inputfile
         source: "#download_current_submission/filepath"
@@ -153,7 +153,7 @@ steps:
       - id: results
       
   score_email:
-    run: score_email.cwl
+    run: cwl/score_email.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -164,7 +164,7 @@ steps:
     out: []
 
   annotate_submission_with_output:
-    run: annotate_submission.cwl
+    run: cwl/annotate_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"

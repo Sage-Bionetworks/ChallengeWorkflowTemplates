@@ -47,7 +47,7 @@ outputs: []
 steps:
 
   set_permissions:
-    run: set_permissions.cwl
+    run: cwl/set_permissions.cwl
     in:
       - id: entityid
         source: "#submitterUploadSynId"
@@ -61,7 +61,7 @@ steps:
     out: []
 
   get_docker_submission:
-    run: get_submission.cwl
+    run: cwl/get_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -77,7 +77,7 @@ steps:
       - id: results
 
   get_docker_config:
-    run: get_docker_config.cwl
+    run: cwl/get_docker_config.cwl
     in:
       - id: synapse_config
         source: "#synapseConfig"
@@ -97,7 +97,7 @@ steps:
       - id: filepath
 
   validate_docker:
-    run: validate_docker.cwl
+    run: cwl/validate_docker.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -109,7 +109,7 @@ steps:
       - id: invalid_reasons
 
   docker_validation_email:
-    run: validate_email.cwl
+    run: cwl/validate_email.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -124,7 +124,7 @@ steps:
     out: [finished]
   
   annotate_docker_validation_with_output:
-    run: annotate_submission.cwl
+    run: cwl/annotate_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -139,7 +139,7 @@ steps:
     out: [finished]
 
   check_docker_status:
-    run: check_status.cwl
+    run: cwl/check_status.cwl
     in:
       - id: status
         source: "#validate_docker/status"
@@ -150,7 +150,7 @@ steps:
     out: [finished]
 
   run_docker:
-    run: run_docker.cwl
+    run: cwl/run_docker.cwl
     in:
       - id: docker_repository
         source: "#get_docker_submission/docker_repository"
@@ -179,7 +179,7 @@ steps:
       - id: predictions
 
   upload_results:
-    run: upload_to_synapse.cwl
+    run: cwl/upload_to_synapse.cwl
     in:
       - id: infile
         source: "#run_docker/predictions"
@@ -197,7 +197,7 @@ steps:
       - id: results
 
   annotate_docker_upload_results:
-    run: annotate_submission.cwl
+    run: cwl/annotate_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -214,7 +214,7 @@ steps:
     out: [finished]
 
   validation:
-    run: validate.cwl
+    run: cwl/validate.cwl
     in:
       - id: inputfile
         source: "#run_docker/predictions"
@@ -228,7 +228,7 @@ steps:
       - id: invalid_reasons
   
   validation_email:
-    run: validate_email.cwl
+    run: cwl/validate_email.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -243,7 +243,7 @@ steps:
     out: [finished]
 
   annotate_validation_with_output:
-    run: annotate_submission.cwl
+    run: cwl/annotate_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -260,7 +260,7 @@ steps:
     out: [finished]
 
   check_status:
-    run: check_status.cwl
+    run: cwl/check_status.cwl
     in:
       - id: status
         source: "#validation/status"
@@ -271,7 +271,7 @@ steps:
     out: [finished]
 
   scoring:
-    run: score.cwl
+    run: cwl/score.cwl
     in:
       - id: inputfile
         source: "#run_docker/predictions"
@@ -283,7 +283,7 @@ steps:
       - id: results
       
   score_email:
-    run: score_email.cwl
+    run: cwl/score_email.cwl
     in:
       - id: submissionid
         source: "#submissionId"
@@ -294,7 +294,7 @@ steps:
     out: []
 
   annotate_submission_with_output:
-    run: annotate_submission.cwl
+    run: cwl/annotate_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
