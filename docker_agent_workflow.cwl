@@ -99,10 +99,8 @@ steps:
   validate_docker:
     run: validate_docker.cwl
     in:
-      - id: docker_repository
-        source: "#get_docker_submission/docker_repository"
-      - id: docker_digest
-        source: "#get_docker_submission/docker_digest"
+      - id: submissionid
+        source: "#submissionId"
       - id: synapse_config
         source: "#synapseConfig"
     out:
