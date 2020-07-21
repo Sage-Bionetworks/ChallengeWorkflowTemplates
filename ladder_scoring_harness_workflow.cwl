@@ -84,7 +84,7 @@ steps:
       - id: filepath
 
   validation:
-    run: validate_with_goldstandard.cwl
+    run: validate.cwl
     in:
       - id: inputfile
         source: "#download_current_submission/filepath"
