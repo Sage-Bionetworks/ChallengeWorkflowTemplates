@@ -121,7 +121,7 @@
   doc: Validate Docker Repository
 - job: scoring_harness_workflow.yaml
   output: {}
-  tool: ../cwl/scoring_harness_workflow.cwl
+  tool: ../scoring_harness_workflow.cwl
   label: scoring_harness_workflow
   id: 0
   doc: Scoring Harness Workflow testing
