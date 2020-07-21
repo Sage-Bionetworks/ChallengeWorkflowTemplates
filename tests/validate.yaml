@@ -1,0 +1,4 @@
+entity_type: File
+inputfile:
+  class: File
+  path: 'validate.yaml'

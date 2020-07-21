@@ -1,0 +1,7 @@
+submissionId: 9706018
+adminUploadSynId: "syn22256513"
+submitterUploadSynId: "syn22256513"
+workflowSynapseId: "syn22256513"
+synapseConfig:
+  class: File
+  path: /tmp/.synapseConfig

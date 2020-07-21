@@ -1,0 +1,127 @@
+- job: check_status_fail.yaml
+  tool: ../check_status.cwl
+  label: check_status
+  id: 0
+  should_fail: true
+  doc: Check submission status fail
+- job: check_status.yaml
+  output:
+    finished: true
+  tool: ../check_status.cwl
+  label: check_status
+  id: 0
+  doc: Check submission status
+- job: annotate_submission/annotate_submission.yaml
+  output:
+    finished: true
+  tool: ../annotate_submission.cwl
+  label: annotate_submission
+  id: 0
+  doc: Annotation submission
+- job: get_submission.yaml
+  output:
+    results: {
+      "class": "File",
+      "location": "results.json",
+      "checksum": "sha1$44db4f3b5197da0325207d23d0d2ea2f96f81118",
+      "size": 223
+    }
+    docker_repository: null
+    docker_digest: null
+    entity_type: "org.sagebionetworks.repo.model.FileEntity"
+    entity_id: "syn22254267"
+    evaluation_id: "9614581"
+    filepath: {
+      "class": "File",
+      "location": "submission-9705973",
+      "checksum": "sha1$393c6031d204f759a245471cdc547c29b42f0cb2",
+      "size": 9
+    }
+  tool: ../get_submission.cwl
+  label: get_submission
+  id: 0
+  doc: Get Submission
+- job: submit_to_challenge.yaml
+  output: {}
+  tool: ../submit_to_challenge.cwl
+  label: submit_to_challenge
+  id: 0
+  doc: Submit to challenge
+- job: set_permissions.yaml
+  output: {}
+  tool: ../set_permissions.cwl
+  label: set_permissions
+  id: 0
+  doc: Set entity permissions
+- job: validate.yaml
+  output:
+    results: {
+      "class": "File",
+      "location": "results.json",
+      "checksum": "sha1$6f26039c1639382f0703f1e64fdf52cb682ab523",
+      "size": 89
+    }
+    status: "INVALID"
+    invalid_reasons: "Submission must have test column"
+  tool: ../validate.cwl
+  label: validate
+  id: 0
+  doc: Validation example
+- job: validate_email.yaml
+  output:
+    finished: true
+  tool: ../validate_email.cwl
+  label: validate_email
+  id: 0
+  doc: Validation email
+- job: score_email/score_email.yaml
+  output: {}
+  tool: ../score_email.cwl
+  label: score_email
+  id: 0
+  doc: Scoring email
+- job: upload_to_synapse.yaml
+  output:
+    uploaded_fileid: syn22256514
+    uploaded_file_version: Any
+    results: {
+      "class": "File",
+      "location": "results.json",
+    }
+  tool: ../upload_to_synapse.cwl
+  label: upload_to_synapse
+  id: 0
+  doc: Upload to Synapse
+- job: get_docker_config.yaml
+  output:
+    docker_registry: https://docker.synapse.org
+    docker_authentication: Any
+    results: {
+      "class": "File",
+      "location": "results.json",
+      "size": 110
+    }
+  tool: ../get_docker_config.cwl
+  label: get_docker_config
+  id: 0
+  doc: Get docker configuration
+- job: validate_docker.yaml
+  output:
+    status: VALIDATED
+    invalid_reasons: ''
+    results: {
+      "class": "File",
+      "location": "results.json",
+      "checksum": "sha1$160fc7c1cf521d4ea8b3ba509d3cbc8e9e8f727e",
+      "size": 59
+    }
+  tool: ../validate_docker.cwl
+  label: validate_docker
+  id: 0
+  doc: Validate Docker Repository
+- job: scoring_harness_workflow.yaml
+  output: {}
+  tool: ../scoring_harness_workflow.cwl
+  label: scoring_harness_workflow
+  id: 0
+  doc: Scoring Harness Workflow testing

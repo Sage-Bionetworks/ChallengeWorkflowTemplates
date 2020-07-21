@@ -1,0 +1,6 @@
+entityid: "syn22254267"
+principalid: "3410577"
+permissions: "admin"
+synapse_config:
+  class: File
+  path: '/tmp/.synapseConfig'

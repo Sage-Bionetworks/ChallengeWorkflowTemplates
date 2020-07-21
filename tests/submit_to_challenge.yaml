@@ -1,0 +1,6 @@
+submission_file: "syn22254267"
+submissionid: 3333
+synapse_config:
+  class: File
+  path: '/tmp/.synapseConfig'
+evaluationid: "9614581"

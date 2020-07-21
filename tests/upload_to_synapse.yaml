@@ -1,0 +1,9 @@
+infile:
+  class: File
+  path: 'upload_to_synapse.yaml'
+synapse_config:
+  class: File
+  path: '/tmp/.synapseConfig'
+used_entity: "syn22256513"
+executed_entity: "syn22256513"
+parentid: "syn22256513"
