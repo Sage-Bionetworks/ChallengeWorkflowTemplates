@@ -1,5 +1,5 @@
 - job: check_status_fail.yaml
-  tool: ../check_status.cwl
+  tool: ../cwl/check_status.cwl
   label: check_status
   id: 0
   should_fail: true
@@ -7,14 +7,14 @@
 - job: check_status.yaml
   output:
     finished: true
-  tool: ../check_status.cwl
+  tool: ../cwl/check_status.cwl
   label: check_status
   id: 0
   doc: Check submission status
 - job: annotate_submission/annotate_submission.yaml
   output:
     finished: true
-  tool: ../annotate_submission.cwl
+  tool: ../cwl/annotate_submission.cwl
   label: annotate_submission
   id: 0
   doc: Annotation submission
@@ -37,19 +37,19 @@
       "checksum": "sha1$393c6031d204f759a245471cdc547c29b42f0cb2",
       "size": 9
     }
-  tool: ../get_submission.cwl
+  tool: ../cwl/get_submission.cwl
   label: get_submission
   id: 0
   doc: Get Submission
 - job: submit_to_challenge.yaml
   output: {}
-  tool: ../submit_to_challenge.cwl
+  tool: ../cwl/submit_to_challenge.cwl
   label: submit_to_challenge
   id: 0
   doc: Submit to challenge
 - job: set_permissions.yaml
   output: {}
-  tool: ../set_permissions.cwl
+  tool: ../cwl/set_permissions.cwl
   label: set_permissions
   id: 0
   doc: Set entity permissions
@@ -63,20 +63,20 @@
     }
     status: "INVALID"
     invalid_reasons: "Submission must have test column"
-  tool: ../validate.cwl
+  tool: ../cwl/validate.cwl
   label: validate
   id: 0
   doc: Validation example
 - job: validate_email.yaml
   output:
     finished: true
-  tool: ../validate_email.cwl
+  tool: ../cwl/validate_email.cwl
   label: validate_email
   id: 0
   doc: Validation email
 - job: score_email/score_email.yaml
   output: {}
-  tool: ../score_email.cwl
+  tool: ../cwl/score_email.cwl
   label: score_email
   id: 0
   doc: Scoring email
@@ -88,7 +88,7 @@
       "class": "File",
       "location": "results.json",
     }
-  tool: ../upload_to_synapse.cwl
+  tool: ../cwl/upload_to_synapse.cwl
   label: upload_to_synapse
   id: 0
   doc: Upload to Synapse
@@ -101,7 +101,7 @@
       "location": "results.json",
       "size": 110
     }
-  tool: ../get_docker_config.cwl
+  tool: ../cwl/get_docker_config.cwl
   label: get_docker_config
   id: 0
   doc: Get docker configuration
@@ -115,13 +115,13 @@
       "checksum": "sha1$160fc7c1cf521d4ea8b3ba509d3cbc8e9e8f727e",
       "size": 59
     }
-  tool: ../validate_docker.cwl
+  tool: ../cwl/validate_docker.cwl
   label: validate_docker
   id: 0
   doc: Validate Docker Repository
 - job: scoring_harness_workflow.yaml
   output: {}
-  tool: ../scoring_harness_workflow.cwl
+  tool: ../cwl/scoring_harness_workflow.cwl
   label: scoring_harness_workflow
   id: 0
   doc: Scoring Harness Workflow testing
