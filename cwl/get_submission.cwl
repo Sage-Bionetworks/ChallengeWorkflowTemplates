@@ -32,7 +32,7 @@ inputs:
 arguments:
   - valueFrom: $(inputs.synapse_config.path)
     prefix: -c
-  - valueFrom: downloadsubmission
+  - valueFrom: download-submission
   - valueFrom: $(inputs.submissionid)
   - valueFrom: results.json
     prefix: --output
