@@ -19,7 +19,7 @@ baseCommand: python3
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/synapsepythonclient:v2.1.0
+    dockerPull: sagebionetworks/synapsepythonclient:v2.1.1
 
 inputs:
   - id: synapse_config

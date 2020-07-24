@@ -21,7 +21,7 @@ baseCommand: challengeutils
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/challengeutils:v2.2.0
+    dockerPull: sagebionetworks/challengeutils:v3.0
 
 inputs:
   - id: entityid
@@ -36,7 +36,7 @@ inputs:
 arguments:
   - valueFrom: $(inputs.synapse_config.path)
     prefix: -c
-  - valueFrom: setentityacl
+  - valueFrom: set-entity-acl
   - valueFrom: $(inputs.entityid)
   - valueFrom: $(inputs.principalid)
   - valueFrom: $(inputs.permissions)

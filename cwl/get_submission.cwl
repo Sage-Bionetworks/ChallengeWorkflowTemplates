@@ -18,7 +18,7 @@ baseCommand: challengeutils
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/challengeutils:v2.2.0
+    dockerPull: sagebionetworks/challengeutils:v3.0
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -32,7 +32,7 @@ inputs:
 arguments:
   - valueFrom: $(inputs.synapse_config.path)
     prefix: -c
-  - valueFrom: downloadsubmission
+  - valueFrom: download-submission
   - valueFrom: $(inputs.submissionid)
   - valueFrom: results.json
     prefix: --output
