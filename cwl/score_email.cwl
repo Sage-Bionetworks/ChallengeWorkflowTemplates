@@ -23,7 +23,7 @@ baseCommand: python3
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/synapsepythonclient:v2.1.1
+    dockerPull: sagebionetworks/synapsepythonclient:v2.2.2
 
 inputs:
   - id: submissionid
@@ -90,7 +90,7 @@ requirements:
                   message = "Your submission has been scored. Results will be announced at a later time."
               else:
                   message = ["Hello %s,\n\n" % name,
-                             "Your submission (%s) is scored, below are your results:\n\n" % sub.name,
+                             "Your submission (%s) is scored, below are your results:\n\n" % sub.id,
                              "\n".join([i + " : " + str(annots[i]) for i in annots]),
                              "\n\nSincerely,\nChallenge Administrator"]
               syn.sendMessage(
