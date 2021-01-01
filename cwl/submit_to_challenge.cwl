@@ -18,7 +18,7 @@ baseCommand: synapse
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/synapsepythonclient:v2.1.1
+    dockerPull: sagebionetworks/synapsepythonclient:v2.2.2
 
 inputs:
   - id: submission_file
