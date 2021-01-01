@@ -92,7 +92,7 @@ requirements:
           elif not args.errors_only:
             subject = "Submission to '%s' accepted!" % evaluation.name
             message = ["Hello %s,\n\n" % name,
-                       "Your submission (%s) is valid!\n\n" % sub.id,
+                       "Your submission (id: %s) is valid!\n\n" % sub.id,
                        "\nSincerely,\nChallenge Administrator"]
           if message:
             syn.sendMessage(
