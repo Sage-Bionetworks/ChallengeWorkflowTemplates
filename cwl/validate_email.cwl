@@ -86,7 +86,7 @@ requirements:
           if args.status == "INVALID":
             subject = "Submission to '%s' invalid!" % evaluation.name
             message = ["Hello %s,\n\n" % name,
-                       "Your submission (%s) is invalid, below are the invalid reasons:\n\n" % sub.name,
+                       "Your submission (id: %s) is invalid, below are the invalid reasons:\n\n" % sub.id,
                        args.invalid,
                        "\n\nSincerely,\nChallenge Administrator"]
           elif not args.errors_only:
