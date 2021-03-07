@@ -21,7 +21,7 @@ baseCommand: challengeutils
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/challengeutils:v3.0
+    dockerPull: sagebionetworks/challengeutils:v4.0.1
 
 inputs:
   - id: entityid

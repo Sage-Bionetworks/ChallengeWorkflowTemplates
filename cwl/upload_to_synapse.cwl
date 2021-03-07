@@ -20,7 +20,7 @@ baseCommand: python3
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/synapsepythonclient:v2.2.2
+    dockerPull: sagebionetworks/synapsepythonclient:v2.3.0
 
 inputs:
   - id: infile
