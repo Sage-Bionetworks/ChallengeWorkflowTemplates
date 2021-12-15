@@ -34,6 +34,7 @@ jobs:
           [authentication]
           username: ${{secrets.SYNAPSE_USERNAME }}
           password: ${{secrets.SYNAPSE_PASSWORD }}
+          authtoken: ${{secrets.SYNAPSE_PAT }}
           EOM
           chmod +x "$OUTPUT_FILE"
       - name: Test CWL
