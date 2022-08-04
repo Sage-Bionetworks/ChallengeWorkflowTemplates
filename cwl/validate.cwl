@@ -8,7 +8,7 @@ baseCommand: [python, validate.py]
 
 hints:
   DockerRequirement:
-    dockerPull: python:3.7
+    dockerPull: python:3.9-slim-buster
 
 inputs:
 
