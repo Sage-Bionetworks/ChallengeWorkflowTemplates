@@ -11,7 +11,7 @@ baseCommand: python
 
 hints:
   DockerRequirement:
-    dockerPull: python:3.7
+    dockerPull: python:3.9-slim-buster
 
 inputs:
   - id: inputfile

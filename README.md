@@ -7,13 +7,13 @@
 
 ## Introduction
 
-These are the collection of challenge CWL tools are used in challenge infrastructure workflows that can be linked with the [Synapse Workflow Orchestrator](https://github.com/Sage-Bionetworks/SynapseWorkflowOrchestrator).  These are three different challenge workflows:
+These are a collection of CWL tools used in the challenge infrastructure workflows that can be linked with the [Synapse Workflow Orchestrator](https://github.com/Sage-Bionetworks/SynapseWorkflowOrchestrator).  The workflows in this repository also leverage CWL tools in [cwl-tools-synapseclient](https://github.com/Sage-Bionetworks-Workflows/cwl-tool-synapseclient). There are three different challenge workflows:
 
 1. **Data to Model**: Participants submit prediction files and these files are validated and scored.  Please see [data-to-model-challenge-workflow](https://github.com/Sage-Bionetworks-Challenges/data-to-model-challenge-workflow) to see how to use the CWL tool in the `cwl` folder.
 1. **Model to Data**: Participants submit a docker container with their model, which then runs against internal data and a prediction file is generate.  This prediction file is then validated and scored. Please see [model-to-data-challenge-workflow](https://github.com/Sage-Bionetworks-Challenges/model-to-data-challenge-workflow) to see how to use the CWL tool in the `cwl` folder.
 1. **Ladder Classic**: Participants submit prediction files but these files are compared against leading submissions.
 
-This readme will guide you to learn how to use these challenge templates.  Here are some example challenges that currently use these templates: 
+This README will guide you to learn how to use these challenge templates.  Here are some example challenges that currently use these templates: 
 
 * [CTD^2 Panacea Challenge](https://github.com/Sage-Bionetworks/CTDD-Panacea-Challenge)
 * [RA2-DREAM-challenge](https://github.com/Sage-Bionetworks/RA2-dream-workflows)
@@ -22,7 +22,7 @@ This readme will guide you to learn how to use these challenge templates.  Here 
 * [Metadata Automation DREAM Challenge](https://github.com/Sage-Bionetworks/metadata-automation-challenge/tree/master/workflow)
 * [EHR DREAM Challenge](https://github.com/Sage-Bionetworks/EHR-challenge)
 
-You will notice that these examples linked above do not contain all the tools you see in this repository, but instead the `run` steps link out to specific tagged versions of these tools.  This specific step below is using `v3.0` of the `get_submission.cwl` tool.
+Please note that these examples linked above do not contain all the tools you see in this repository, but instead the `run` steps link out to specific tagged versions of these tools.  This specific step below is using `v3.0` of the `get_submission.cwl` tool.
 
 ```
 download_submission:
@@ -32,7 +32,6 @@ download_submission:
 
 
 ## CWL Tools
-
 
 ### Annotation
 ```
@@ -105,4 +104,10 @@ This can be any path onto your local file system as a directory or particular fi
   valueFrom: "/home/thomasyu/input"
 ```
 
+## Testing
 
+This repository is fully tested.  You will need the credentials for the Synapse user: `workflow-tester` found in LastPass (Sage employees only).  To run the tests, you will need to create a Synapse config file (`.synapseConfig`) within the `/tmp` directory. Run the tests with:
+
+```
+pipenv run cwltest --test tests/test-descriptions.yaml --tool cwl-runner
+```
