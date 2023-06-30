@@ -1,47 +1,55 @@
 #!/usr/bin/env cwl-runner
-#
-# Submit to challenge
-#
-
-$namespaces:
-  s: https://schema.org/
-
-s:author:
-  - class: s:Person
-    s:identifier: https://orcid.org/0000-0002-5841-0198
-    s:email: thomas.yu@sagebionetworks.org
-    s:name: Thomas Yu
-
 cwlVersion: v1.0
 class: CommandLineTool
+
+label: Submit to challenge
+
+requirements:
+- class: InlineJavascriptRequirement
+
+inputs:
+- id: submission_file
+  type: string
+- id: submissionid
+  type: int
+- id: synapse_config
+  type: File
+- id: evaluationid
+  type: string
+
+outputs: []
+
 baseCommand: synapse
+arguments:
+- prefix: -c
+  valueFrom: $(inputs.synapse_config.path)
+- valueFrom: submit
+- prefix: --evalID
+  valueFrom: $(inputs.evaluationid)
+- prefix: --id
+  valueFrom: $(inputs.submission_file)
+- prefix: --name
+  valueFrom: $(inputs.submissionid)
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/synapsepythonclient:v2.6.0
+    dockerPull: 
+      $include: ../versions/synapseclient.txt
 
-inputs:
-  - id: submission_file
-    type: string
-  - id: submissionid
-    type: int
-  - id: synapse_config
-    type: File
-  - id: evaluationid
-    type: string
+s:author:
+- class: s:Person
+  s:identifier: https://orcid.org/0000-0002-5841-0198
+  s:email: thomas.yu@sagebionetworks.org
+  s:name: Thomas Yu
 
-arguments:
-  - valueFrom: $(inputs.synapse_config.path)
-    prefix: -c
-  - valueFrom: submit
-  - valueFrom: $(inputs.evaluationid)
-    prefix: --evalID
-  - valueFrom: $(inputs.submission_file)
-    prefix: --id
-  - valueFrom: $(inputs.submissionid)
-    prefix: --name
+s:contributor:
+- class: s:Person
+  s:identifier: https://orcid.org/0000-0002-5622-7998
+  s:email: verena.chung@sagebase.org
+  s:name: Verena Chung
 
-requirements:
-  - class: InlineJavascriptRequirement
+s:codeRepository: https://github.com/Sage-Bionetworks/ChallengeWorkflowTemplates
+s:license: https://spdx.org/licenses/Apache-2.0
 
-outputs: []
+$namespaces:
+  s: https://schema.org/
