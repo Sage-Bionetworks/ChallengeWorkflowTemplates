@@ -75,7 +75,6 @@ s:contributor:
   s:email: thomas.yu@sagebionetworks.org
   s:name: Thomas Yu
 
-s:contributor:
 - class: s:Person
   s:identifier: https://orcid.org/0000-0002-5622-7998
   s:email: verena.chung@sagebase.org
