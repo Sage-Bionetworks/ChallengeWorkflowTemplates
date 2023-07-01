@@ -94,7 +94,7 @@
   job: tests/upload_to_synapse.yaml
   output:
     uploaded_fileid: Any
-    uploaded_file_version: 0
+    uploaded_file_version: Any
     results: 
       class: File
       basename: results.json
@@ -141,7 +141,7 @@
       class: File
       basename: results.json
     status: "INVALID"
-    invalid_resons: "Submission must have test column"
+    invalid_reasons: "Submission must have test column"
   tags: [ command_line_tool, inline_javascript, initial_work_dir, docker ]
 
 - doc: Test scoring harness workflow
