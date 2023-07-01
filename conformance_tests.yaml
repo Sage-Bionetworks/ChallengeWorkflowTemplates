@@ -1,0 +1,152 @@
+- doc: Test annotate submission
+  id: annotate_submission
+  tool: cwl/annotate_submission.cwl  
+  job: tests/annotate_submission/annotate_submission.yaml
+  output:
+    finished: true
+  tags: [ command_line_tool, inline_javascript, docker ]
+
+- doc: Test check status 
+  id: check_status
+  tool: cwl/check_status.cwl  
+  job: tests/check_status.yaml
+  output:
+    finished: true
+  tags: [ expression_tool, inline_javascript ]
+
+- doc: Test check invalid status
+  id: check_status_fail
+  tool: cwl/check_status.cwl  
+  job: tests/check_status_fail.yaml
+  should_fail: true
+  tags: [ expression_tool, inline_javascript ]
+
+- doc: Test docker config
+  id: get_docker_config
+  tool: cwl/get_docker_config.cwl 
+  job: tests/get_docker_config.yaml
+  output:
+    results:
+      class: File
+      basename: results.json
+    docker_registry: https://docker.synapse.org
+    docker_authentication: Any
+  tags: [ command_line_tool, inline_javascript, initial_work_dir, docker ]
+
+- doc: Test download submission (file)
+  id: get_submission
+  tool: cwl/get_submission.cwl  
+  job: tests/get_submission_file.yaml
+  output:
+    filepath:
+      basename: submission-9731819
+      class: File
+    docker_repository: null
+    docker_digest: null
+    entity_type: org.sagebionetworks.repo.model.FileEntity
+    entity_id: syn20685097
+    evaluation_id: "9615294"
+    results:
+      class: File
+      basename: results.json
+  tags: [ command_line_tool, inline_javascript, docker ]
+
+- doc: Test download submission (Docker)
+  id: get_submission
+  tool: cwl/get_submission.cwl  
+  job: tests/get_submission_docker.yaml
+  output:
+    filepath: null
+    docker_repository: docker.synapse.org/syn28590455/python-sample-model
+    docker_digest: sha256:920defbd78e4cc84bf72cf10a6a408571055f147a2ca12e0fbf9e3d6d436ab2b
+    entity_type: org.sagebionetworks.repo.model.docker.DockerRepository
+    entity_id: syn51277899
+    evaluation_id: "9615294"
+    results:
+      class: File
+      basename: results.json
+  tags: [ command_line_tool, inline_javascript, docker ]
+
+- doc: Test sending email
+  id: score_email
+  tool: cwl/score_email.cwl  
+  job: tests/score_email/score_email.yaml
+  output: {}
+  tags: [ command_line_tool, inline_javascript, initial_work_dir, docker ]
+
+- doc: Test permissions setting
+  id: set_permissions
+  tool: cwl/set_permissions.cwl  
+  job: tests/set_permissions.yaml
+  output: {}
+  tags: [ command_line_tool, docker ]
+
+- doc: Test challenge submission
+  id: submit_to_challenge
+  tool: cwl/submit_to_challenge.cwl  
+  job: tests/submit_to_challenge.yaml
+  output: {}
+  tags: [ command_line_tool, inline_javascript, docker ]
+
+- doc: Test uploading to Synapse
+  id: upload_to_synapse
+  tool: cwl/upload_to_synapse.cwl  
+  job: tests/upload_to_synapse.yaml
+  output:
+    uploaded_fileid: ""
+    uploaded_file_version: 0
+    results: 
+      class: File
+      basename: results.json
+  tags: [ command_line_tool, inline_javascript, initial_work_dir, docker ]
+
+- doc: Test Docker validation (valid)
+  id: validate_docker
+  tool: cwl/validate_docker.cwl  
+  job: tests/validate_docker.yaml
+  output:
+    results:
+      class: File
+      basename: results.json
+    status: VALIDATED
+    invalid_reasons: ""
+  tags: [ command_line_tool, inline_javascript, docker ]
+
+- doc: Test Docker validation (invalid)
+  id: validate_docker
+  tool: cwl/validate_docker.cwl  
+  job: tests/validate_docker_invalid.yaml
+  output:
+    results:
+      class: File
+      basename: results.json
+    status: INVALID
+    invalid_reasons: "Submission is not a Docker submission"
+  tags: [ command_line_tool, inline_javascript, docker ]
+
+- doc: Test sending validation email
+  id: validate_email
+  tool: cwl/validate_email.cwl  
+  job: tests/validate_email.yaml
+  output:
+    finished: true
+  tags: [ command_line_tool, inline_javascript, initial_work_dir, docker ]
+
+- doc: Test validate submission
+  id: validate
+  tool: cwl/validate.cwl  
+  job: tests/validate.yaml
+  output:
+    results:
+      class: File
+      basename: results.json
+    status: "INVAID"
+    invalid_resons: "Submission must have test column"
+  tags: [ command_line_tool, inline_javascript, initial_work_dir, docker ]
+
+- doc: Test scoring harness workflow
+  id: scoring_harness_workflow
+  tool: scoring_harness_workflow.cwl
+  job: tests/scoring_harness_workflow.yaml
+  output: {}
+  tags: [ step_input ]
