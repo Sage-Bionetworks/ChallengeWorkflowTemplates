@@ -140,7 +140,7 @@
     results:
       class: File
       basename: results.json
-    status: "INVAID"
+    status: "INVALID"
     invalid_resons: "Submission must have test column"
   tags: [ command_line_tool, inline_javascript, initial_work_dir, docker ]
 
