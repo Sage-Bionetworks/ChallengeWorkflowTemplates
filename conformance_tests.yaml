@@ -93,7 +93,7 @@
   tool: cwl/upload_to_synapse.cwl  
   job: tests/upload_to_synapse.yaml
   output:
-    uploaded_fileid: ""
+    uploaded_fileid: Any
     uploaded_file_version: 0
     results: 
       class: File
