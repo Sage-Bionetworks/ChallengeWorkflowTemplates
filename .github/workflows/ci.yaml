@@ -40,7 +40,7 @@ jobs:
       - name: Test CWL
         id: test_cwl
         run: |
-          pipenv run cwltest --test tests/test-descriptions.yaml --tool cwl-runner
+          pipenv run cwltest --test conformance_tests.yaml --tool cwl-runner
   # tag:
   #   if: "!contains(github.event.head_commit.message, '[skip-ci]')"
   #   runs-on: ubuntu-latest
