@@ -1,1 +1,1 @@
-sagebionetworks/challengeutils:v4.2.0
+sagebionetworks/challengeutils:v4.2.1
