@@ -109,5 +109,5 @@ This can be any path onto your local file system as a directory or particular fi
 This repository is fully tested.  You will need the credentials for the Synapse user: `workflow-tester` found in LastPass (Sage employees only).  To run the tests, you will need to create a Synapse config file (`.synapseConfig`) within the `/tmp` directory. Run the tests with:
 
 ```
-pipenv run cwltest --test tests/test-descriptions.yaml --tool cwl-runner
+pipenv run cwltest --test conformance_tests.yaml --tool cwl-runner
 ```
