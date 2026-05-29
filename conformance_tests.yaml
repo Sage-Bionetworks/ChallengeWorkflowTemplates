@@ -39,13 +39,13 @@
   job: tests/get_submission_file.yaml
   output:
     filepath:
-      basename: submission-9731819
+      basename: submission-9743445
       class: File
     docker_repository: null
     docker_digest: null
     entity_type: org.sagebionetworks.repo.model.FileEntity
-    entity_id: syn20685097
-    evaluation_id: "9615294"
+    entity_id: syn52956122
+    evaluation_id: "9615516"
     results:
       class: File
       basename: results.json
@@ -57,11 +57,11 @@
   job: tests/get_submission_docker.yaml
   output:
     filepath: null
-    docker_repository: docker.synapse.org/syn28590455/python-sample-model
-    docker_digest: sha256:920defbd78e4cc84bf72cf10a6a408571055f147a2ca12e0fbf9e3d6d436ab2b
+    docker_repository: docker.synapse.org/syn20682803/hello-world
+    docker_digest: sha256:d37ada95d47ad12224c205a938129df7a3e52345828b4fa27b03a98825d1e2e7
     entity_type: org.sagebionetworks.repo.model.docker.DockerRepository
-    entity_id: syn51277899
-    evaluation_id: "9615294"
+    entity_id: syn59205100
+    evaluation_id: "9615516"
     results:
       class: File
       basename: results.json
