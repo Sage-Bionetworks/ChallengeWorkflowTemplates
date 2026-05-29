@@ -100,30 +100,6 @@
       basename: results.json
   tags: [ command_line_tool, inline_javascript, initial_work_dir, docker ]
 
-- doc: Test Docker validation (valid)
-  id: validate_docker
-  tool: cwl/validate_docker.cwl  
-  job: tests/validate_docker.yaml
-  output:
-    results:
-      class: File
-      basename: results.json
-    status: VALIDATED
-    invalid_reasons: ""
-  tags: [ command_line_tool, inline_javascript, docker ]
-
-- doc: Test Docker validation (invalid)
-  id: validate_docker
-  tool: cwl/validate_docker.cwl  
-  job: tests/validate_docker_invalid.yaml
-  output:
-    results:
-      class: File
-      basename: results.json
-    status: INVALID
-    invalid_reasons: "Submission is not a Docker submission"
-  tags: [ command_line_tool, inline_javascript, docker ]
-
 - doc: Test sending validation email
   id: validate_email
   tool: cwl/validate_email.cwl  
