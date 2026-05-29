@@ -5,7 +5,7 @@ verify_ssl = true
 
 [packages]
 semver = "*"
-gitpython = "*"
+gitpython = ">=3.1.43"
 cwltest = "*"
 cwlref-runner = "*"
 
