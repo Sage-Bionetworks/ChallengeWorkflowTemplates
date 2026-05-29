@@ -26,9 +26,9 @@ requirements:
       #Must read in credentials (username and password)
       config = synapseclient.Synapse().getConfigFile(configPath=args.synapse_config)
       authen = dict(config.items("authentication"))
-      if authen.get("username") is None and authen.get("password") is None:
-        raise Exception('Config file must have username and password')
-      authen_string = "{}:{}".format(authen['username'], authen['password'])
+      if authen.get("username") is None and authen.get("authtoken") is None:
+        raise Exception('Config file must have username and authtoken')
+      authen_string = "{}:{}".format(authen['username'], authen['authtoken'])
       docker_auth = base64.encodebytes(authen_string.encode('utf-8'))
 
       result = {'docker_auth':docker_auth.decode('utf-8'),'docker_registry':'https://docker.synapse.org'}
