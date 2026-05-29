@@ -19,7 +19,7 @@ jobs:
         id: setup_python
         uses: actions/setup-python@v4.7.1
         with:
-          python-version: '3.8'
+          python-version: '3.11'
 
       - name: Setup Test Environment
         id: setup_test_environment
