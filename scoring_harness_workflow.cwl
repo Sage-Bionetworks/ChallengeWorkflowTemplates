@@ -78,11 +78,11 @@ steps:
       - id: results
       
   download_goldstandard:
-    run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/cwl-tool-synapseclient/v1.4/cwl/synapse-get-tool.cwl
+    run: cwl/synapseCLI_get.cwl
     in:
       - id: synapseid
         #This is a dummy syn id, replace when you use your own workflow
-        valueFrom: "syn18081597"
+        valueFrom: "syn52956122"
       - id: synapse_config
         source: "#synapseConfig"
     out:
