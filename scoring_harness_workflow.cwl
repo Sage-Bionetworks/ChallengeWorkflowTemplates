@@ -78,7 +78,7 @@ steps:
       - id: results
       
   download_goldstandard:
-    run: cwl/synapseCLI_get.cwl
+    run: cwl/synapse_get.cwl
     in:
       - id: synapseid
         #This is a dummy syn id, replace when you use your own workflow
