@@ -76,17 +76,8 @@ steps:
       - id: evaluation_id
       - id: results
 
-  get_docker_config:
-    run: cwl/get_docker_config.cwl
-    in:
-      - id: synapse_config
-        source: "#synapseConfig"
-    out: 
-      - id: docker_registry
-      - id: docker_authentication
-
   download_goldstandard:
-    run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v0.2/cwl/synapse-get-tool.cwl
+    run: cwl/synapse_get.cwl
     in:
       - id: synapseid
         #This is a dummy syn id, replace when you use your own workflow
@@ -96,58 +87,6 @@ steps:
     out:
       - id: filepath
 
-  validate_docker:
-    run: cwl/validate_docker.cwl
-    in:
-      - id: submissionid
-        source: "#submissionId"
-      - id: synapse_config
-        source: "#synapseConfig"
-    out:
-      - id: results
-      - id: status
-      - id: invalid_reasons
-
-  docker_validation_email:
-    run: cwl/validate_email.cwl
-    in:
-      - id: submissionid
-        source: "#submissionId"
-      - id: synapse_config
-        source: "#synapseConfig"
-      - id: status
-        source: "#validate_docker/status"
-      - id: invalid_reasons
-        source: "#validate_docker/invalid_reasons"
-      - id: errors_only
-        default: true
-    out: [finished]
-  
-  annotate_docker_validation_with_output:
-    run: cwl/annotate_submission.cwl
-    in:
-      - id: submissionid
-        source: "#submissionId"
-      - id: annotation_values
-        source: "#validate_docker/results"
-      - id: to_public
-        default: true
-      - id: force
-        default: true
-      - id: synapse_config
-        source: "#synapseConfig"
-    out: [finished]
-
-  check_docker_status:
-    run: cwl/check_status.cwl
-    in:
-      - id: status
-        source: "#validate_docker/status"
-      - id: previous_annotation_finished
-        source: "#annotate_docker_validation_with_output/finished"
-      - id: previous_email_finished
-        source: "#docker_validation_email/finished"
-    out: [finished]
 
   run_docker:
     run: cwl/run_docker.cwl
@@ -158,12 +97,6 @@ steps:
         source: "#get_docker_submission/docker_digest"
       - id: submissionid
         source: "#submissionId"
-      - id: docker_registry
-        source: "#get_docker_config/docker_registry"
-      - id: docker_authentication
-        source: "#get_docker_config/docker_authentication"
-      - id: status
-        source: "#validate_docker/status"
       - id: parentid
         source: "#submitterUploadSynId"
       - id: synapse_config
@@ -177,6 +110,9 @@ steps:
           location: "run_docker.py"
     out:
       - id: predictions
+      - id: results
+      - id: status
+      - id: invalid_reasons
 
   upload_results:
     run: cwl/upload_to_synapse.cwl
@@ -209,8 +145,6 @@ steps:
         default: true
       - id: synapse_config
         source: "#synapseConfig"
-      - id: previous_annotation_finished
-        source: "#annotate_docker_validation_with_output/finished"
     out: [finished]
 
   validation:
