@@ -146,6 +146,7 @@ def run_docker(syn, args, docker_client, output_dir_to_mount):
             name=container_name,
             network_disabled=True,
             mem_limit=args.container_memory_limit,
+            memswap_limit=args.container_memory_swap_limit,
             shm_size="1g",
             stderr=True,
         )
