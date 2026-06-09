@@ -19,7 +19,7 @@ jobs:
         id: setup_python
         uses: actions/setup-python@v4.7.1
         with:
-          python-version: '3.8'
+          python-version: '3.11'
 
       - name: Setup Test Environment
         id: setup_test_environment
@@ -32,9 +32,8 @@ jobs:
           OUTPUT_FILE=/tmp/.synapseConfig
           cat > "$OUTPUT_FILE" << EOM
           [authentication]
-          username: ${{secrets.SYNAPSE_USERNAME }}
-          password: ${{secrets.SYNAPSE_PASSWORD }}
-          authtoken: ${{secrets.SYNAPSE_PAT }}
+          username=${{secrets.SYNAPSE_USERNAME }}
+          authtoken=${{secrets.SYNAPSE_PAT }}
           EOM
           chmod +x "$OUTPUT_FILE"
       - name: Test CWL
