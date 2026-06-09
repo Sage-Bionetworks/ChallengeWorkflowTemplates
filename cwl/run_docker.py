@@ -33,7 +33,7 @@ def get_docker_client_and_login(
     return client
 
 
-def create_log_file(log_filename: str, log_text: str | bytes | None = None):
+def create_log_file(log_filename: str, log_text: str | bytes = ""):
     """Create log file"""
     with open(log_filename, "w") as log_file:
         if isinstance(log_text, bytes):
