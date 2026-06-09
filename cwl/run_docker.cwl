@@ -27,10 +27,16 @@ inputs:
 - id: docker_script
   type: File
 - id: memory_limit
+  doc: |
+     Restrict the amount of memory the container can use. For example, "4g" for 4 gigabytes.
+     Recommended to set.
   type: string?
   inputBinding:
     prefix: --container_memory_limit
 - id: swap_limit
+  doc: |
+     Restrict the amount of memory+swap the container can use. For example, "4g" for 4 gigabytes.
+     Recommended to set.
   type: string?
   inputBinding:
     prefix: --container_memory_swap_limit
@@ -80,10 +86,6 @@ arguments:
   valueFrom: $(inputs.synapse_config.path)
 - prefix: -i
   valueFrom: $(inputs.input_dir)
-- prefix: -m
-  valueFrom: $(inputs.memory_limit)
-- prefix: -t
-  valueFrom: $(inputs.time_limit)
 
 s:author:
 - class: s:Person
